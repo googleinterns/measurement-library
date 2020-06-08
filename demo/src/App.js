@@ -5,9 +5,8 @@ import {
 import {Router} from './Router.js';
 
 /**
- * Component to wrap the rest of the website with common components.
- * @return {!JSX} Returns site presentation for header, navigation,
- *     and shopping cart.
+ * @return {!JSX} Wrapper component that wraps the entire site with
+ *     common components such as a header, navigation, and shopping cart.
  */
 export function App() {
   return (

@@ -10,9 +10,8 @@ import {ProductScreen} from './screens/ProductScreen/ProductScreen.js';
 import {ThankScreen} from './screens/ThankScreen/ThankScreen.js';
 
 /**
- * Component to wrap the rest of the website with common components.
- * @return {!JSX} Returns site presentation for header, navigation,
- *     and shopping cart.
+ * @return {!JSX} Router component that switches which page is
+ *     displayed based on the URL. Defaults to home page.
  */
 export function Router() {
   return (
