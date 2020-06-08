@@ -1,8 +1,8 @@
 import React from 'react';
 
 /**
- * Component for the thank you page.
- * @return {!JSX} Returns the thank you page.
+ * @return {!JSX} Page component where we thank the user
+ *     for their purchase(s).
  */
 export function ThankScreen() {
   return (

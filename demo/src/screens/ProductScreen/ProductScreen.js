@@ -1,8 +1,8 @@
 import React from 'react';
 
 /**
- * Component to display a single item
- * @return {!JSX} Returns a component to view an item.
+ * @return {!JSX} Page component for where a user can view
+ *     details about a single product.
  */
 export function ProductScreen() {
   return (

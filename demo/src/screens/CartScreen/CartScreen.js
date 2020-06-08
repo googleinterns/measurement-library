@@ -1,8 +1,8 @@
 import React from 'react';
 
 /**
- * Component for the shopping cart page.
- * @return {!JSX} Returns the shopping cart page.
+ * @return {!JSX} Page component for where a user can review
+ *     the products in their shopping cart.
  */
 export function CartScreen() {
   return (
