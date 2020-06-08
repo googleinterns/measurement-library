@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Link,
 } from 'react-router-dom';
-import {Router} from './Router';
+import {Router} from './Router.js';
 
 /**
  * Component to wrap the rest of the website with common components.
