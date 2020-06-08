@@ -20,6 +20,15 @@ export function App() {
           <li>
             <Link to="/cart">Cart</Link>
           </li>
+          <li>
+            <Link to="/product/123">Product</Link>
+          </li>
+          <li>
+            <Link to="/thanks">Thanks</Link>
+          </li>
+          <li>
+            <Link to="/checkout">Checkout</Link>
+          </li>
         </ul>
       </nav>
       <p>Shopping Site</p>
