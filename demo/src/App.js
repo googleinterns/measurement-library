@@ -13,7 +13,11 @@ export function App() {
     <div>
       <Navbar bg="light" className="px-lg-4" variant="light">
         <Navbar.Brand href="/">
-          <img className="cat-logo" src={Logo} />
+          <img
+            alt="Logo for Prints of Poe which features a black cat"
+            className="cat-logo"
+            src={Logo}
+          />
           Prints of Poe
         </Navbar.Brand>
         <Nav className="mr-auto">
