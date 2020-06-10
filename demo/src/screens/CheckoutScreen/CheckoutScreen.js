@@ -1,4 +1,5 @@
 import React from 'react';
+import {MiniCart} from '../../components/MiniCart/MiniCart.js';
 
 /**
  * @return {!JSX} Page component for where a user can purchase
@@ -7,7 +8,7 @@ import React from 'react';
 export function CheckoutScreen() {
   return (
     <div>
-      <h1>{`I'm the Checkout Page!`}</h1>
+      <MiniCart/>
     </div>
   );
 }
