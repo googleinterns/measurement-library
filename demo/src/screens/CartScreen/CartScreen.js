@@ -6,8 +6,9 @@ import {Link} from 'react-router-dom';
 import './CartScreen.css';
 
 /**
- * @return {!JSX} Page component for where a user can review
- *     the products in their shopping Cart.
+ * Page component for where a user can review
+ *     the products in their shopping cart.
+ * @return {!JSX} The JSX for the page
  */
 export function CartScreen() {
   return (
@@ -25,3 +26,4 @@ export function CartScreen() {
       </Container>
   );
 }
+

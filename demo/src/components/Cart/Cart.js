@@ -16,7 +16,7 @@ let CartBase = function Cart({items, setQuantity}) {
    * Create the content of the cart display, with one row per item.
    */
   for (const [itemID, item] of Object.entries(items)) {
-    if(item.quantity > 0) {
+    if(item.inCart) {
       itemsRender.push(<Row key={itemID}>
         <Col><Image className='image-holder' src={item.image}/></Col>
         <Col><h3>{item.name}</h3><p>{item.description}</p>
@@ -24,7 +24,9 @@ let CartBase = function Cart({items, setQuantity}) {
             <Form.Group>
               <Form.Label>Quantity</Form.Label>
               <Form.Control type="number" value={item.quantity}
-                            onChange={(event) => {setQuantity(itemID, event.target.value)}}/>
+                            onChange={(event) => {
+                              setQuantity(itemID, +event.target.value)
+                            }}/>
             </Form.Group>
           </Form>
         </Col>
@@ -43,12 +45,13 @@ let CartBase = function Cart({items, setQuantity}) {
         {itemsRender }
         <Row>
           <Col/>
-          <Col className="to-right">Subtotal:</Col>
+          <Col className="to-right">Subtotal: TBD$</Col>
         </Row>
       </Container>
   );
 }
 
+// pass in all of the state as props to cart
 const mapStateToProps = state => state;
 
 /*
