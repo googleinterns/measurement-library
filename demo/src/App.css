@@ -1,0 +1,17 @@
+.navbar-brand {
+  font-family: 'Montserrat', sans-serif;
+  font-size: x-large;
+}
+
+.shopping-cart {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+}
+
+.cat-logo {
+  width: 36px;
+  height: 36px;
+  fill: currentColor;
+  margin-right: 1rem;
+}
