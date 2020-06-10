@@ -1,5 +1,14 @@
 import { createStore } from 'redux'
-import kitImage from './images/lookup.jpg';
+import airplane_ears from './images/airplane_ears.jpg';
+import big_yawn from './images/big_yawn.jpg';
+import fluffy from './images/fluffy.jpg';
+import makin_biscuits from './images/makin_biscuits.jpg';
+import paws_up from './images/paws_up.jpg';
+import pet_my_belly from './images/pet_my_belly.jpg';
+import phone_background from './images/phone_background.jpg';
+import snoozing from './images/snoozing.jpg';
+import spoiled from './images/spoiled.jpg';
+import what_you_lookin_at from './images/what_you_lookin_at.jpg';
 
 export function addOneToCart(id){
   return {
@@ -54,13 +63,34 @@ function reducer(state = [], action) {
 }
 
 const items = {
-  items: {'1jef2': {name: 'Kit', image: kitImage,
-            description: 'a kitten', cost: 55, quantity: 2},
-          'fef33': {name: 'Cat', image: kitImage, description: 'a cat',
-            cost: 49.99, quantity: 1},
-          'n4if8': {name: 'Cat3', image: kitImage, description: 'a cat, again?',
-            cost: 99.99, quantity: 1}
-  }
+  items: {
+    '1jef2': {name: 'Airplane Ears', image: airplane_ears,
+      cost: 55, quantity: 1,
+      description: 'He wants to fly away with your heart', },
+    'fef33': {name: 'Big Yawn', image: big_yawn, cost: 49.99, quantity: 0,
+      description: "A cuddy yawning cat"},
+    'n4if8': {name: 'Fluffy', image: fluffy, cost: 99.99, quantity: 0,
+      description: 'A whole lot of floof'},
+    'dsm44': {name: 'Makin Bisuits', image: makin_biscuits,
+      cost: 100.00, quantity: 1,
+      description: 'Yet another picture of Poe',},
+    '3nv89': {name: 'Paws Up', image: paws_up, cost: 100.00, quantity: 1,
+      description: 'This cat has it\'s paws where you can see them',},
+    'mv1dd': {name: 'Pet my belly', image: pet_my_belly,
+      cost:30.00, quantity: 0,
+      description: 'He demands snuggles',},
+    '45h84': {name: 'Phone Background', image: phone_background,
+      cost: 30.00, quantity: 0,
+      description: 'Legend has it that some developer had this image as their' +
+          'phone background for an entire year',},
+    '3h488': {name: 'Snoozing', image: snoozing, cost:30.00, quantity: 0,
+      description: 'Cats don\'t have to get up in the morning',},
+    'ksd7d': {name: 'Spoiled', image: spoiled, cost:30.00, quantity: 0,
+      description: 'All the toys in the world and a nice bed to boot',},
+    'hjdf7': {name: 'What you lookin at?', image: what_you_lookin_at,
+      cost:30.00, quantity: 0,
+      description: 'Move along, nothing to see here',},
+}
 };
 
 export const store = createStore(reducer, items)
