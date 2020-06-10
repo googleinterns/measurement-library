@@ -45,7 +45,8 @@ let CartBase = function Cart({items, setQuantity}) {
         {itemsRender }
         <Row>
           <Col/>
-          <Col className="to-right">Subtotal: TBD$</Col>
+          <Col className="to-right">Subtotal:</Col>
+          <Col>TBD$</Col>
         </Row>
       </Container>
   );

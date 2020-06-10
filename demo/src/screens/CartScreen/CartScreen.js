@@ -18,7 +18,8 @@ export function CartScreen() {
         </Row>
         <Row key="checkoutRow">
           <Col/>
-          <Col xs = {3}>
+          <Col/>
+          <Col>
             <Link to="/checkout" className="button-link">
               Continue to checkout</Link>
           </Col>
