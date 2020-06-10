@@ -12,19 +12,19 @@ import './CartScreen.css';
  */
 export function CartScreen() {
   return (
-      <Container>
-        <Row key="cartRow">
-          <Cart/>
-        </Row>
-        <Row key="checkoutRow">
-          <Col/>
-          <Col/>
-          <Col>
-            <Link to="/checkout" className="button-link">
+    <Container>
+      <Row key="cartRow">
+        <Cart/>
+      </Row>
+      <Row key="checkoutRow">
+        <Col/>
+        <Col/>
+        <Col>
+          <Link to="/checkout" className="button-link">
               Continue to checkout</Link>
-          </Col>
-        </Row>
-      </Container>
+        </Col>
+      </Row>
+    </Container>
   );
 }
 
