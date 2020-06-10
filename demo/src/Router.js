@@ -3,6 +3,7 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
+import {AboutScreen} from './screens/AboutScreen/AboutScreen.js';
 import {CartScreen} from './screens/CartScreen/CartScreen.js';
 import {CheckoutScreen} from './screens/CheckoutScreen/CheckoutScreen.js';
 import {HomeScreen} from './screens/HomeScreen/HomeScreen.js';
@@ -16,6 +17,9 @@ import {ThankScreen} from './screens/ThankScreen/ThankScreen.js';
 export function Router() {
   return (
     <Switch>
+      <Route path="/about">
+        <AboutScreen/>
+      </Route>
       <Route path="/product/:id">
         <ProductScreen/>
       </Route>
