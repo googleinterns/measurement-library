@@ -1,7 +1,6 @@
 import React from 'react';
 import {Cart} from '../../components/Cart/Cart';
-import Container from 'react-bootstrap/Container';
-import {Col, Row} from 'react-bootstrap';
+import {Container, Col, Row} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import './CartScreen.css';
 
