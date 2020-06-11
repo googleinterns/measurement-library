@@ -33,7 +33,7 @@ const CartBase = function({items, setQuantity}) {
             </Form.Group>
           </Form>
         </Col>
-        {/* Display the cost in USD, starting with a $ symbol*/}
+        {/* Display the cost in USD, starting with a $ symbol */}
         <Col>${item.cost.toFixed(2)}</Col>
       </Row>);
     }
