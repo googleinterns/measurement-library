@@ -1,9 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Container, Col, Row, Form} from 'react-bootstrap';
+import {Container, Col, Row, Image, Form} from 'react-bootstrap';
 import './Cart.css';
-import {setQuantity} from '../../store/StoreHelpers';
-import Image from 'react-bootstrap/Image';
+import {setQuantity} from '../../store/StoreHelpers.js';
 import PropTypes from 'prop-types';
 
 /**
@@ -23,17 +22,17 @@ export const computePrice = (items) => {
 
 /**
  * Creates a component describing a shopping Cart.
- * @param {!Object} state The site state
- * @param {function} setQuantity function to modify quantity of items
- *      in the global state
+ * @param {!Object.<string,
+ *      {name:string, item:!Object, quantity:number, description:string,
+ *      inCart:boolean, cost:number}>} items The items stored in the site state
+ * @param {function(string, number)} setQuantity A function to modify
+ *      the quantity of an item in the global state
  * @return {!JSX} The component.
  */
-const CartBase = ({items, setQuantity}) => {
-  const itemsRender = [];
+const CartBase = function({items, setQuantity}) {
+  const /** Array<!JSX> */ itemsRender = [];
 
-  /*
-   * Create the content of the cart display, with one row per item.
-   */
+  // Create the content of the cart display, with one row per item.
   for (const [itemID, item] of Object.entries(items)) {
     if (item.inCart) {
       itemsRender.push(<Row key={itemID} className='item-row'>
@@ -48,13 +47,14 @@ const CartBase = ({items, setQuantity}) => {
                   <Form.Label>Quantity</Form.Label>
                   <Form.Control type="number" value={item.quantity}
                     onChange={(event) => {
-                      setQuantity(itemID, +event.target.value);
+                      setQuantity(itemID, Number(event.target.value));
                     }}/>
                 </Form.Group>
               </Form>
             </Col>
           </Row>
         </Col>
+        {/* Display the cost of the item followed by a dollar sign*/}
         <Col xs={2} className="price-col">{item.cost.toFixed(2)}$</Col>
       </Row>);
     }
@@ -67,7 +67,7 @@ const CartBase = ({items, setQuantity}) => {
         <Col xs={6}/>
         <Col xs={2}>Price</Col>
       </Row>
-      {itemsRender }
+      {itemsRender}
       <Row className="final-row">
         <Col xs={4}/>
         <Col xs={6} className="to-right">Subtotal:</Col>
@@ -82,7 +82,7 @@ CartBase.propTypes = {
   setQuantity: PropTypes.func,
 };
 
-// pass in all of the state as props to cart
+// Pass in all of the state as props to cart.
 const mapStateToProps = (state) => state;
 
 /*
