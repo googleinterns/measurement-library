@@ -1,14 +1,8 @@
-.image-holder{
-  height: 200px;
-  max-width: 500px;
-  padding: 1px;
-  line-height: 0;
-  border: 1px solid black;
-  background-color: #ddd;
-  border-radius: 30px;
+a.button-link:active, a.button-link:hover{
+  background-color: blue;
 }
 
-.button-link:link, a.button-link:visited{
+a.button-link:link, a.button-link:visited{
   background-color: #4443f6;
   color: white;
   padding: 14px 25px;
@@ -18,7 +12,11 @@
   border-radius: 10px;
 }
 
-a.button-link:hover, a.button-link:active{
-  background-color: blue;
+.image-holder{
+  height: 200px;
+  padding: 1px;
+  line-height: 0;
+  border: 1px solid black;
+  background-color: #ddd;
+  border-radius: 30px;
 }
-

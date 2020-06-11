@@ -2,6 +2,8 @@ import {Container, Col, Row} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
+import {computePrice} from '../Cart/Cart';
+import '../Cart/Cart.css';
 
 /**
  * Creates a component describing a shopping Cart.
@@ -16,26 +18,28 @@ const MiniCartBase = ({items}) => {
    */
   for (const [itemID, item] of Object.entries(items)) {
     if (item.inCart) {
-      itemsRender.push(<Row key={itemID}>
-        <Col>{item.name}</Col>
+      itemsRender.push(<Row key={itemID} className="item-row">
+        <Col xs={5}>{item.name}</Col>
         <Col>{item.quantity}</Col>
-        <Col>{item.cost.toFixed(2)}$</Col>
+        <Col xs={4}>
+          {item.cost.toFixed(2)}$
+        </Col>
       </Row>);
     }
   }
 
   return (
-    <Container>
+    <Container className="cartContainer mini">
       <Row key='cart-header' className="header-row">
-        <Col>Name</Col>
-        <Col>Quantity</Col>
-        <Col>Unit Cost</Col>
+        <Col xs={5}>Name</Col>
+        <Col>Count</Col>
+        <Col xs={4}>Price</Col>
       </Row>
-      {itemsRender }
-      <Row>
-        <Col/>
+      {itemsRender}
+      <Row className="final-row">
+        <Col />
         <Col className="to-right">Subtotal:</Col>
-        <Col>TBD$</Col>
+        <Col>{computePrice(items).toFixed(2)}$</Col>
       </Row>
     </Container>
   );

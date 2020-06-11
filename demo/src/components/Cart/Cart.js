@@ -7,6 +7,21 @@ import Image from 'react-bootstrap/Image';
 import PropTypes from 'prop-types';
 
 /**
+ * Computes the price of purchasing the given quantity
+ * of all items in the cart
+ * @param {!Object.<string,{cost:number, quantity:number}>} items The items
+ * to purchase and their quantity
+ * @return {number} The total price.
+ */
+export const computePrice = (items) => {
+  let totalPrice = 0;
+  for (const [, item] of Object.entries(items)) {
+    totalPrice += item.quantity * item.cost;
+  }
+  return totalPrice;
+};
+
+/**
  * Creates a component describing a shopping Cart.
  * @param {!Object} state The site state
  * @param {function} setQuantity function to modify quantity of items
@@ -21,36 +36,42 @@ const CartBase = ({items, setQuantity}) => {
    */
   for (const [itemID, item] of Object.entries(items)) {
     if (item.inCart) {
-      itemsRender.push(<Row key={itemID}>
-        <Col><Image className='image-holder' src={item.image}/></Col>
-        <Col><h3>{item.name}</h3><p>{item.description}</p>
-          <Form>
-            <Form.Group>
-              <Form.Label>Quantity</Form.Label>
-              <Form.Control type="number" value={item.quantity}
-                onChange={(event) => {
-                  setQuantity(itemID, +event.target.value);
-                }}/>
-            </Form.Group>
-          </Form>
+      itemsRender.push(<Row key={itemID} className='item-row'>
+        <Col xs={0} md={4}>
+          <Image fluid className='image-holder' src={item.image}/>
         </Col>
-        <Col>{item.cost.toFixed(2)}$</Col>
+        <Col><h3>{item.name}</h3><p>{item.description}</p>
+          <Row>
+            <Col xs={12} md={9}>
+              <Form>
+                <Form.Group>
+                  <Form.Label>Quantity</Form.Label>
+                  <Form.Control type="number" value={item.quantity}
+                    onChange={(event) => {
+                      setQuantity(itemID, +event.target.value);
+                    }}/>
+                </Form.Group>
+              </Form>
+            </Col>
+          </Row>
+        </Col>
+        <Col xs={2} className="price-col">{item.cost.toFixed(2)}$</Col>
       </Row>);
     }
   }
 
   return (
-    <Container>
+    <Container className="cartContainer">
       <Row key='cart-header' className="header-row">
-        <Col/>
-        <Col/>
-        <Col>Unit Cost</Col>
+        <Col xs={4}/>
+        <Col xs={6}/>
+        <Col xs={2}>Price</Col>
       </Row>
       {itemsRender }
-      <Row>
-        <Col/>
-        <Col className="to-right">Subtotal:</Col>
-        <Col>TBD$</Col>
+      <Row className="final-row">
+        <Col xs={4}/>
+        <Col xs={6} className="to-right">Subtotal:</Col>
+        <Col xs={2}>{computePrice(items).toFixed(2)}$</Col>
       </Row>
     </Container>
   );
