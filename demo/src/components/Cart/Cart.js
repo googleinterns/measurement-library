@@ -7,9 +7,9 @@ import PropTypes from 'prop-types';
 
 /**
  * Computes the price of purchasing the given quantity
- * of all items in the cart
+ * of all items in the cart.
  * @param {!Object.<string,{cost:number, quantity:number}>} items The items
- * to purchase and their quantity
+ * to purchase and their quantity.
  * @return {number} The total price.
  */
 export const computePrice = (items) => {
@@ -26,7 +26,7 @@ export const computePrice = (items) => {
  *      {name:string, item:!Object, quantity:number, description:string,
  *      inCart:boolean, cost:number}>} items The items stored in the site state
  * @param {function(string, number)} setQuantity A function to modify
- *      the quantity of an item in the global state
+ *      the quantity of an item in the global state.
  * @return {!JSX} The component.
  */
 const CartBase = function({items, setQuantity}) {

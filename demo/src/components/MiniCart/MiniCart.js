@@ -7,15 +7,17 @@ import '../Cart/Cart.css';
 
 /**
  * Creates a component describing a shopping Cart.
- * @param {!Object} state The site state
+ * @param {!Object.<string,
+ *      {name:string, item:!Object, quantity:number, description:string,
+ *      inCart:boolean, cost:number}>} items The items stored in the site state.
+ * @param {function(string, number)} setQuantity A function to modify
+ *      the quantity of an item in the global state.
  * @return {!JSX} The component.
  */
 const MiniCartBase = ({items}) => {
-  const itemsRender = [];
+  const /** Array<!JSX> */ itemsRender = [];
 
-  /*
-   * Create the content of the cart display, with one row per item.
-   */
+  // Create the content of the cart display, with one row per item.
   for (const [itemID, item] of Object.entries(items)) {
     if (item.inCart) {
       itemsRender.push(<Row key={itemID} className="item-row">
@@ -37,7 +39,7 @@ const MiniCartBase = ({items}) => {
       </Row>
       {itemsRender}
       <Row className="final-row">
-        <Col />
+        <Col/>
         <Col className="to-right">Subtotal:</Col>
         <Col>{computePrice(items).toFixed(2)}$</Col>
       </Row>
