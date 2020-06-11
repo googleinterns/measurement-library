@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
  * Creates a component describing a shopping Cart.
  * @param {!Object.<string,
  *      {name:string, item:!Object, quantity:number, description:string,
- *      inCart:boolean}>} items The items stored in the site state
+ *      inCart:boolean, cost:number}>} items The items stored in the site state
  * @param {function(string, number)} setQuantity A function to modify
  *      the quantity of an item in the global state
  * @return {!JSX} The component.
