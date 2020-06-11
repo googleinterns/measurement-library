@@ -1,4 +1,5 @@
 import {createStore} from 'redux';
+import {deepCopyStore} from '../utils';
 import airplaneEars from '../images/airplane_ears.jpg';
 import bigYawn from '../images/big_yawn.jpg';
 import fluffy from '../images/fluffy.jpg';
@@ -11,7 +12,8 @@ import spoiled from '../images/spoiled.jpg';
 import whatYouLookinAt from '../images/what_you_lookin_at.jpg';
 
 /**
- * Functions to update the value saved in the store.
+ * Modifies the state of the store according to a description of the
+ * changes to make given in the action parameter.
  * @param {!Object} state The state to take in initially.
  * @param {{type:string, id:string, amount:?number}} action a description of
  * the action to take.
@@ -19,7 +21,7 @@ import whatYouLookinAt from '../images/what_you_lookin_at.jpg';
  */
 function reducer(state = [], action) {
   // deep copy state so as not to mutate anything
-  const newState = JSON.parse(JSON.stringify(state));
+  const newState = deepCopyStore(state);
   const item = newState.items[action.id];
   switch (action.type) {
     case 'INCREMENT':
