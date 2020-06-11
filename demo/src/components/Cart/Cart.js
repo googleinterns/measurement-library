@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 /**
  * Creates a component describing a shopping Cart.
- * @param {!Object.<string,
+ * @param {!Object<string,
  *      {name:string, item:!Object, quantity:number, description:string,
  *      inCart:boolean, cost:number}>} items The items stored in the site state
  * @param {function(string, number)} setQuantity A function to modify
@@ -33,7 +33,8 @@ const CartBase = function({items, setQuantity}) {
             </Form.Group>
           </Form>
         </Col>
-        <Col>{item.cost.toFixed(2)}$</Col>
+        {/* Display the cost in USD, starting with a $ symbol*/}
+        <Col>${item.cost.toFixed(2)}</Col>
       </Row>);
     }
   }
@@ -49,7 +50,7 @@ const CartBase = function({items, setQuantity}) {
       <Row>
         <Col/>
         <Col className="to-right">Subtotal:</Col>
-        <Col>TBD$</Col>
+        <Col>$TBD</Col>
       </Row>
     </Container>
   );

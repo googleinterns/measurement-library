@@ -1,5 +1,6 @@
 /**
- * @fileoverview Utility functions for the demo app
+ * @fileoverview Utility functions for the demo app.
+ *
  */
 
 /**
@@ -8,6 +9,6 @@
  * @param {!Object} data The data to copy.
  * @return {!Object} A deep copy of the input.
  */
-export function deepCopyStore(data) {
+export function deepCopy(data) {
   return JSON.parse(JSON.stringify(data));
 }
