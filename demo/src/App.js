@@ -1,5 +1,5 @@
 import React from 'react';
-import {Navbar, Nav} from 'react-bootstrap';
+import {Navbar, Nav, Image} from 'react-bootstrap';
 import {Router} from './Router.js';
 import Logo from './logo.svg';
 import './App.css';
@@ -13,7 +13,7 @@ export function App() {
     <div>
       <Navbar bg="light" className="px-lg-4" variant="light">
         <Navbar.Brand href="/">
-          <img
+          <Image
             alt="Logo for Prints of Poe which features a black cat"
             className="cat-logo"
             src={Logo}

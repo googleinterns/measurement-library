@@ -1,15 +1,15 @@
 import {createStore} from 'redux';
 import {deepCopy} from '../utils';
-import airplaneEars from '../images/airplane_ears.jpg';
-import bigYawn from '../images/big_yawn.jpg';
-import fluffy from '../images/fluffy.jpg';
-import makinBiscuits from '../images/makin_biscuits.jpg';
-import pawsUp from '../images/paws_up.jpg';
-import petMyBelly from '../images/pet_my_belly.jpg';
-import phoneBackground from '../images/phone_background.jpg';
-import snoozing from '../images/snoozing.jpg';
-import spoiled from '../images/spoiled.jpg';
-import whatYouLookinAt from '../images/what_you_lookin_at.jpg';
+import airplaneEars from '../images/thumbnails/airplane_ears.png';
+import bigYawn from '../images/thumbnails/big_yawn.png';
+import fluffy from '../images/thumbnails/fluffy.png';
+import makinBiscuits from '../images/thumbnails/makin_biscuits.png';
+import pawsUp from '../images/thumbnails/paws_up.png';
+import petMyBelly from '../images/thumbnails/pet_my_belly.png';
+import phoneBackground from '../images/thumbnails/phone_background.png';
+import snoozing from '../images/thumbnails/snoozing.png';
+import spoiled from '../images/thumbnails/spoiled.png';
+import whatYouLookinAt from '../images/thumbnails/what_you_lookin_at.png';
 
 /**
  * Modifies the state of the store according to a description of the
