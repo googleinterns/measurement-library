@@ -1,0 +1,34 @@
+.carousel-caption {
+  text-shadow: 2px 3px 5px rgba(0,0,0,0.5);
+}
+
+.carousel-caption a {
+  color: white;
+  text-decoration: underline;
+}
+
+.carousel-caption a:hover {
+  color: lightgray;
+}
+
+@media (min-width: 768px) {
+  .carousel-caption h3 {
+    font-size: 2.5rem;
+  }
+
+  .carousel-caption p,
+  .carousel-caption a {
+    font-size: 1.5rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .carousel-caption h3 {
+    font-size: 4rem;
+  }
+
+  .carousel-caption p,
+  .carousel-caption a {
+    font-size: 2.5rem;
+  }
+}
