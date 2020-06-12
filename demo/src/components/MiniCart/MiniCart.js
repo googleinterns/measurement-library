@@ -2,11 +2,11 @@ import {Container, Col, Row} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {computePrice} from '../Cart/Cart';
+import {computePrice} from '../Cart/Cart.js';
 import '../Cart/Cart.css';
 
 /**
- * Creates a component describing a shopping Cart.
+ * Creates a component describing a shopping cart.
  * @param {!Object<string,
  *      {name:string, item:!Object, quantity:number, description:string,
  *      inCart:boolean, cost:number}>} items The items stored in the site state.
@@ -49,13 +49,12 @@ MiniCartBase.propTypes = {
   items: PropTypes.object,
 };
 
-// Pass in all of the state as props to cart.
+// Pass in all of the state as props.
 const mapStateToProps = (state) => state;
 
 /*
- * Decorate the CartBase function, implicity passing in information about
- * the global site state. Also pass a setQuantity function to allow modification
- * of the quantity of items in the cart.
+ * Decorate the MiniCartBase function, implicity passing in information about
+ * the global site state.
  */
 export const MiniCart = connect(mapStateToProps, null)(MiniCartBase);
 

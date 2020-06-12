@@ -36,7 +36,7 @@ const CartBase = function({items, setQuantity}) {
   for (const [itemID, item] of Object.entries(items)) {
     if (item.inCart) {
       itemsRender.push(<Row key={itemID} className='item-row'>
-        <Col xs={0} md={4}>
+        <Col xs={12} md={4}>
           <Image fluid className='image-holder' src={item.image}/>
         </Col>
         <Col><h3>{item.name}</h3><p>{item.description}</p>
@@ -52,6 +52,7 @@ const CartBase = function({items, setQuantity}) {
                 </Form.Group>
               </Form>
             </Col>
+            <Col xs={0} md={3}/>
           </Row>
         </Col>
         {/* Display the cost in USD, starting with a $ symbol */}
