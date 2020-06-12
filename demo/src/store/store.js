@@ -1,5 +1,5 @@
 import {createStore} from 'redux';
-import {deepCopyStore} from '../utils';
+import {deepCopy} from '../utils';
 import airplaneEars from '../images/airplane_ears.jpg';
 import bigYawn from '../images/big_yawn.jpg';
 import fluffy from '../images/fluffy.jpg';
@@ -21,7 +21,7 @@ import whatYouLookinAt from '../images/what_you_lookin_at.jpg';
  */
 function reducer(state = [], action) {
   // deep copy state so as not to mutate anything
-  const newState = deepCopyStore(state);
+  const newState = deepCopy(state);
   const item = newState.items[action.id];
   switch (action.type) {
     case 'INCREMENT':
@@ -94,4 +94,3 @@ const startingState = {
 };
 
 export const store = createStore(reducer, startingState);
-

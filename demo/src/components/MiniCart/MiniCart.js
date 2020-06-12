@@ -7,7 +7,7 @@ import '../Cart/Cart.css';
 
 /**
  * Creates a component describing a shopping Cart.
- * @param {!Object.<string,
+ * @param {!Object<string,
  *      {name:string, item:!Object, quantity:number, description:string,
  *      inCart:boolean, cost:number}>} items The items stored in the site state.
  * @param {function(string, number)} setQuantity A function to modify
@@ -23,9 +23,7 @@ const MiniCartBase = ({items}) => {
       itemsRender.push(<Row key={itemID} className="item-row">
         <Col xs={5}>{item.name}</Col>
         <Col>{item.quantity}</Col>
-        <Col xs={4}>
-          {item.cost.toFixed(2)}$
-        </Col>
+        <Col xs={4}>${item.cost.toFixed(2)}</Col>
       </Row>);
     }
   }
@@ -39,9 +37,9 @@ const MiniCartBase = ({items}) => {
       </Row>
       {itemsRender}
       <Row className="final-row">
-        <Col/>
-        <Col className="to-right">Subtotal:</Col>
-        <Col>{computePrice(items).toFixed(2)}$</Col>
+        <Col xs={5}/>
+        <Col>Subtotal:</Col>
+        <Col xs={4}>${computePrice(items).toFixed(2)}</Col>
       </Row>
     </Container>
   );
@@ -51,7 +49,7 @@ MiniCartBase.propTypes = {
   items: PropTypes.object,
 };
 
-// pass in all of the state as props to cart
+// Pass in all of the state as props to cart.
 const mapStateToProps = (state) => state;
 
 /*
