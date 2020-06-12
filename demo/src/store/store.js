@@ -93,4 +93,10 @@ const startingState = {
   },
 };
 
-export const store = createStore(reducer, startingState);
+export const store =
+    createStore(
+        reducer,
+        startingState,
+        window.__REDUX_DEVTOOLS_EXTENSION__ &&
+            window.__REDUX_DEVTOOLS_EXTENSION__(),
+    );
