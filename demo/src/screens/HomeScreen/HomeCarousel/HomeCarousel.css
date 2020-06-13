@@ -11,7 +11,7 @@
   color: lightgray;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 40em) {
   .carousel-caption h3 {
     font-size: 2.5rem;
   }
@@ -22,13 +22,30 @@
   }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 60em) {
   .carousel-caption h3 {
-    font-size: 4rem;
+    font-size: 3rem;
+  }
+
+  .carousel-caption p,
+  .carousel-caption a {
+    font-size: 2rem;
+  }
+}
+
+@media (min-width: 90em) {
+  .carousel-caption h3 {
+    font-size: 3.5rem;
   }
 
   .carousel-caption p,
   .carousel-caption a {
     font-size: 2.5rem;
+  }
+}
+
+@media (min-width: 110em) {
+  .carousel-caption h3 {
+    font-size: 4rem;
   }
 }
