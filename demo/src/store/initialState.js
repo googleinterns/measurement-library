@@ -325,7 +325,7 @@ export const initialState = {
       description: 'How does he do that without thumbs?',
     },
     'hjdf7': {
-      name: 'What you lookin at?',
+      name: 'What You Lookin\' At?',
       image: whatYouLookinAt,
       thumbnail: whatYouLookinAtThumbnail,
       cost: 25,
