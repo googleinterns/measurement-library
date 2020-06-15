@@ -63,12 +63,16 @@ import wheresPoeThumbnail from '../images/thumbnails/wheres_poe.png';
 
 
 /**
- * Sample data for the application. Each item is stored on the site,
- * along with the quantity in the user's cart and if it is in the user's
- * cart. If the item is not in the cart, the quantity is 0, but the converse
- * is not always true, users that modify how many items are in their cart
- * will usually not want it to disappear immediately.
- */
+ * The items in the store; each has name, image, cost, and
+ * description. Each item is stored along with the quantity in the user's cart
+ * and if it is in the user's cart. If the item is not in the cart,
+ * the quantity is 0, but the converse is not always true: users that modify
+ * how many items are in their cart will usually not want them to
+ * disappear immediately.
+ * @typedef {!Object<string,
+  *      {name:string, image:!Object, cost:number, quantity:number,
+  *      inCart:boolean, description:string}>} ItemStore
+  */
 export const initialState = {
   items: {
     '1jef2': {
