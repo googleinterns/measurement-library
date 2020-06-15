@@ -1,24 +1,24 @@
-.image-holder{
-  height: 200px;
-  max-width: 500px;
-  padding: 1px;
-  line-height: 0;
-  border: 1px solid black;
-  background-color: #ddd;
-  border-radius: 30px;
-}
-
-.button-link:link, a.button-link:visited{
-  background-color: #4443f6;
-  color: white;
-  padding: 14px 25px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  border-radius: 10px;
-}
-
-a.button-link:hover, a.button-link:active{
+a.button-link:active,
+a.button-link:hover {
   background-color: blue;
 }
 
+a.button-link:link,
+a.button-link:visited {
+  background-color: #4443f6;
+  border-radius: 10px;
+  color: white;
+  display: inline-block;
+  padding: 14px 25px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.image-holder {
+  background-color: #ddd;
+  border: 1px solid black;
+  border-radius: 30px;
+  height: 200px;
+  line-height: 0;
+  padding: 1px;
+}
