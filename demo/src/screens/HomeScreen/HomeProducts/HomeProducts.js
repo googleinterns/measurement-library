@@ -6,8 +6,7 @@ import './HomeProducts.css';
 
 /**
  * Creates a display component for all the product listings on the home page.
- * @param {!Object<string, {name: string, cost: number, thumbnail: string,
- *     description: string}>} items The items stored in the site state
+ * @param {!ItemStore} items The items stored in the site state
  * @return {!JSX} The component.
  */
 const HomeProductsBase = function({items}) {
