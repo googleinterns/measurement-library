@@ -69,6 +69,9 @@ import wheresPoeThumbnail from '../images/thumbnails/wheres_poe.png';
  * the quantity is 0, but the converse is not always true: users that modify
  * how many items are in their cart will usually not want them to
  * disappear immediately.
+ *
+ * When adding a new item, generate a [v4 UUID](https://www.uuidgenerator.net/version4)
+ * and copy the first five characters to serve as the unique item ID.
  * @typedef {!Object<string,
   *      {name:string, image:!Object, cost:number, quantity:number,
   *      inCart:boolean, description:string}>} ItemStore
