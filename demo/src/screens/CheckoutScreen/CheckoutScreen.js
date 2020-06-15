@@ -38,11 +38,14 @@ export function CheckoutScreen() {
     <Container>
       <Row className='checkout-header'>
         <Col xs={12} md={6}>Billing Details</Col>
-        <Col xs={12} md={6}>Your order</Col>
+        <Col xs={12} md={6} className='hide-medium-or-smaller'>Your order</Col>
       </Row>
       <Row className='checkout-content'>
         <Col xs={12} md={6}>
           <UserInfoForm formId={FORM_ID}/>
+        </Col>
+        <Col xs={12} className='hide-medium-or-bigger checkout-header'>
+          Your order
         </Col>
         <Col xs={12} md={6}>
           <MiniCart/>
