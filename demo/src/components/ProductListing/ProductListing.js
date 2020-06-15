@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {Image} from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import './Product.css';
+import './ProductListing.css';
 
 /**
  * Creates a display component for a single product.
@@ -13,9 +13,9 @@ import './Product.css';
  * @param {string} description
  * @return {!JSX} The component.
  */
-function Product({id, title, price, imageSrc, description}) {
+function ProductListing({id, title, price, imageSrc, description}) {
   return (
-    <Link className="product" to={`product/${id}`}>
+    <Link className="product-listing" to={`product/${id}`}>
       <Image
         alt={`${title} product listing thumbnail`}
         src={imageSrc}
@@ -27,7 +27,7 @@ function Product({id, title, price, imageSrc, description}) {
   );
 }
 
-Product.propTypes = {
+ProductListing.propTypes = {
   id: PropTypes.string,
   title: PropTypes.string,
   price: PropTypes.number,
@@ -35,4 +35,4 @@ Product.propTypes = {
   description: PropTypes.string,
 };
 
-export {Product};
+export {ProductListing};

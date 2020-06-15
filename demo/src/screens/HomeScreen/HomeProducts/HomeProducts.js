@@ -1,7 +1,7 @@
 import React, {useMemo} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {Product} from '../../../components/Product/Product.js';
+import {ProductListing} from '../../../components/ProductListing/ProductListing.js';
 import './HomeProducts.css';
 
 /**
@@ -15,8 +15,8 @@ const HomeProductsBase = function({items}) {
     const products = [];
     for (const [itemID, item] of Object.entries(items)) {
       products.push(
-          <li className="product-listing" key={itemID}>
-            <Product
+          <li className="product-listing-container" key={itemID}>
+            <ProductListing
               id={itemID}
               title={item.name}
               price={item.cost}

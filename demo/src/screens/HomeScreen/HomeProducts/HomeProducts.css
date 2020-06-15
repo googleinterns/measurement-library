@@ -5,7 +5,7 @@
   margin: 2% 2%;
 }
 
-.product-listing {
+.product-listing-container {
   display: flex;
   padding: 0.5em;
   width: 50%;
@@ -16,7 +16,7 @@
     margin: 2% 5%;
   }
 
-  .product-listing {
+  .product-listing-container {
     width: 33.33%;
   }
 }

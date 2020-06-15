@@ -1,4 +1,4 @@
-.product {
+.product-listing {
   color: inherit;
   display: flex;
   flex-direction: column;
@@ -9,22 +9,22 @@
   width: 100%;
 }
 
-.product:hover {
+.product-listing:hover {
   color: inherit;
   text-decoration: inherit;
   opacity: .6;
 }
 
-.product p:last-child {
+.product-listing p:last-child {
   margin-bottom: 0;
 }
 
-.product img {
+.product-listing img {
   margin-bottom: .6em;
   width: 100%;
 }
 
-.product h2 {
+.product-listing h2 {
   font-family: 'Montserrat', sans-serif;
   font-size: 1.3rem;
   text-align: center;
@@ -35,17 +35,17 @@
 }
 
 @media (min-width: 40em) {
-  .product {
+  .product-listing {
     margin: 1em;
   }
 
-  .product h2 {
+  .product-listing h2 {
     font-size: 1.8rem;
   }
 }
 
 @media (min-width: 110em) {
-  .product h2 {
+  .product-listing h2 {
     font-size: 2.5rem;
   }
 }
