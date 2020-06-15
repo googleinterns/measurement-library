@@ -1,0 +1,23 @@
+.checkout-header {
+  font: 30px Impact, Charcoal, sans-serif;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+
+.checkout-content>.row>.col:not(:last-child) {
+  border-right: 1px solid black;
+}
+
+/* Screen size dependent settings */
+
+@media (min-width: 768px) {
+  .hide-medium-or-bigger{
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .hide-medium-or-smaller{
+    display: none;
+  }
+}
