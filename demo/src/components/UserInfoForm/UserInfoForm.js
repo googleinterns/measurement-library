@@ -22,68 +22,68 @@ const /** !JSX */ userInformation = (
   <Form.Row>
     {makeFormGroup('First Name',
         <Form.Control required
-          type="text"
-          defaultValue="Edgar"
-          placeholder="First Name (Required)"
+          type='text'
+          defaultValue='Edgar'
+          placeholder='First Name (Required)'
         />, false)}
     {makeFormGroup('Last Name',
         <Form.Control required
-          type="text"
-          placeholder="Last Name (Required)"
+          type='text'
+          placeholder='Last Name (Required)'
         />, false)}
   </Form.Row>
 );
 const /** !JSX */ companyName = makeFormGroup('Company Name',
     <Form.Control
-      type="text"
-      placeholder="Company name (optional)"
+      type='text'
+      placeholder='Company name (optional)'
     />);
 const /** !JSX */ addressLine1 = makeFormGroup('Street Address Line 1',
     <Form.Control required
-      type="text"
-      defaultValue="532 N. 7th Street"
-      placeholder="Address Line 1 (required)"
+      type='text'
+      defaultValue='532 N. 7th Street'
+      placeholder='Address Line 1 (required)'
     />);
 const /** !JSX */ addressLine2 = makeFormGroup('Street Address Line 2',
     <Form.Control
-      type="text"
-      placeholder="Address Line 2 (optional)"
+      type='text'
+      placeholder='Address Line 2 (optional)'
     />);
 const /** !JSX */ regionalInfo = (
   <Form.Row>
     {makeFormGroup('City',
         <Form.Control
-          type="text"
-          defaultValue="Philadelphia"
-          placeholder="City (optional)"
+          type='text'
+          defaultValue='Philadelphia'
+          placeholder='City (optional)'
 
         />, false)}
     {makeFormGroup('State',
         <Form.Control
-          type="text"
-          defaultValue="PA"
-          placeholder="State (optional)"
+          type='text'
+          defaultValue='PA'
+          placeholder='State (optional)'
         />, false)}
   </Form.Row>
 );
 const /** !JSX */ countryAndZip = <Form.Row>
   {makeFormGroup('Country', <Form.Control required
-    type="text"
-    defaultValue="USA"
-    placeholder="Country (required)"
+    type='text'
+    defaultValue='USA'
+    placeholder='Country (required)'
   />, false)}
   {makeFormGroup('Zip Code',
       <Form.Control
-        type="number"
-        defaultValue="19123"
-        placeholder="Zip (optional)"
+        type='number'
+        defaultValue='19123'
+        placeholder='Zip (optional)'
       />, false)}
 </Form.Row>;
 const /** !JSX */ email = makeFormGroup('Email',
     <Form.Control
-      type = "email"
-      defaultValue="PoeTheCatLover@google.com"
-      placeholder="Email (optional)"
+      type = 'email'
+      defaultValue='PoeTheCatLover@google.com'
+      placeholder='Email (optional)'
     />);
 
 /**

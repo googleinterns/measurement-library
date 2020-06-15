@@ -35,11 +35,11 @@ export function CheckoutScreen() {
 
   return (
     <Container>
-      <Row className="checkout-header">
+      <Row className='checkout-header'>
         <Col>Billing Details</Col>
         <Col>Your order</Col>
       </Row>
-      <Row className="checkout-content">
+      <Row className='checkout-content'>
         <Col>
           <UserInfoForm formId={FORM_ID}/>
         </Col>
