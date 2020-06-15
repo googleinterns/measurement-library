@@ -10,16 +10,19 @@ CodeModal.propTypes = {
   ourCode: PropTypes.string,
   gtagCode: PropTypes.string,
 };
+
 /**
  * A popup to display the google analytics code that fires on
  * a button click.
  * @param {string} popupId The ID of this popup.
- * @param {string} ourCode The code for this open source library
- * @param {string} gtagCode The code for gtag
- * @return {!JSX} This component
+ * @param {string} ourCode The code for this open source library.
+ * @param {string} gtagCode The code for gtag.
+ * @return {!JSX} The component.
  */
 export function CodeModal({popupId, ourCode, gtagCode}) {
   const [showing, setShowing] = useState(false);
+
+  // Highlight the code in the modal after the page renders
   useEffect(()=> {
     Prism.highlightAll();
   });
