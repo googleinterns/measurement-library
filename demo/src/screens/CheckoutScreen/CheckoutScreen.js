@@ -7,15 +7,14 @@ import {MiniCart} from '../../components/MiniCart/MiniCart.js';
 
 /**
  * The ID for the form the user will fill out on this page.
- * @const
- * @type {string}
+ * @const {string}
  */
 const FORM_ID = 'user-info-form';
 
 /**
  * Page component for a user to enter in personal billing information
  * and confirm the items in their cart.
- * @return {!JSX} The component
+ * @return {!JSX}
  */
 export function CheckoutScreen() {
   const /** !Object */ history = useHistory();
