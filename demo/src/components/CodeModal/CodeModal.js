@@ -48,7 +48,7 @@ export function CodeModal({popupId, ourCode, gtagCode}) {
   </Modal>;
 
   return (<>
-    <GoQuestion onClick={()=>setShowing(true)}>Display Modal</GoQuestion>
+    <GoQuestion size={16} onClick={()=>setShowing(true)}>Display Modal</GoQuestion>
     {modal}
   </>);
 }

@@ -2,9 +2,10 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Container, Col, Row, Image, Form} from 'react-bootstrap';
 import './Cart.css';
-import {setQuantity} from '../../store/StoreHelpers.js';
+import {setQuantity, removeOneFromCart} from '../../store/StoreHelpers.js';
 import PropTypes from 'prop-types';
 import {CodeModal} from '../CodeModal/CodeModal';
+import {FiTrash2} from 'react-icons/fi';
 
 /**
  * Computes the price of purchasing the given quantity
@@ -28,7 +29,7 @@ export const computePrice = (items) => {
  *      the quantity of an item in the global state.
  * @return {!JSX} The component.
  */
-const CartBase = function({items, setQuantity}) {
+const CartBase = function({items, setQuantity, removeOneFromCart}) {
   const /** Array<!JSX> */ itemsRender = [];
 
   // Create the content of the cart display, with one row per item.
@@ -40,11 +41,10 @@ const CartBase = function({items, setQuantity}) {
         </Col>
         <Col><h3>{item.name}</h3><p>{item.description}</p>
           <Row>
-            <Col xs={12} md={9}>
+            <Col xs={9}>
               <Form>
                 <Form.Group>
-                  <Form.Label>Quantity</Form.Label>
-                  <CodeModal popupId={'set' + itemID}/>
+                  <Form.Label>{'Quantity'}</Form.Label>
                   <Form.Control type='number' value={item.quantity}
                     onChange={(event) => {
                       setQuantity(itemID, Number(event.target.value));
@@ -52,7 +52,13 @@ const CartBase = function({items, setQuantity}) {
                 </Form.Group>
               </Form>
             </Col>
-            <Col xs={0} md={3}/>
+            <Col xs={3} className="remove-from-cart-icons">
+              <FiTrash2 size={16} onClick={()=>removeOneFromCart(itemID)}/>
+              {' '}
+              <CodeModal popupId={'set' + itemID}
+                gtagCode={`gtag('event', \n ... \n)`}
+                ourCode={`tag('event', \n remove... \n)`}/>
+            </Col>
           </Row>
         </Col>
         {/* Display the cost in USD, starting with a $ symbol */}
@@ -62,7 +68,7 @@ const CartBase = function({items, setQuantity}) {
   }
 
   return (
-    <Container className='cartContainer'>
+    <Container className='cart-container'>
       <Row key='cart-header' className='header-row'>
         <Col xs={4}/>
         <Col xs={6}/>
@@ -72,7 +78,7 @@ const CartBase = function({items, setQuantity}) {
       <Row className='final-row'>
         <Col xs={4}/>
         <Col xs={6} className='to-right'>Subtotal:</Col>
-        <Col xs={2}>{computePrice(items).toFixed(2)}$</Col>
+        <Col xs={2}>${computePrice(items).toFixed(2)}</Col>
       </Row>
     </Container>
   );
@@ -91,4 +97,5 @@ const mapStateToProps = (state) => state;
  * the global site state. Also pass a setQuantity function to allow modification
  * of the quantity of items in the cart.
  */
-export const Cart = connect(mapStateToProps, {setQuantity})(CartBase);
+export const Cart = connect(mapStateToProps,
+    {setQuantity, removeOneFromCart})(CartBase);
