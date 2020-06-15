@@ -4,6 +4,7 @@ import {Container, Col, Row, Image, Form} from 'react-bootstrap';
 import './Cart.css';
 import {setQuantity} from '../../store/StoreHelpers.js';
 import PropTypes from 'prop-types';
+import {CodeModal} from '../CodeModal/CodeModal';
 
 /**
  * Computes the price of purchasing the given quantity
@@ -43,6 +44,7 @@ const CartBase = function({items, setQuantity}) {
               <Form>
                 <Form.Group>
                   <Form.Label>Quantity</Form.Label>
+                  <CodeModal popupId={'set' + itemID}/>
                   <Form.Control type='number' value={item.quantity}
                     onChange={(event) => {
                       setQuantity(itemID, Number(event.target.value));

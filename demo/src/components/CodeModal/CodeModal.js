@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import {Button, Modal, Tabs, Tab} from 'react-bootstrap';
+import {Modal, Tabs, Tab} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import './CodeModal.css';
 import Prism from 'prismjs';
 import '../../vendor/prism.css';
+import {GoQuestion} from 'react-icons/go';
 
 CodeModal.propTypes = {
   popupId: PropTypes.string,
@@ -47,7 +48,7 @@ export function CodeModal({popupId, ourCode, gtagCode}) {
   </Modal>;
 
   return (<>
-    <Button onClick={()=>setShowing(true)}>Display Modal</Button>
+    <GoQuestion onClick={()=>setShowing(true)}>Display Modal</GoQuestion>
     {modal}
   </>);
 }
