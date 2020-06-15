@@ -11,7 +11,7 @@ import './ProductListing.css';
  * @param {string} price
  * @param {string} imageSrc
  * @param {string} description
- * @return {!JSX} The component.
+ * @return {!JSX}
  */
 function ProductListing({id, title, price, imageSrc, description}) {
   return (
