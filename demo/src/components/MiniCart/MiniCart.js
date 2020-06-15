@@ -16,7 +16,7 @@ const MiniCartBase = ({items}) => {
   // Create the content of the cart display, with one row per item.
   for (const [itemID, item] of Object.entries(items)) {
     if (item.inCart) {
-      itemsRender.push(<Row key={itemID} className="item-row">
+      itemsRender.push(<Row key={itemID} className='item-row'>
         <Col xs={5}>{item.name}</Col>
         <Col>{item.quantity}</Col>
         <Col xs={4}>${item.cost.toFixed(2)}</Col>
@@ -25,14 +25,14 @@ const MiniCartBase = ({items}) => {
   }
 
   return (
-    <Container className="cartContainer mini">
-      <Row key='cart-header' className="header-row">
+    <Container className='cartContainer mini'>
+      <Row key='cart-header' className='header-row'>
         <Col xs={5}>Name</Col>
         <Col>Count</Col>
         <Col xs={4}>Price</Col>
       </Row>
       {itemsRender}
-      <Row className="final-row">
+      <Row className='final-row'>
         <Col xs={5}/>
         <Col>Subtotal:</Col>
         <Col xs={4}>${computePrice(items).toFixed(2)}</Col>

@@ -43,7 +43,7 @@ const CartBase = function({items, setQuantity}) {
               <Form>
                 <Form.Group>
                   <Form.Label>Quantity</Form.Label>
-                  <Form.Control type="number" value={item.quantity}
+                  <Form.Control type='number' value={item.quantity}
                     onChange={(event) => {
                       setQuantity(itemID, Number(event.target.value));
                     }}/>
@@ -54,22 +54,22 @@ const CartBase = function({items, setQuantity}) {
           </Row>
         </Col>
         {/* Display the cost in USD, starting with a $ symbol */}
-        <Col xs={2} className="price-col">${item.cost.toFixed(2)}</Col>
+        <Col xs={2} className='price-col'>${item.cost.toFixed(2)}</Col>
       </Row>);
     }
   }
 
   return (
-    <Container className="cartContainer">
-      <Row key='cart-header' className="header-row">
+    <Container className='cartContainer'>
+      <Row key='cart-header' className='header-row'>
         <Col xs={4}/>
         <Col xs={6}/>
         <Col xs={2}>Price</Col>
       </Row>
       {itemsRender}
-      <Row className="final-row">
+      <Row className='final-row'>
         <Col xs={4}/>
-        <Col xs={6} className="to-right">Subtotal:</Col>
+        <Col xs={6} className='to-right'>Subtotal:</Col>
         <Col xs={2}>{computePrice(items).toFixed(2)}$</Col>
       </Row>
     </Container>
