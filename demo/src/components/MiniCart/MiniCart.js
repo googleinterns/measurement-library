@@ -7,11 +7,7 @@ import '../Cart/Cart.css';
 
 /**
  * Creates a component describing a shopping cart.
- * @param {!Object<string,
- *      {name:string, item:!Object, quantity:number, description:string,
- *      inCart:boolean, cost:number}>} items The items stored in the site state.
- * @param {function(string, number)} setQuantity A function to modify
- *      the quantity of an item in the global state.
+ * @param {ItemStore} items The global {@link ItemStore} site object.
  * @return {!JSX} The component.
  */
 const MiniCartBase = ({items}) => {

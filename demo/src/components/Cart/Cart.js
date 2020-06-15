@@ -8,13 +8,13 @@ import PropTypes from 'prop-types';
 /**
  * Computes the price of purchasing the given quantity
  * of all items in the cart.
- * @param {!Object<string,{cost:number, quantity:number}>} items The items
- * to purchase and their quantity.
+ * @param {ItemStore} items A {@link ItemStore} listing of items
+ * to purchase and their desired quantity.
  * @return {number} The total price.
  */
 export const computePrice = (items) => {
   let totalPrice = 0;
-  for (const [, item] of Object.entries(items)) {
+  for (const item of Object.values(items)) {
     totalPrice += item.quantity * item.cost;
   }
   return totalPrice;
@@ -22,9 +22,7 @@ export const computePrice = (items) => {
 
 /**
  * Creates a component describing a shopping Cart.
- * @param {!Object<string,
- *      {name:string, item:!Object, quantity:number, description:string,
- *      inCart:boolean, cost:number}>} items The items stored in the site state.
+ * @param {ItemStore} items The global {@link ItemStore} site object.
  * @param {function(string, number)} setQuantity A function to modify
  *      the quantity of an item in the global state.
  * @return {!JSX} The component.
