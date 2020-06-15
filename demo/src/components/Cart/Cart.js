@@ -27,6 +27,9 @@ export const computePrice = (items) => {
  * @param {ItemStore} items The global {@link ItemStore} site object.
  * @param {function(string, number)} setQuantity A function to modify
  *      the quantity of an item in the global state.
+ * @param {function(string)} removeOneFromCart A function to reduce the
+ * quantity of an element in the cart by 1, deleting it if the quantity is
+ * empty.
  * @return {!JSX} The component.
  */
 const CartBase = function({items, setQuantity, removeOneFromCart}) {
@@ -87,6 +90,7 @@ const CartBase = function({items, setQuantity, removeOneFromCart}) {
 CartBase.propTypes = {
   items: PropTypes.object,
   setQuantity: PropTypes.func,
+  removeOneFromCart: PropTypes.func,
 };
 
 // Pass in all of the state as props to cart.
