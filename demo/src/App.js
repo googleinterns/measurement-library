@@ -1,5 +1,6 @@
 import React from 'react';
 import {Navbar, Nav, Image} from 'react-bootstrap';
+import {Link} from 'react-router-dom';
 import {Router} from './Router.js';
 import Logo from './logo.svg';
 import './App.css';
@@ -12,7 +13,7 @@ export function App() {
   return (
     <div>
       <Navbar bg="light" className="px-lg-4" variant="light">
-        <Navbar.Brand href="/">
+        <Navbar.Brand as={Link} to="/">
           <Image
             alt="Logo for Prints of Poe which features a black cat"
             className="cat-logo"
@@ -21,11 +22,11 @@ export function App() {
           Prints of Poe
         </Navbar.Brand>
         <Nav className="mr-auto">
-          <Nav.Link href="/">Home</Nav.Link>
-          <Nav.Link href="/about">About</Nav.Link>
+          <Nav.Link as={Link} to="/">Home</Nav.Link>
+          <Nav.Link as={Link} to="/about">About</Nav.Link>
         </Nav>
         <Nav>
-          <Nav.Link href="/cart">
+          <Nav.Link as={Link} to="/cart">
             <svg className="shopping-cart" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
               <path
                 fillRule="evenodd"

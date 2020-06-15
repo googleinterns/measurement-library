@@ -1,0 +1,8 @@
+# For information on this file, see:
+# https://help.github.com/en/github/creating-cloning-and-archiving-repositories/about-code-owners
+
+# At least one member from the measurement-library-owners team must review
+# any pull request before it can be merged. Currently, adding this team as a
+# reviewer will add one member from the team in a "round robin" fashion. See:
+# https://help.github.com/en/github/setting-up-and-managing-organizations-and-teams/managing-code-review-assignment-for-your-team
+* @googleinterns/measurement-library-owners

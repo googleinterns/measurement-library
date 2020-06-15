@@ -3,6 +3,7 @@ import {Container, Col, Row, Button} from 'react-bootstrap';
 import {UserInfoForm} from '../../components/UserInfoForm/UserInfoForm.js';
 import {useHistory} from 'react-router-dom';
 import './CheckoutScreen.css';
+import {MiniCart} from '../../components/MiniCart/MiniCart.js';
 
 /**
  * The ID for the form the user will fill out on this page.
@@ -36,14 +37,15 @@ export function CheckoutScreen() {
   return (
     <Container>
       <Row className='checkout-header'>
-        <Col>Billing Details</Col>
-        <Col>Your order</Col>
+        <Col xs={12} md={6}>Billing Details</Col>
+        <Col xs={12} md={6}>Your order</Col>
       </Row>
       <Row className='checkout-content'>
-        <Col>
+        <Col xs={12} md={6}>
           <UserInfoForm formId={FORM_ID}/>
         </Col>
-        <Col>
+        <Col xs={12} md={6}>
+          <MiniCart/>
           <Button onClick={navIfFormValid}>Submit Order</Button>
         </Col>
       </Row>
