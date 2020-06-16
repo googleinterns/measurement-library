@@ -53,11 +53,14 @@ const ProductScreenBase = function({items, addToCart}) {
             <Container>
               <Row>
                 <Col>
-                  <Button onClick={addOnClick} disabled = {currProduct.inCart}>{buttonText}</Button>
+                  <Button onClick={addOnClick} disabled = {currProduct.inCart}>
+                    {buttonText}
+                  </Button>
                 </Col>
                 <Col xs="3"/>
                 <Col>
-                  <Button variant="success" onClick={buyOnClick} as={Link} to='/cart'>Buy Now</Button>
+                  <Button variant="success" onClick={buyOnClick}
+                    as={Link} to='/cart'>Buy Now</Button>
                 </Col>
               </Row>
             </Container>
@@ -74,10 +77,12 @@ ProductScreenBase.propTypes = {
   addToCart: PropTypes.func,
 };
 
+// pass state.items as items into ProductScreen props
 const mapStateToProps = (state) => ({
   items: state.items,
 });
 
+// dispatch addOneToCart as addToCart to ProductScreen props
 const mapDispatchToProps = (dispatch) => {
   return {
     addToCart: (id) => {
@@ -86,5 +91,10 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
+/*
+ * Decorate the ProductScreenBase function, implicity passing in
+ * information about the global site state. Also pass mapDispatchToProps
+ * function to allow modification of global cart.
+ */
 export const ProductScreen = connect(mapStateToProps,
     mapDispatchToProps)(ProductScreenBase);
