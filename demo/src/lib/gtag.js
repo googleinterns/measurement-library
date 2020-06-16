@@ -21,7 +21,7 @@ export const pageview = (pagePath) => {
 export const event = (event, parameters) => {
   window.gtag('event', event, {
     send_to: GA_TRACKING_ID,
-    parameters,
+    ...parameters,
   });
 
   return `gtag("event", "${event}", ` +
