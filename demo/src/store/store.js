@@ -41,10 +41,43 @@ function reducer(state = {}, action) {
   return newState;
 }
 
-export const store =
-    createStore(
-        reducer,
-        initialState,
-        window.__REDUX_DEVTOOLS_EXTENSION__ &&
-            window.__REDUX_DEVTOOLS_EXTENSION__(),
-    );
+/**
+ * Save a state to localStorage.
+ * @param {{items:ItemStore}} store The new state.
+ */
+const saveState = (store) => {
+  try {
+    const updatedStore = JSON.stringify(store);
+    localStorage.setItem('state', updatedStore);
+  } catch (err) {
+    // for some reason we can't save, just log an error message
+    console.error('There was an error saving the state:\n' + err);
+  }
+};
+
+/**
+ * Load the current state from memory, or return a default state object.
+ * @return {{items:ItemStore}} The saved state.
+ */
+export const loadState = () => {
+  let currentState;
+  try {
+    currentState = localStorage.getItem('state');
+  } catch (err) {
+    // We are not allowed access the local storage
+    console.error('There was an error loading the state:\n' + err);
+    return initialState;
+  }
+  if (!currentState) { // there is nothing in the local storage.
+    return initialState;
+  }
+  return JSON.parse(currentState);
+};
+
+
+export const store = createStore(reducer, loadState(),
+    window.__REDUX_DEVTOOLS_EXTENSION__ &&
+    window.__REDUX_DEVTOOLS_EXTENSION__());
+
+// automatically save the state after any change
+store.subscribe(()=>saveState(store.getState()));

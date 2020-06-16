@@ -63,15 +63,20 @@ import wheresPoeThumbnail from '../images/thumbnails/wheres_poe.png';
 
 
 /**
- * The items in the store; each has name, image, cost, and
+ * @fileoverview A default initial state for the application.
+ * Each of the items in the store has a name, image, cost, and
  * description. Each item is stored along with the quantity in the user's cart
  * and if it is in the user's cart. If the item is not in the cart,
  * the quantity is 0, but the converse is not always true: users that modify
  * how many items are in their cart will usually not want them to
  * disappear immediately.
  * @typedef {!Object<string,
-  *      {name:string, image:!Object, cost:number, quantity:number,
-  *      inCart:boolean, description:string}>} ItemStore
+ *      {name:string, image:!Object, cost:number, quantity:number,
+ *      inCart:boolean, description:string}>} ItemStore
+ */
+
+/**
+  * @const {{items:ItemStore}}
   */
 export const initialState = {
   items: {
