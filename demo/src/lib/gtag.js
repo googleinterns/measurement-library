@@ -16,10 +16,14 @@ export const pageview = (pagePath) => {
  * to review recommended events and their associated parameters.
  * @param {string} event
  * @param {!Object<string, *>} parameters
+ * @return {string} Code snippet of the event being sent.
  */
 export const event = (event, parameters) => {
   window.gtag('event', event, {
     send_to: GA_TRACKING_ID,
     parameters,
   });
+
+  return `gtag("event", "${event}", ` +
+      `${JSON.stringify(parameters, undefined, 2)})`;
 };
