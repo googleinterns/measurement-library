@@ -47,8 +47,16 @@ export function CodeModal({popupId, ourCode, gtagCode}) {
     </Tabs>
   </Modal>;
 
-  return (<>
-    <GoQuestion size={16} onClick={()=>setShowing(true)}>Display Modal</GoQuestion>
+  return (<span className="clickable-box" onClick=
+    /**
+      * Not the same as setShowing(true). setShowing(true) would
+      * call when the modal is showing and override attempts to close it, as
+      * once the modal is up, anywhere you click fires this event.
+      */
+    {()=> {
+      if (!showing) setShowing(true);
+    }}>
+    <GoQuestion size={16}/>
     {modal}
-  </>);
+  </span>);
 }

@@ -1,9 +1,11 @@
 import React from 'react';
-import {Container, Col, Row, Button} from 'react-bootstrap';
+import {Container, Col, Row} from 'react-bootstrap';
 import {UserInfoForm} from '../../components/UserInfoForm/UserInfoForm.js';
 import {useHistory} from 'react-router-dom';
 import './CheckoutScreen.css';
+import '../NavButton.css';
 import {MiniCart} from '../../components/MiniCart/MiniCart.js';
+import {CodeModal} from '../../components/CodeModal/CodeModal';
 
 /**
  * The ID for the form the user will fill out on this page.
@@ -48,7 +50,15 @@ export function CheckoutScreen() {
         </Col>
         <Col xs={12} md={6}>
           <MiniCart/>
-          <Button onClick={navIfFormValid}>Submit Order</Button>
+          <div onClick={navIfFormValid} className='button-like'>
+            {'Submit Order '}
+            <CodeModal popupId={'purchase'}
+              gtagCode={`gtag('event', \n ... \n)`}
+              ourCode={`tag('event', \n purchase... \n)`}/>
+            <CodeModal popupId={'shipping_info'}
+              gtagCode={`gtag('event', \n ... \n)`}
+              ourCode={`tag('event', \n shipping_info... \n)`}/>
+          </div>
         </Col>
       </Row>
     </Container>

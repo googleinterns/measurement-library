@@ -3,6 +3,7 @@ import {Cart} from '../../components/Cart/Cart';
 import {Container, Col, Row} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import './CartScreen.css';
+import '../NavButton.css';
 import {CodeModal} from '../../components/CodeModal/CodeModal';
 
 /**
@@ -17,15 +18,15 @@ export function CartScreen() {
         <Cart/>
       </Row>
       <Row key='checkoutRow'>
-        <Col/>
-        <Col/>
         <Col>
-          <Link to='/checkout' className='button-link'>
+          <div className='button-like'>
+            <Link to='/checkout' className='plain-text'>
               Continue to checkout
-          </Link>
-          <CodeModal popupId={'nextStep'}
-            gtagCode={`gtag('event', \n ... \n)`}
-            ourCode={`tag('event', \n continue... \n)`}/>
+            </Link>{' '}
+            <CodeModal popupId={'begin_checkout'}
+              gtagCode={`gtag('event', \n ... \n)`}
+              ourCode={`tag('event', \n begin_checkout... \n)`}/>
+          </div>
         </Col>
       </Row>
     </Container>

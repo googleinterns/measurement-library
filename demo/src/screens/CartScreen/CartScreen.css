@@ -1,15 +1,5 @@
-a.button-link:active,
-a.button-link:hover {
-  background-color: blue;
-}
-
-a.button-link:link,
-a.button-link:visited {
-  background-color: #4443f6;
-  border-radius: 10px;
-  color: white;
-  display: inline-block;
-  padding: 14px 25px;
+a.plain-text{
+  color: #115;
   text-align: center;
   text-decoration: none;
 }
