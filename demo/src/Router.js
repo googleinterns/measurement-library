@@ -23,9 +23,7 @@ function RouterBase({history}) {
   useEffect(() => {
     sendPageView(history.location);
     history.listen(sendPageView);
-    // Must be ran exactly once which is why the dependency array is empty
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [history]);
 
   const sendPageView = (location) => {
     pageview(location.pathname);
