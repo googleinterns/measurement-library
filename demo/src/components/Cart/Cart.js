@@ -4,15 +4,27 @@ import {Container, Col, Row, Image, Form} from 'react-bootstrap';
 import './Cart.css';
 import {setQuantity} from '../../store/StoreHelpers.js';
 import PropTypes from 'prop-types';
-import {CodeModal} from '../CodeModal/CodeModal';
+
+/**
+ * Computes the price of purchasing the given quantity
+ * of all items in the cart.
+ * @param {ItemStore} items A {@link ItemStore} listing of items
+ * to purchase and their desired quantity.
+ * @return {number} The total price.
+ */
+export const computePrice = (items) => {
+  let totalPrice = 0;
+  for (const item of Object.values(items)) {
+    totalPrice += item.quantity * item.cost;
+  }
+  return totalPrice;
+};
 
 /**
  * Creates a component describing a shopping Cart.
- * @param {!Object<string,
- *      {name:string, item:!Object, quantity:number, description:string,
- *      inCart:boolean, cost:number}>} items The items stored in the site state
+ * @param {ItemStore} items The global {@link ItemStore} site object.
  * @param {function(string, number)} setQuantity A function to modify
- *      the quantity of an item in the global state
+ *      the quantity of an item in the global state.
  * @return {!JSX} The component.
  */
 const CartBase = function({items, setQuantity}) {
@@ -21,43 +33,48 @@ const CartBase = function({items, setQuantity}) {
   // Create the content of the cart display, with one row per item.
   for (const [itemID, item] of Object.entries(items)) {
     if (item.inCart) {
-      itemsRender.push(<Row key={itemID}>
-        <Col><Image className='image-holder' src={item.image}/></Col>
+      itemsRender.push(<Row key={itemID} className='item-row'>
+        <Col xs={12} md={4}>
+          <Image fluid className='image-holder' src={item.image}/>
+        </Col>
         <Col><h3>{item.name}</h3><p>{item.description}</p>
-          <Form>
-            <Form.Group>
-              <Form.Label>Quantity</Form.Label>
-              <Form.Control type="number" value={item.quantity}
-                onChange={(event) => {
-                  setQuantity(itemID, Number(event.target.value));
-                }}/>
-            </Form.Group>
-          </Form>
+          <Row>
+            <Col xs={12} md={9}>
+              <Form>
+                <Form.Group>
+                  <Form.Label>Quantity</Form.Label>
+                  <Form.Control type='number' value={item.quantity}
+                    onChange={(event) => {
+                      setQuantity(itemID, Number(event.target.value));
+                    }}/>
+                </Form.Group>
+              </Form>
+            </Col>
+            <Col xs={0} md={3}/>
+          </Row>
         </Col>
         {/* Display the cost in USD, starting with a $ symbol */}
-        <Col>${item.cost.toFixed(2)}</Col>
+        <Col xs={2} className='price-col'>${item.cost.toFixed(2)}</Col>
       </Row>);
     }
   }
 
   return (
-    <Container>
-      <CodeModal gtagCode={`gtag('title', 'cat');`}/>
-      <Row key='cart-header' className="header-row">
-        <Col/>
-        <Col/>
-        <Col>Unit Cost</Col>
+    <Container className='cartContainer'>
+      <Row key='cart-header' className='header-row'>
+        <Col xs={4}/>
+        <Col xs={6}/>
+        <Col xs={2}>Price</Col>
       </Row>
       {itemsRender}
-      <Row>
-        <Col/>
-        <Col className="to-right">Subtotal:</Col>
-        <Col>$TBD</Col>
+      <Row className='final-row'>
+        <Col xs={4}/>
+        <Col xs={6} className='to-right'>Subtotal:</Col>
+        <Col xs={2}>{computePrice(items).toFixed(2)}$</Col>
       </Row>
     </Container>
   );
 };
-
 
 CartBase.propTypes = {
   items: PropTypes.object,
