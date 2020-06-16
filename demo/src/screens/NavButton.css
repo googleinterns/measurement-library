@@ -1,5 +1,5 @@
 .button-like {
-  background-color: papayawhip;
+  background-image: linear-gradient(to bottom, white, #ECE2E0);
   border: 1px solid darkblue;
   border-radius: 10px;
   float: right;
@@ -8,5 +8,5 @@
 }
 
 .button-like:hover {
-  background-color: #d39e00;
+  background-image: linear-gradient(to bottom, #ECE2E0, #ECE2E0);
 }

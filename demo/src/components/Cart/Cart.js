@@ -1,11 +1,12 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Container, Col, Row, Image, Form} from 'react-bootstrap';
-import './Cart.css';
 import {setQuantity, removeOneFromCart} from '../../store/StoreHelpers.js';
 import PropTypes from 'prop-types';
 import {CodeModal} from '../CodeModal/CodeModal';
 import {FiTrash2} from 'react-icons/fi';
+import './Cart.css';
+import '../CodeModal/CodeModal.css';
 
 /**
  * Computes the price of purchasing the given quantity
@@ -56,8 +57,9 @@ const CartBase = function({items, setQuantity, removeOneFromCart}) {
               </Form>
             </Col>
             <Col xs={3} className="remove-from-cart-icons">
-              <FiTrash2 size={16} onClick={()=>removeOneFromCart(itemID)}/>
-              {' '}
+              <span className="clickable-box">
+                <FiTrash2 size={16} onClick={()=>removeOneFromCart(itemID)}/>
+              </span>
               <CodeModal popupId={'set' + itemID}
                 gtagCode={`gtag('event', \n ... \n)`}
                 ourCode={`tag('event', \n remove... \n)`}/>
