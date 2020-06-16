@@ -4,6 +4,7 @@ import {Container, Col, Row, Image, Form} from 'react-bootstrap';
 import './Cart.css';
 import {setQuantity} from '../../store/StoreHelpers.js';
 import PropTypes from 'prop-types';
+import {CodeModal} from '../CodeModal/CodeModal';
 
 /**
  * Creates a component describing a shopping Cart.
@@ -41,6 +42,7 @@ const CartBase = function({items, setQuantity}) {
 
   return (
     <Container>
+      <CodeModal gtagCode={`gtag('title', 'cat');`}/>
       <Row key='cart-header' className="header-row">
         <Col/>
         <Col/>

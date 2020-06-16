@@ -1,8 +1,23 @@
 .code-holder {
-  background-color: #EEF;
   border: 1px solid black;
   overflow: auto;
   padding: 10px;
   width: 300px;
 }
 
+code[class*="language-"],
+pre[class*="language-"] {
+  color: #f8f8f2;
+  background: none;
+  text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  font-size: 1em;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  hyphens: none;
+}

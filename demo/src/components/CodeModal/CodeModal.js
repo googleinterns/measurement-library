@@ -3,7 +3,7 @@ import {Button, Modal, Tabs, Tab} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import './CodeModal.css';
 import Prism from 'prismjs';
-import '../../vendor/prism.css';
+import 'prismjs/themes/prism.css';
 
 CodeModal.propTypes = {
   popupId: PropTypes.string,
