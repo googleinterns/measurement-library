@@ -1,15 +1,18 @@
 import React from 'react';
-import {HomeCarousel} from './HomeCarousel.js';
+
+import {HomeCarousel} from './HomeCarousel/HomeCarousel.js';
+import {HomeProducts} from './HomeProducts/HomeProducts.js';
 
 /**
- * @return {!JSX} Page component for where a user can view deals
+ *  Creates page component for the home page where a user can view deals
  *     in a site carousel or see all products offered.
+ * @return {!JSX}
  */
 export function HomeScreen() {
   return (
     <div>
       <HomeCarousel />
-      <h1>{`I'm the Home Page!`}</h1>
+      <HomeProducts />
     </div>
   );
 }
