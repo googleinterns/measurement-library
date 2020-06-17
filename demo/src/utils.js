@@ -30,10 +30,13 @@ export function deepCopy(data) {
   */
 export function getItemParameters(itemId) {
   const /** {ItemStore} */ items = store.getState().items;
+  const /** {number} */ quantity = items[itemId].quantity;
   return {
     item_id: itemId,
     item_name: items[itemId].name,
     price: items[itemId].cost,
+    // if quantity is positive, include it in the item parameter
+    ...(quantity > 0 && {quantity}),
   };
 }
 
@@ -49,7 +52,6 @@ export function getItemsArrayFromCart() {
     if (item.inCart) {
       itemsArray.push({
         ...getItemParameters(itemID),
-        quantity: item.quantity,
       });
     }
   }
