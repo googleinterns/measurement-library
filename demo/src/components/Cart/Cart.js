@@ -36,12 +36,12 @@ const CartBase = function({items, setQuantity}) {
     if (item.inCart) {
       itemsRender.push(<Row key={itemID} className='item-row'>
         <Col xs={12} md={4}>
-          <Image fluid className='image-holder' src={item.image}/>
+          <Image fluid className='image-holder' src={item.thumbnail}/>
         </Col>
         <Col><h3>{item.name}</h3><p>{item.description}</p>
           <Row>
             <Col xs={12} md={9}>
-              {/** Don\'t refresh the page when the enter key is pressed. */}
+              {/** Don't refresh the page when the enter key is pressed. */}
               <Form onSubmit={(e)=>e.preventDefault()}>
                 <Form.Group>
                   <Form.Label>Quantity</Form.Label>

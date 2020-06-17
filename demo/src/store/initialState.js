@@ -73,9 +73,9 @@ import wheresPoeThumbnail from '../images/thumbnails/wheres_poe.png';
  * When adding a new item, generate a [v4 UUID](https://www.uuidgenerator.net/version4)
  * and copy the first five characters to serve as the unique item ID.
  * @typedef {!Object<string,
-  *      {name:string, image:!Object, cost:number, quantity:number,
-  *      inCart:boolean, description:string}>} ItemStore
-  */
+ *      {name:string, image:!Object, cost:number, thumbnail:!Object,
+ *      quantity:number, inCart:boolean, description:string}>} ItemStore
+ */
 export const initialState = {
   items: {
     '1jef2': {
