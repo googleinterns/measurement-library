@@ -7,7 +7,7 @@ import 'prismjs/themes/prism.css';
 
 CodeModal.propTypes = {
   popupId: PropTypes.string,
-  ourCode: PropTypes.string,
+  measureCode: PropTypes.string,
   gtagCode: PropTypes.string,
 };
 
@@ -15,11 +15,11 @@ CodeModal.propTypes = {
  * A popup to display the google analytics code that fires on
  * a button click.
  * @param {string} popupId The ID of this popup.
- * @param {string} ourCode The code for this open source library.
+ * @param {string} measureCode The code for this open source library.
  * @param {string} gtagCode The code for gtag.
  * @return {!JSX} The component.
  */
-export function CodeModal({popupId, ourCode, gtagCode}) {
+export function CodeModal({popupId, measureCode, gtagCode}) {
   const [showing, setShowing] = useState(false);
 
   // Highlight the code in the modal after the page renders
@@ -28,11 +28,11 @@ export function CodeModal({popupId, ourCode, gtagCode}) {
   });
 
   const modal = <Modal show={showing} onHide={()=>setShowing(false)}>
-    <Tabs defaultActiveKey='internJunk' id={popupId}>
-      <Tab eventKey='internJunk' title='What we are making'>
+    <Tabs defaultActiveKey='measure' id={popupId}>
+      <Tab eventKey='measure' title='measure.js'>
         <pre>
           <code className='language-javascript'>
-            {ourCode}
+            {measureCode}
           </code>
         </pre>
       </Tab>
