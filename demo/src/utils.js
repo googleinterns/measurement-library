@@ -61,7 +61,7 @@ export function getItemParameters(itemId) {
   */
 export function getItemsArrayFromCart() {
   const /** Array<!ItemParameters> */ itemsArray = [];
-  const items = store.getState().items;
+  const /** {ItemStore} */ items = store.getState().items;
   for (const [itemID, item] of Object.entries(items)) {
     if (item.inCart) {
       itemsArray.push({
