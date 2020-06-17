@@ -13,7 +13,7 @@ const /** JSX */ DESCRIPTION = <p>{'This page is a sample ecommerce ' +
   'a button press, click the '}<GoQuestion size={16}/>
 {' icon next to the button. This will bring up code samples for both the '}
 <a href={'https://developers.google.com/gtagjs'}>{'gtag.js '}</a>
-{'library and the TODO:NAME_THIS library. ' +
+{'library and the measure library. ' +
   'In addition to showing sample code, this site sends real data to Google ' +
   'Analytics. To inspect the hits, just open up the developer ' +
   'tools or use the '}
@@ -22,7 +22,7 @@ const /** JSX */ DESCRIPTION = <p>{'This page is a sample ecommerce ' +
   {'Google Analytics Debugger. '}</a>
 {'The full code for this site can be found in the demo folder of the '}
 <a href={'https://github.com/googleinterns/measurement-library'}>
-  {'github for the TODO:NAME_THIS library. '}</a>
+  {'github for the measure library. '}</a>
 {'If you are not a developer, but are simply interested in purchasing ' +
 'prints of the cat Poe, we regret to inform you that, as this is just a demo ' +
 'site, you will need to find another website selling pictures of Poe.'}
