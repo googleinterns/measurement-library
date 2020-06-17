@@ -4,6 +4,7 @@ import {UserInfoForm} from '../../components/UserInfoForm/UserInfoForm.js';
 import {useHistory} from 'react-router-dom';
 import './CheckoutScreen.css';
 import {MiniCart} from '../../components/MiniCart/MiniCart.js';
+// eslint-disable-next-line max-len
 import {BillingInfoForm} from '../../components/BillingInfoForm/BillingInfoForm.js';
 
 /**
@@ -35,15 +36,16 @@ export function CheckoutScreen() {
   function continueIfPersonalValid() {
     const form = document.getElementById(USER_FORM_ID);
     if (form.checkValidity()) {
-      // navigate to thank you page with react-router
       setShippingDone(true);
     } else {
       form.reportValidity();
     }
   }
+
   /**
-   * Navigate to the thank you page iff the user info form is valid.
-   * Otherwise, alert the user that the form is invalid.
+   * Navigate to the thank you page iff the user info form and
+   * billing forms are valid.
+   * Otherwise, alert the user of invalid form fields
    */
   function navIfFormValid() {
     const formPersonal = document.getElementById(USER_FORM_ID);
@@ -56,12 +58,12 @@ export function CheckoutScreen() {
       formBilling.reportValidity();
     }
   }
-  const userInfoSubmit =
-      <Button onClick={continueIfPersonalValid}>Submit Order</Button>;
 
+  const submitUserInfoButton =
+      <Button onClick={continueIfPersonalValid}>Continue</Button>;
   const billingForm = (<>
     <BillingInfoForm formId={BILLING_FORM_ID}/>
-    <Button onClick={navIfFormValid}>Submit Order</Button>
+    <Button onClick={navIfFormValid}>Confirm order</Button>
   </>);
 
   return (
@@ -79,7 +81,7 @@ export function CheckoutScreen() {
         </Col>
         <Col xs={12} md={6}>
           <MiniCart/>
-          {shippingDone ? billingForm : userInfoSubmit}
+          {shippingDone ? billingForm : submitUserInfoButton}
         </Col>
       </Row>
     </Container>
