@@ -4,7 +4,8 @@ import {Link} from 'react-router-dom';
 import slideOne from '../../../images/slide_one.png';
 import slideTwo from '../../../images/slide_two.png';
 import slideThree from '../../../images/slide_three.png';
-import {event, getItemParameters} from '../../../lib/gtag.js';
+import {event} from '../../../lib/gtag.js';
+import {getItemParameters} from '../../../utils.js';
 import './HomeCarousel.css';
 
 /**
@@ -44,7 +45,7 @@ export function HomeCarousel() {
         <Carousel.Caption>
           <h3>Stunning High Quality Prints Available</h3>
           <p>{`View our `}
-            <Link onClick={} to="/product/7ba94">latest piece</Link>.
+            <Link to="/product/7ba94">latest piece</Link>.
           </p>
         </Carousel.Caption>
       </Carousel.Item>
