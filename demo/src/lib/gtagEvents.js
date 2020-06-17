@@ -21,10 +21,9 @@ export function selectItem(itemId) {
  * View the [Ecommerce Guide](https://developers.google.com/analytics/devguides/collection/app-web/ecommerce)
  * to review the event and its accepted parameters.
  * @param {string} itemId
- * @return {string} Code snippet of the event being sent.
  */
 export function viewItem(itemId) {
-  return event('view_item', {
+  event('view_item', {
     items: [
       ...getItemParameters(itemId),
     ],
@@ -36,10 +35,9 @@ export function viewItem(itemId) {
  * View the [Ecommerce Guide](https://developers.google.com/analytics/devguides/collection/app-web/ecommerce)
  * to review the event and its accepted parameters.
  * @param {string} itemId
- * @return {?string} Code snippet of the event being sent.
  */
 export function addToCart(itemId) {
-  return event('add_to_cart', {
+  event('add_to_cart', {
     items: [
       ...getItemParameters(itemId),
     ],
@@ -51,10 +49,9 @@ export function addToCart(itemId) {
  * View the [Ecommerce Guide](https://developers.google.com/analytics/devguides/collection/app-web/ecommerce)
  * to review the event and its accepted parameters.
  * @param {string} itemId
- * @return {?string} Code snippet of the event being sent.
  */
 export function removeFromCart(itemId) {
-  return event('remove_from_cart', {
+  event('remove_from_cart', {
     items: [
       ...getItemParameters(itemId),
     ],
@@ -65,10 +62,9 @@ export function removeFromCart(itemId) {
  * Sends a view_cart event to Google Analytics.
  * View the [Ecommerce Guide](https://developers.google.com/analytics/devguides/collection/app-web/ecommerce)
  * to review the event and its accepted parameters.
- * @return {?string} Code snippet of the event being sent.
  */
 export function viewCart() {
-  return event('view_cart', {
+  event('view_cart', {
     value: computePriceOfItemsInCart(),
     currency: 'USD',
     items: getItemsArrayFromCart(),
@@ -79,10 +75,9 @@ export function viewCart() {
  * Sends a begin_checkout event to Google Analytics.
  * View the [Ecommerce Guide](https://developers.google.com/analytics/devguides/collection/app-web/ecommerce)
  * to review the event and its accepted parameters.
- * @return {?string} Code snippet of the event being sent.
  */
 export function beginCheckout() {
-  return event('begin_checkout', {
+  event('begin_checkout', {
     value: computePriceOfItemsInCart(),
     currency: 'USD',
     items: getItemsArrayFromCart(),
@@ -93,10 +88,9 @@ export function beginCheckout() {
  * Sends an add_payment_info event to Google Analytics.
  * View the [Ecommerce Guide](https://developers.google.com/analytics/devguides/collection/app-web/ecommerce)
  * to review the event and its accepted parameters.
- * @return {?string} Code snippet of the event being sent.
  */
 export function addPaymentInfo() {
-  return event('add_payment_info', {
+  event('add_payment_info', {
     value: computePriceOfItemsInCart(),
     payment_type: 'google_pay',
     currency: 'USD',
@@ -108,10 +102,9 @@ export function addPaymentInfo() {
  * Sends an add_shipping_info event to Google Analytics.
  * View the [Ecommerce Guide](https://developers.google.com/analytics/devguides/collection/app-web/ecommerce)
  * to review the event and its accepted parameters.
- * @return {?string} Code snippet of the event being sent.
  */
 export function addShippingInfo() {
-  return event('add_shipping_info', {
+  event('add_shipping_info', {
     value: computePriceOfItemsInCart(),
     currency: 'USD',
     coupon: 'Free Shipping',
@@ -124,10 +117,9 @@ export function addShippingInfo() {
  * Sends a purchase event to Google Analytics.
  * View the [Ecommerce Guide](https://developers.google.com/analytics/devguides/collection/app-web/ecommerce)
  * to review the event and its accepted parameters.
- * @return {?string} Code snippet of the event being sent.
  */
 export function purchase() {
-  return event('purchase', {
+  event('purchase', {
     value: computePriceOfItemsInCart(),
     affiliation: 'Prints of Poe Website',
     currency: 'USD',
