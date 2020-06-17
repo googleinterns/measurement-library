@@ -33,15 +33,15 @@ export function computePriceOfItemsInCart() {
  * These are to be sent in the items array found in many gtag events.
  * Acceptable parameters can be [found here](https://developers.google.com/gtagjs/reference/aw-events)
  * @typedef {{item_id: string, item_name: string,
-  *     price: string}} ItemParameters
-  */
+ *     price: string}} ItemParameters
+ */
 
 /**
-  * Selects an item from the store via ID and returns an object containing
-  * its standard item parameters.
-  * @param {string} itemId
-  * @return {!ItemParameters}
-  */
+ * Selects an item from the store via ID and returns an object containing
+ * its standard item parameters.
+ * @param {string} itemId
+ * @return {!ItemParameters}
+ */
 export function getItemParameters(itemId) {
   const /** {ItemStore} */ items = store.getState().items;
   const /** {number} */ quantity = items[itemId].quantity;
@@ -55,10 +55,10 @@ export function getItemParameters(itemId) {
 }
 
 /**
-  * Collects all the standard item parameters from the items in the cart
-  * and returns them in an array.
-  * @return {Array<!ItemParameters>}
-  */
+ * Collects all the standard item parameters from the items in the cart
+ * and returns them in an array.
+ * @return {Array<!ItemParameters>}
+ */
 export function getItemsArrayFromCart() {
   const /** Array<!ItemParameters> */ itemsArray = [];
   const /** {ItemStore} */ items = store.getState().items;
