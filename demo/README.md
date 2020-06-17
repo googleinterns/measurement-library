@@ -4,8 +4,7 @@ The demo website to show features of the measure library.
 This site fires actual gtag and measure library events, and
 displays the code for them.
 
-[To run the site, click here!](https://measurement-library.wl.r.appspot.com/)
-
+[To run the site, click here!](http://measurement-library.appspot.com/)
 
 # Deploying the app locally
 

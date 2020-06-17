@@ -1,6 +1,6 @@
 import React from 'react';
 import {Container, Row, Col, Image, Button} from 'react-bootstrap';
-import blackDemo from '../../images/airplane_ears.png';
+import blackDemo from '../../images/black.png';
 
 /**
  * @return {!JSX} Page component for where a user can view
