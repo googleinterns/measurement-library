@@ -9,8 +9,8 @@ import './App.css';
 
 /**
  * Computes the total number of items in the cart.
- * @param {ItemStore} items A {@link ItemStore} listing of items
- * to purchase and their desired quantity.
+ * @param {!ItemStore} items A {@link ItemStore} listing of items
+ *     to purchase and their desired quantity.
  * @return {number} The total quantity.
  */
 function computeNumberOfItemsInCart(items) {
@@ -24,7 +24,7 @@ function computeNumberOfItemsInCart(items) {
 /**
  * Creates wrapper component that wraps the entire site with common components
  * such as a header, navigation, and shopping cart.
- * @param {!ItemStore} items The items stored in the site state
+ * @param {!ItemStore} items The items stored in the site state.
  * @return {!JSX}
  */
 const AppBase = function({items}) {
