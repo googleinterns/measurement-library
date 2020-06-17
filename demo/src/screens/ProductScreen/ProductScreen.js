@@ -8,20 +8,22 @@ import {addOneToCart} from '../../store/StoreHelpers.js';
 
 
 /**
+ * @param {!Object<string,
+ *      {name:string, item:!Object, quantity:number, description:string,
+ *      inCart:boolean, cost:number}>} items The items stored in the site state
+ * @param {function(string, number)} addToCart A function to modify
+ *      the status of an item in the global cart
  * @return {!JSX} Page component for where a user can view
  *     details about a single product.
  */
 const ProductScreenBase = function({items, addToCart}) {
   const {id} = useParams();
-
   const currProduct = items[id];
-
   const buttonText = currProduct.inCart ? 'In Cart' : 'Add to Cart';
 
   const addOnClick = () => {
     addToCart(id);
   };
-
   const buyOnClick = () => {
     if (!currProduct.inCart) {
       addToCart(id);
@@ -77,12 +79,21 @@ ProductScreenBase.propTypes = {
   addToCart: PropTypes.func,
 };
 
-// pass state.items as items into ProductScreen props
+/**
+  * @param {{items:Itemstore}} state
+  * @return {{items:!Object<string,
+  *      {name:string, item:!Object, quantity:number, description:string,
+  *      inCart:boolean, cost:number}>}} The items stored in the site state.
+  */
 const mapStateToProps = (state) => ({
   items: state.items,
 });
 
-// dispatch addOneToCart as addToCart to ProductScreen props
+/**
+  * @param {Dispatch} dispatch
+  * @return {function(id:{number})} The function that is to be used
+  *  to update the redux store.
+  */
 const mapDispatchToProps = (dispatch) => {
   return {
     addToCart: (id) => {
@@ -96,5 +107,5 @@ const mapDispatchToProps = (dispatch) => {
  * information about the global site state. Also pass mapDispatchToProps
  * function to allow modification of global cart.
  */
-export const ProductScreen = connect(mapStateToProps,
-    mapDispatchToProps)(ProductScreenBase);
+export const ProductScreen =
+  connect(mapStateToProps, mapDispatchToProps)(ProductScreenBase);
