@@ -20,6 +20,7 @@ export const computePrice = (items) => {
   return totalPrice;
 };
 
+
 /**
  * Creates a component describing a shopping Cart.
  * @param {ItemStore} items The global {@link ItemStore} site object.
@@ -40,7 +41,8 @@ const CartBase = function({items, setQuantity}) {
         <Col><h3>{item.name}</h3><p>{item.description}</p>
           <Row>
             <Col xs={12} md={9}>
-              <Form>
+              {/** Don\'t refresh the page when the enter key is pressed. */}
+              <Form onSubmit={(e)=>e.preventDefault()}>
                 <Form.Group>
                   <Form.Label>Quantity</Form.Label>
                   <Form.Control type='number' value={item.quantity}
@@ -53,7 +55,7 @@ const CartBase = function({items, setQuantity}) {
             <Col xs={0} md={3}/>
           </Row>
         </Col>
-        {/* Display the cost in USD, starting with a $ symbol */}
+        {/* Display the cost in USD, starting with a $ symbol. */}
         <Col xs={2} className='price-col'>${item.cost.toFixed(2)}</Col>
       </Row>);
     }
