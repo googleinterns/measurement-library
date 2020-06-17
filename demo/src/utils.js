@@ -19,7 +19,7 @@ export function deepCopy(data) {
  * These are to be sent in the items array found in many gtag events.
  * Acceptable parameters can be [found here](https://developers.google.com/gtagjs/reference/aw-events)
  * @typedef {{item_id: string, item_name: string,
-  *     value: string}} ItemParameters
+  *     price: string}} ItemParameters
   */
 
 /**
@@ -33,7 +33,7 @@ export function getItemParameters(itemId) {
   return {
     item_id: itemId,
     item_name: items[itemId].name,
-    value: items[itemId].cost,
+    price: items[itemId].cost,
   };
 }
 
@@ -47,7 +47,10 @@ export function getItemsArrayFromCart() {
   const items = store.getState().items;
   for (const [itemID, item] of Object.entries(items)) {
     if (item.inCart) {
-      itemsArray.push(getItemParameters(itemID));
+      itemsArray.push({
+        ...getItemParameters(itemID),
+        quantity: item.quantity,
+      });
     }
   }
   return itemsArray;
