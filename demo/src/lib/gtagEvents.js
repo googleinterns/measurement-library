@@ -20,6 +20,23 @@ export function selectItem(itemId, spoof = false) {
 }
 
 /**
+ * Sends a view_item event to Google Analytics.
+ * Can be spoofed to return mock code snippet of event instead.
+ * View the [Ecommerce Guide](https://developers.google.com/analytics/devguides/collection/app-web/ecommerce)
+ * to review the event and its accepted parameters.
+ * @param {string} itemId
+ * @param {boolean=} spoof If true, returns mock code instead of sending event.
+ * @return {string} Code snippet of the event being sent.
+ */
+export function viewItem(itemId, spoof = false) {
+  return event('view_item', {
+    items: [
+      ...getItemParameters(itemId),
+    ],
+  }, spoof);
+}
+
+/**
  * Sends an add_to_cart event to Google Analytics.
  * Can be spoofed to return mock code snippet of event instead.
  * View the [Ecommerce Guide](https://developers.google.com/analytics/devguides/collection/app-web/ecommerce)
