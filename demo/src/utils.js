@@ -2,7 +2,7 @@
  * @fileoverview Utility functions for the demo app.
  *
  */
-import {store} from '../store/store.js';
+import {store} from './store/store.js';
 
 /**
  * Create a deep copy of the passed in data, which is expected
@@ -12,6 +12,20 @@ import {store} from '../store/store.js';
  */
 export function deepCopy(data) {
   return JSON.parse(JSON.stringify(data));
+}
+
+/**
+ * Computes the price of purchasing the given quantity
+ * of all items in the cart.
+ * @return {number} The total price.
+ */
+export function computePriceOfItemsInCart() {
+  const /** {ItemStore} */ items = store.getState().items;
+  let totalPrice = 0;
+  for (const item of Object.values(items)) {
+    totalPrice += item.quantity * item.cost;
+  }
+  return totalPrice;
 }
 
 /**
