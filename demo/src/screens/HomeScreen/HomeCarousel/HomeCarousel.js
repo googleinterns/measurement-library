@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Carousel, Image} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import slideOne from '../../../images/slide_one.png';
 import slideTwo from '../../../images/slide_two.png';
 import slideThree from '../../../images/slide_three.png';
+import {event, getItemParameters} from '../../../lib/gtag.js';
 import './HomeCarousel.css';
 
 /**
@@ -11,6 +12,27 @@ import './HomeCarousel.css';
  * @return {!JSX} The component.
  */
 export function HomeCarousel() {
+  useEffect(() => {
+    console.log(event('view_promotion', {
+      items: [
+        {
+          ...getItemParameters('7ba94'),
+          promotion_name: 'Home Carousel',
+        },
+        {
+          ...getItemParameters('hjdf7'),
+          promotion_name: 'Home Carousel',
+          discount: 25,
+        },
+        {
+          ...getItemParameters('3h488'),
+          promotion_name: 'Home Carousel',
+        },
+      ],
+      promotion_name: 'Home Carousel',
+    }));
+  }, []);
+
   return (
     <Carousel>
       <Carousel.Item>
@@ -22,7 +44,7 @@ export function HomeCarousel() {
         <Carousel.Caption>
           <h3>Stunning High Quality Prints Available</h3>
           <p>{`View our `}
-            <Link to="/product/7ba94">latest piece</Link>.
+            <Link onClick={} to="/product/7ba94">latest piece</Link>.
           </p>
         </Carousel.Caption>
       </Carousel.Item>
