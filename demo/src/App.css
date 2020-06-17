@@ -5,8 +5,9 @@
 
 .shopping-cart {
   width: 24px;
-  height: 24px;
-  fill: currentColor;
+.shopping-cart-badge {
+  margin: 0 0 0 -10px;
+  position: absolute;
 }
 
 .cat-logo {
