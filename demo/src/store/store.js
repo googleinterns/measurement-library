@@ -6,9 +6,9 @@ import {initialState} from './initialState.js';
  * Modifies the state of the store according to a description of the
  * changes to make given in the action parameter.
  * @param {{items:ItemStore}} state The state to take in initially.
- * @param {{type:string, id:string, amount:?number}} action a description of
- * the action to take.
- * @return {!Object} the new State
+ * @param {{type:string, id:string, amount:?number}} action A description of
+ *    the action to take.
+ * @return {!Object} The new state.
  */
 function reducer(state = {}, action) {
   // Deep copy state so as not to mutate anything.
@@ -22,8 +22,8 @@ function reducer(state = {}, action) {
     case 'DECREMENT':
       item.quantity--;
       if (item.quantity < 0) {
-        console.error('Setting quantity to a negative amount!');
-        item.quantity++;
+        // Set quantity to 0 as negatives make no sense.
+        item.quantity = 0;
       }
       if (item.quantity === 0) {
         item.inCart = false;
@@ -31,8 +31,8 @@ function reducer(state = {}, action) {
       break;
     case 'SET':
       if (action.amount < 0) {
+        // Set quantity to 0 as negatives make no sense.
         action.amount = 0;
-        console.error('Setting quantity to a negative amount!');
       }
       item.quantity = action.amount;
       break;
