@@ -1,0 +1,6 @@
+.code-holder {
+  border: 1px solid black;
+  overflow: auto;
+  padding: 10px;
+  width: 300px;
+}
