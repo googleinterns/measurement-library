@@ -36,46 +36,19 @@ export function HomeCarousel() {
   }, []);
 
   /**
-   * Send select_promotion event to Google Analytics when the first
-   * carousel slide item is selected.
+   * Send select_promotion event to Google Analytics when a carousel
+   * slide promotional item is selected.
+   * @param {string} itemId
+   * @param {number=} discount Price discount of item (if any)
    */
-  function onSlideOneClick() {
+  function onSlideClick(itemId, discount = 0) {
     event('select_promotion', {
       items: [
         {
-          ...getItemParameters('7ba94'),
+          ...getItemParameters(itemId),
           promotion_name: 'Home Carousel',
-        },
-      ],
-    });
-  }
-
-  /**
-   * Send select_promotion event to Google Analytics when the second
-   * carousel slide item is selected.
-   */
-  function onSlideTwoClick() {
-    event('select_promotion', {
-      items: [
-        {
-          ...getItemParameters('hjdf7'),
-          promotion_name: 'Home Carousel',
-          discount: 25,
-        },
-      ],
-    });
-  }
-
-  /**
-   * Send select_promotion event to Google Analytics when the third
-   * carousel slide item is selected.
-   */
-  function onSlideThreeClick() {
-    event('select_promotion', {
-      items: [
-        {
-          ...getItemParameters('3h488'),
-          promotion_name: 'Home Carousel',
+          // if discount is positive, include it in the item parameter
+          ...(discount > 0 && {discount}),
         },
       ],
     });
@@ -93,7 +66,9 @@ export function HomeCarousel() {
           <h3>Stunning High Quality Prints Available</h3>
           <p>{`View our `}
             <Link
-              onClick={onSlideOneClick}
+              onClick={() => {
+                onSlideClick('7ba94');
+              }}
               to="/product/7ba94"
             >
               latest piece
@@ -110,7 +85,14 @@ export function HomeCarousel() {
         <Carousel.Caption>
           <h3>SALE!</h3>
           <p>{`Get this classic 50% off. `}
-            <Link onClick={onSlideTwoClick} to="/product/hjdf7">View Deal</Link>
+            <Link
+              onClick={() => {
+                onSlideClick('hjdf7', 25);
+              }}
+              to="/product/hjdf7"
+            >
+              View Deal
+            </Link>
           </p>
         </Carousel.Caption>
       </Carousel.Item>
@@ -123,7 +105,14 @@ export function HomeCarousel() {
         <Carousel.Caption>
           <h3 className="font-italic">Toe Beans</h3>
           <p>{`Seen like never before. `}
-            <Link onClick={onSlideThreeClick} to="/product/3h488">Buy Now</Link>
+            <Link
+              onClick={() => {
+                onSlideClick('3h488');
+              }}
+              to="/product/3h488"
+            >
+              Buy Now
+            </Link>
           </p>
         </Carousel.Caption>
       </Carousel.Item>
