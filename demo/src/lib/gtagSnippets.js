@@ -8,9 +8,9 @@ import {getItemParameters, getItemsArrayFromCart, computePriceOfItemsInCart, get
  */
 export function getSelectItemCodeSnippet(itemId) {
   return getEventCodeSnippet('select_item', {
-    items: [
+    items: [{
       ...getItemParameters(itemId),
-    ],
+    }],
   });
 }
 
@@ -21,9 +21,9 @@ export function getSelectItemCodeSnippet(itemId) {
  */
 export function getViewItemCodeSnippet(itemId) {
   return getEventCodeSnippet('view_item', {
-    items: [
+    items: [{
       ...getItemParameters(itemId),
-    ],
+    }],
   });
 }
 
@@ -34,9 +34,9 @@ export function getViewItemCodeSnippet(itemId) {
  */
 export function getAddToCartCodeSnippet(itemId) {
   return getEventCodeSnippet('add_to_cart', {
-    items: [
+    items: [{
       ...getItemParameters(itemId),
-    ],
+    }],
   });
 }
 
@@ -47,9 +47,9 @@ export function getAddToCartCodeSnippet(itemId) {
  */
 export function getRemoveFromCartCodeSnippet(itemId) {
   return getEventCodeSnippet('remove_from_cart', {
-    items: [
+    items: [{
       ...getItemParameters(itemId),
-    ],
+    }],
   });
 }
 
