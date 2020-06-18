@@ -11,7 +11,7 @@ import {initialState} from './initialState.js';
  * @return {!Object} the new State
  */
 function reducer(state = {}, action) {
-  // deep copy state so as not to mutate anything
+  // Deep copy state so as not to mutate anything.
   const newState = deepCopy(state);
   const item = newState.items[action.id];
   switch (action.type) {
@@ -50,7 +50,7 @@ const saveState = (store) => {
     const updatedStore = JSON.stringify(store);
     localStorage.setItem('state', updatedStore);
   } catch (err) {
-    // for some reason we can't save, just log an error message
+    // For some reason we can't save, just log an error message.
     console.error('There was an error saving the state:\n' + err);
   }
 };
@@ -64,20 +64,26 @@ export const loadState = () => {
   try {
     currentState = localStorage.getItem('state');
   } catch (err) {
-    // We are not allowed access the local storage
-    console.error('There was an error loading the state:\n' + err);
+    // We are not allowed access the local storage.
+    console.error('There was an error loading the state:');
+    console.error(err);
     return initialState;
   }
-  if (!currentState) { // there is nothing in the local storage.
+  if (!currentState) { // There is nothing in the local storage.
     return initialState;
   }
-  return JSON.parse(currentState);
+  try {
+    return JSON.parse(currentState);
+  } catch (err) {
+    console.error('The stored state was invalid!');
+    console.error(err);
+    return initialState;
+  }
 };
-
 
 export const store = createStore(reducer, loadState(),
     window.__REDUX_DEVTOOLS_EXTENSION__ &&
     window.__REDUX_DEVTOOLS_EXTENSION__());
 
-// automatically save the state after any change
+// Automatically save the state after any change.
 store.subscribe(()=>saveState(store.getState()));
