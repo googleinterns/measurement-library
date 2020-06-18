@@ -5,6 +5,9 @@ import {Link} from 'react-router-dom';
 import './CartScreen.css';
 import '../NavButton.css';
 import {CodeModal} from '../../components/CodeModal/CodeModal';
+import {getBeginCheckoutCodeSnippet} from '../../lib/gtagSnippets.js';
+import {beginCheckout} from '../../lib/gtagEvents';
+import {getMeasureCodeSnippet} from '../../utils';
 
 /**
  * Page component for where a user can review
@@ -19,12 +22,12 @@ export function CartScreen() {
       </Row>
       <Row key='checkoutRow'>
         <div className='button-like'>
-          <Link to='/checkout' className='plain-text'>
+          <Link to='/checkout' className='plain-text' onClick={beginCheckout}>
               Continue to checkout
           </Link>{' '}
           <CodeModal popupId={'begin_checkout'}
-            gtagCode={`gtag('event', \n ... \n)`}
-            ourCode={`tag('event', \n begin_checkout... \n)`}/>
+            gtagCode={getBeginCheckoutCodeSnippet()}
+            ourCode={getMeasureCodeSnippet()}/>
         </div>
       </Row>
     </Container>

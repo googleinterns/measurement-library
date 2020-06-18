@@ -5,9 +5,13 @@ import {useHistory} from 'react-router-dom';
 import './CheckoutScreen.css';
 import '../NavButton.css';
 import {MiniCart} from '../../components/MiniCart/MiniCart.js';
-import {CodeModal} from '../../components/CodeModal/CodeModal';
+import {CodeModal} from '../../components/CodeModal/CodeModal.js';
 // eslint-disable-next-line max-len
 import {BillingInfoForm} from '../../components/BillingInfoForm/BillingInfoForm.js';
+// eslint-disable-next-line max-len
+import {getAddPaymentInfoCodeSnippet, getAddShippingInfoCodeSnippet, getPurchaseCodeSnippet} from '../../lib/gtagSnippets.js';
+import {addPaymentInfo, addShippingInfo, purchase} from '../../lib/gtagEvents';
+import {getMeasureCodeSnippet} from '../../utils';
 
 /**
  * The ID for the personal info form the user will fill out on this page.
@@ -38,6 +42,7 @@ export function CheckoutScreen() {
   function continueIfPersonalValid() {
     const form = document.getElementById(USER_FORM_ID);
     if (form.checkValidity()) {
+      addShippingInfo();
       setShippingDone(true);
     } else {
       form.reportValidity();
@@ -53,6 +58,8 @@ export function CheckoutScreen() {
     const formPersonal = document.getElementById(USER_FORM_ID);
     const formBilling = document.getElementById(BILLING_FORM_ID);
     if (formBilling.checkValidity() && formPersonal.checkValidity()) {
+      addPaymentInfo();
+      purchase();
       // navigate to thank you page with react-router
       history.push('/thanks');
     } else {
@@ -62,20 +69,23 @@ export function CheckoutScreen() {
   }
 
   const submitUserInfoButton =
-  <div onClick={continueIfPersonalValid} className='button-like'>
-    {'Continue'}
+  <div className='button-like'>
+    <span onClick={continueIfPersonalValid}>{'Continue'}</span>
     <CodeModal popupId={'purchase'}
-      gtagCode={`gtag('event', \n ... \n)`}
-      measureCode={`tag('event', \n purchase... \n)`}/>
+      gtagCode={getAddShippingInfoCodeSnippet()}
+      measureCode={getMeasureCodeSnippet()}/>
   </div>;
 
   const billingForm = (<>
     <BillingInfoForm formId={BILLING_FORM_ID}/>
-    <div onClick={navIfFormValid} className='button-like'>
-      {'Confirm Order '}
+    <div className='button-like'>
+      <span onClick={navIfFormValid}>{'Confirm Order '}</span>
       <CodeModal popupId={'purchase'}
-        gtagCode={`gtag('event', \n ... \n)`}
-        measureCode={`tag('event', \n purchase... \n)`}/>
+        gtagCode={getAddPaymentInfoCodeSnippet()}
+        measureCode={getMeasureCodeSnippet()}/>
+      <CodeModal popupId={'purchase'}
+        gtagCode={getPurchaseCodeSnippet()}
+        measureCode={getMeasureCodeSnippet()}/>
     </div>
   </>);
 

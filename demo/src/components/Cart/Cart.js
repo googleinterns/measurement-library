@@ -8,6 +8,9 @@ import {FiTrash2} from 'react-icons/fi';
 import './Cart.css';
 import '../CodeModal/CodeModal.css';
 import {computePriceOfItemsInCart} from '../../utils.js';
+import {getMeasureCodeSnippet} from '../../utils';
+import {getRemoveFromCartCodeSnippet} from '../../lib/gtagSnippets';
+import {removeFromCart} from '../../lib/gtagEvents';
 
 /**
  * Creates a component describing a shopping Cart.
@@ -44,11 +47,14 @@ const CartBase = function({items, setQuantity, removeOneFromCart}) {
             </Col>
             <Col xs={3} className="remove-from-cart-icons">
               <span className="clickable-box">
-                <FiTrash2 size={16} onClick={()=>removeOneFromCart(itemID)}/>
+                <FiTrash2 size={16} onClick={()=>{
+                  removeFromCart(itemID);
+                  removeOneFromCart(itemID);
+                }}/>
               </span>
               <CodeModal popupId={'set' + itemID}
-                gtagCode={`gtag('event', \n ... \n)`}
-                measureCode={`tag('event', \n remove... \n)`}/>
+                gtagCode={getRemoveFromCartCodeSnippet(itemID)}
+                measureCode={getMeasureCodeSnippet()}/>
             </Col>
           </Row>
         </Col>
