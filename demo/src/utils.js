@@ -18,7 +18,7 @@ export function deepCopy(data) {
  * Creates a code snippet for a gtag event.
  * @param {string} event
  * @param {!Object<string, *>} parameters
- * @return {?string} Code snippet of the event.
+ * @return {string} Code snippet of the event.
  */
 export const getEventCodeSnippet = (event, parameters) => {
   return `gtag("event", "${event}", ` +
