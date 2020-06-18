@@ -16,6 +16,8 @@ import {pageview} from './lib/gtag.js';
 /**
  * Creates component that switches which page is displayed based on the URL.
  * Defaults to home page. Sends page_view event to Google Analytics.
+ * @param {!Object<string, *>} history Object API that tracks browser history.
+ *     View the [docs](https://github.com/ReactTraining/history/blob/v4/docs/GettingStarted.md) here.
  * @return {!JSX}
  */
 function RouterBase({history}) {
