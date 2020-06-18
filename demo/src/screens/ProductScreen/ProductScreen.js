@@ -8,7 +8,6 @@ import {Link} from 'react-router-dom';
 import {addOneToCart} from '../../store/StoreHelpers.js';
 import './ProductScreen.css';
 
-
 /**
  * @param {!Object<string,
  *      {name:string, item:!Object, quantity:number, description:string,
