@@ -6,7 +6,7 @@ import {getItemParameters, getItemsArrayFromCart, computePriceOfItemsInCart, get
  * @param {string} itemId
  * @return {string} Code snippet of the event.
  */
-export function selectItem(itemId) {
+export function getSelectItemCodeSnippet(itemId) {
   return getEventCodeSnippet('select_item', {
     items: [
       ...getItemParameters(itemId),
@@ -19,7 +19,7 @@ export function selectItem(itemId) {
  * @param {string} itemId
  * @return {string} Code snippet of the event.
  */
-export function viewItem(itemId) {
+export function getViewItemCodeSnippet(itemId) {
   return getEventCodeSnippet('view_item', {
     items: [
       ...getItemParameters(itemId),
@@ -32,7 +32,7 @@ export function viewItem(itemId) {
  * @param {string} itemId
  * @return {string} Code snippet of the event.
  */
-export function addToCart(itemId) {
+export function getAddToCartCodeSnippet(itemId) {
   return getEventCodeSnippet('add_to_cart', {
     items: [
       ...getItemParameters(itemId),
@@ -45,7 +45,7 @@ export function addToCart(itemId) {
  * @param {string} itemId
  * @return {string} Code snippet of the event.
  */
-export function removeFromCart(itemId) {
+export function getRemoveFromCartCodeSnippet(itemId) {
   return getEventCodeSnippet('remove_from_cart', {
     items: [
       ...getItemParameters(itemId),
@@ -57,7 +57,7 @@ export function removeFromCart(itemId) {
  * Creates a view_cart event code snippet.
  * @return {string} Code snippet of the event.
  */
-export function viewCart() {
+export function getViewCartCodeSnippet() {
   return getEventCodeSnippet('view_cart', {
     value: computePriceOfItemsInCart(),
     currency: 'USD',
@@ -69,7 +69,7 @@ export function viewCart() {
  * Creates a begin_checkout event code snippet.
  * @return {string} Code snippet of the event.
  */
-export function beginCheckout() {
+export function getBeginCheckoutCodeSnippet() {
   return getEventCodeSnippet('begin_checkout', {
     value: computePriceOfItemsInCart(),
     currency: 'USD',
@@ -81,7 +81,7 @@ export function beginCheckout() {
  * Creates an add_payment_info event code snippet.
  * @return {string} Code snippet of the event.
  */
-export function addPaymentInfo() {
+export function getAddPaymentInfoCodeSnippet() {
   return getEventCodeSnippet('add_payment_info', {
     value: computePriceOfItemsInCart(),
     payment_type: 'google_pay',
@@ -94,7 +94,7 @@ export function addPaymentInfo() {
  * Creates an add_shipping_info event code snippet.
  * @return {string} Code snippet of the event.
  */
-export function addShippingInfo() {
+export function getAddShippingInfoCodeSnippet() {
   return getEventCodeSnippet('add_shipping_info', {
     value: computePriceOfItemsInCart(),
     currency: 'USD',
@@ -108,7 +108,7 @@ export function addShippingInfo() {
  * Creates a purchase event code snippet.
  * @return {string} Code snippet of the event.
  */
-export function purchase() {
+export function getPurchaseCodeSnippet() {
   return getEventCodeSnippet('purchase', {
     value: computePriceOfItemsInCart(),
     affiliation: 'Prints of Poe Website',
