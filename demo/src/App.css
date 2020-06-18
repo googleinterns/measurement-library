@@ -4,14 +4,19 @@
 }
 
 .shopping-cart {
-  width: 24px;
-  height: 24px;
   fill: currentColor;
+  height: 24px;
+  width: 24px;
+}
+
+.shopping-cart-badge {
+  margin: 0 0 0 -10px;
+  position: absolute;
 }
 
 .cat-logo {
-  width: 36px;
-  height: 36px;
   fill: currentColor;
+  height: 36px;
   margin-right: 1rem;
+  width: 36px;
 }
