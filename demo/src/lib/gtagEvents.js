@@ -8,7 +8,7 @@ import {getItemParameters, getItemsArrayFromCart, computePriceOfItemsInCart} fro
  * to review the event and its accepted parameters.
  * @param {string} itemId
  */
-export function selectItem(itemId) {
+export function sendSelectItemEvent(itemId) {
   event('select_item', {
     items: [
       ...getItemParameters(itemId),
@@ -22,7 +22,7 @@ export function selectItem(itemId) {
  * to review the event and its accepted parameters.
  * @param {string} itemId
  */
-export function viewItem(itemId) {
+export function sendViewItemEvent(itemId) {
   event('view_item', {
     items: [
       ...getItemParameters(itemId),
@@ -36,7 +36,7 @@ export function viewItem(itemId) {
  * to review the event and its accepted parameters.
  * @param {string} itemId
  */
-export function addToCart(itemId) {
+export function sendAddToCartEvent(itemId) {
   event('add_to_cart', {
     items: [
       ...getItemParameters(itemId),
@@ -50,7 +50,7 @@ export function addToCart(itemId) {
  * to review the event and its accepted parameters.
  * @param {string} itemId
  */
-export function removeFromCart(itemId) {
+export function sendRemoveFromCartEvent(itemId) {
   event('remove_from_cart', {
     items: [
       ...getItemParameters(itemId),
@@ -63,7 +63,7 @@ export function removeFromCart(itemId) {
  * View the [Ecommerce Guide](https://developers.google.com/analytics/devguides/collection/app-web/ecommerce)
  * to review the event and its accepted parameters.
  */
-export function viewCart() {
+export function sendViewCartEvent() {
   event('view_cart', {
     value: computePriceOfItemsInCart(),
     currency: 'USD',
@@ -76,7 +76,7 @@ export function viewCart() {
  * View the [Ecommerce Guide](https://developers.google.com/analytics/devguides/collection/app-web/ecommerce)
  * to review the event and its accepted parameters.
  */
-export function beginCheckout() {
+export function sendBeginCheckoutEvent() {
   event('begin_checkout', {
     value: computePriceOfItemsInCart(),
     currency: 'USD',
@@ -89,7 +89,7 @@ export function beginCheckout() {
  * View the [Ecommerce Guide](https://developers.google.com/analytics/devguides/collection/app-web/ecommerce)
  * to review the event and its accepted parameters.
  */
-export function addPaymentInfo() {
+export function sendAddPaymentInfoEvent() {
   event('add_payment_info', {
     value: computePriceOfItemsInCart(),
     payment_type: 'google_pay',
@@ -103,7 +103,7 @@ export function addPaymentInfo() {
  * View the [Ecommerce Guide](https://developers.google.com/analytics/devguides/collection/app-web/ecommerce)
  * to review the event and its accepted parameters.
  */
-export function addShippingInfo() {
+export function sendAddShippingInfoEvent() {
   event('add_shipping_info', {
     value: computePriceOfItemsInCart(),
     currency: 'USD',
@@ -118,7 +118,7 @@ export function addShippingInfo() {
  * View the [Ecommerce Guide](https://developers.google.com/analytics/devguides/collection/app-web/ecommerce)
  * to review the event and its accepted parameters.
  */
-export function purchase() {
+export function sendPurchaseEvent() {
   event('purchase', {
     value: computePriceOfItemsInCart(),
     affiliation: 'Prints of Poe Website',
