@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
  *      column by itself.
  * @returns {!JSX} A form group with the given label and control.
  */
-const makeFormGroup = (label, control, useWholeRow=true) => {
+export const makeFormGroup = (label, control, useWholeRow = true) => {
   return (
     <Form.Group as={useWholeRow ? 'div' : Col}>
       <Form.Label>{label}</Form.Label>

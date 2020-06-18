@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {addOneToCart} from '../../store/StoreHelpers.js';
 
-
 /**
  * @param {!Object<string,
  *      {name:string, item:!Object, quantity:number, description:string,
