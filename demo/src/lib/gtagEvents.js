@@ -10,9 +10,9 @@ import {getItemParameters, getItemsArrayFromCart, computePriceOfItemsInCart} fro
  */
 export function sendSelectItemEvent(itemId) {
   event('select_item', {
-    items: [
+    items: [{
       ...getItemParameters(itemId),
-    ],
+    }],
   });
 }
 
@@ -24,9 +24,9 @@ export function sendSelectItemEvent(itemId) {
  */
 export function sendViewItemEvent(itemId) {
   event('view_item', {
-    items: [
+    items: [{
       ...getItemParameters(itemId),
-    ],
+    }],
   });
 }
 
@@ -38,9 +38,9 @@ export function sendViewItemEvent(itemId) {
  */
 export function sendAddToCartEvent(itemId) {
   event('add_to_cart', {
-    items: [
+    items: [{
       ...getItemParameters(itemId),
-    ],
+    }],
   });
 }
 
@@ -52,9 +52,9 @@ export function sendAddToCartEvent(itemId) {
  */
 export function sendRemoveFromCartEvent(itemId) {
   event('remove_from_cart', {
-    items: [
+    items: [{
       ...getItemParameters(itemId),
-    ],
+    }],
   });
 }
 
