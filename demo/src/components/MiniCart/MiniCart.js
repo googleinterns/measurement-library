@@ -2,7 +2,7 @@ import {Container, Col, Row} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {computePrice} from '../Cart/Cart.js';
+import {computePriceOfItemsInCart} from '../../utils.js';
 import '../Cart/Cart.css';
 
 /**
@@ -35,7 +35,7 @@ const MiniCartBase = ({items}) => {
       <Row className='final-row'>
         <Col xs={5}/>
         <Col>Subtotal:</Col>
-        <Col xs={4}>${computePrice(items).toFixed(2)}</Col>
+        <Col xs={4}>${computePriceOfItemsInCart().toFixed(2)}</Col>
       </Row>
     </Container>
   );
