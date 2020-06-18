@@ -54,10 +54,7 @@ export function CheckoutScreen() {
             {'Submit Order '}
             <CodeModal popupId={'purchase'}
               gtagCode={`gtag('event', \n ... \n)`}
-              ourCode={`tag('event', \n purchase... \n)`}/>
-            <CodeModal popupId={'shipping_info'}
-              gtagCode={`gtag('event', \n ... \n)`}
-              ourCode={`tag('event', \n shipping_info... \n)`}/>
+              measureCode={`tag('event', \n purchase... \n)`}/>
           </div>
         </Col>
       </Row>

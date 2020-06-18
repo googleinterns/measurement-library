@@ -1,6 +1,6 @@
 import React from 'react';
 import {Cart} from '../../components/Cart/Cart';
-import {Container, Col, Row} from 'react-bootstrap';
+import {Container, Row} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import './CartScreen.css';
 import '../NavButton.css';
@@ -18,16 +18,14 @@ export function CartScreen() {
         <Cart/>
       </Row>
       <Row key='checkoutRow'>
-        <Col>
-          <div className='button-like'>
-            <Link to='/checkout' className='plain-text'>
+        <div className='button-like'>
+          <Link to='/checkout' className='plain-text'>
               Continue to checkout
-            </Link>{' '}
-            <CodeModal popupId={'begin_checkout'}
-              gtagCode={`gtag('event', \n ... \n)`}
-              ourCode={`tag('event', \n begin_checkout... \n)`}/>
-          </div>
-        </Col>
+          </Link>{' '}
+          <CodeModal popupId={'begin_checkout'}
+            gtagCode={`gtag('event', \n ... \n)`}
+            ourCode={`tag('event', \n begin_checkout... \n)`}/>
+        </div>
       </Row>
     </Container>
   );

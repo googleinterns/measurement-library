@@ -7,21 +7,7 @@ import {CodeModal} from '../CodeModal/CodeModal';
 import {FiTrash2} from 'react-icons/fi';
 import './Cart.css';
 import '../CodeModal/CodeModal.css';
-
-/**
- * Computes the price of purchasing the given quantity
- * of all items in the cart.
- * @param {ItemStore} items A {@link ItemStore} listing of items
- * to purchase and their desired quantity.
- * @return {number} The total price.
- */
-export const computePrice = (items) => {
-  let totalPrice = 0;
-  for (const item of Object.values(items)) {
-    totalPrice += item.quantity * item.cost;
-  }
-  return totalPrice;
-};
+import {computePriceOfItemsInCart} from '../../utils.js';
 
 /**
  * Creates a component describing a shopping Cart.
@@ -62,7 +48,7 @@ const CartBase = function({items, setQuantity, removeOneFromCart}) {
               </span>
               <CodeModal popupId={'set' + itemID}
                 gtagCode={`gtag('event', \n ... \n)`}
-                ourCode={`tag('event', \n remove... \n)`}/>
+                measureCode={`tag('event', \n remove... \n)`}/>
             </Col>
           </Row>
         </Col>
@@ -83,7 +69,7 @@ const CartBase = function({items, setQuantity, removeOneFromCart}) {
       <Row className='final-row'>
         <Col xs={4}/>
         <Col xs={6} className='to-right'>Subtotal:</Col>
-        <Col xs={2}>${computePrice(items).toFixed(2)}</Col>
+        <Col xs={2}>{computePriceOfItemsInCart().toFixed(2)}$</Col>
       </Row>
     </Container>
   );
