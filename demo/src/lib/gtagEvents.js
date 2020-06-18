@@ -1,6 +1,6 @@
 import {v4} from 'uuid';
 import {event} from './gtag.js';
-import {getItemParameters, getItemsArrayFromCart, computePriceOfItemsInCart} from '../utils.js';
+import {getItemsParameterFromSingleItem, getItemsAndValueParametersFromCart} from '../utils.js';
 
 /**
  * Sends a select_item event to Google Analytics.
@@ -9,11 +9,7 @@ import {getItemParameters, getItemsArrayFromCart, computePriceOfItemsInCart} fro
  * @param {string} itemId
  */
 export function sendSelectItemEvent(itemId) {
-  event('select_item', {
-    items: [{
-      ...getItemParameters(itemId),
-    }],
-  });
+  event('select_item', getItemsParameterFromSingleItem(itemId));
 }
 
 /**
@@ -23,11 +19,7 @@ export function sendSelectItemEvent(itemId) {
  * @param {string} itemId
  */
 export function sendViewItemEvent(itemId) {
-  event('view_item', {
-    items: [{
-      ...getItemParameters(itemId),
-    }],
-  });
+  event('view_item', getItemsParameterFromSingleItem(itemId));
 }
 
 /**
@@ -37,11 +29,7 @@ export function sendViewItemEvent(itemId) {
  * @param {string} itemId
  */
 export function sendAddToCartEvent(itemId) {
-  event('add_to_cart', {
-    items: [{
-      ...getItemParameters(itemId),
-    }],
-  });
+  event('add_to_cart', getItemsParameterFromSingleItem(itemId));
 }
 
 /**
@@ -51,11 +39,7 @@ export function sendAddToCartEvent(itemId) {
  * @param {string} itemId
  */
 export function sendRemoveFromCartEvent(itemId) {
-  event('remove_from_cart', {
-    items: [{
-      ...getItemParameters(itemId),
-    }],
-  });
+  event('remove_from_cart', getItemsParameterFromSingleItem(itemId));
 }
 
 /**
@@ -65,9 +49,8 @@ export function sendRemoveFromCartEvent(itemId) {
  */
 export function sendViewCartEvent() {
   event('view_cart', {
-    value: computePriceOfItemsInCart(),
+    ...getItemsAndValueParametersFromCart(),
     currency: 'USD',
-    items: getItemsArrayFromCart(),
   });
 }
 
@@ -78,9 +61,8 @@ export function sendViewCartEvent() {
  */
 export function sendBeginCheckoutEvent() {
   event('begin_checkout', {
-    value: computePriceOfItemsInCart(),
+    ...getItemsAndValueParametersFromCart(),
     currency: 'USD',
-    items: getItemsArrayFromCart(),
   });
 }
 
@@ -91,10 +73,9 @@ export function sendBeginCheckoutEvent() {
  */
 export function sendAddPaymentInfoEvent() {
   event('add_payment_info', {
-    value: computePriceOfItemsInCart(),
+    ...getItemsAndValueParametersFromCart(),
     payment_type: 'google_pay',
     currency: 'USD',
-    items: getItemsArrayFromCart(),
   });
 }
 
@@ -105,11 +86,10 @@ export function sendAddPaymentInfoEvent() {
  */
 export function sendAddShippingInfoEvent() {
   event('add_shipping_info', {
-    value: computePriceOfItemsInCart(),
+    ...getItemsAndValueParametersFromCart(),
     currency: 'USD',
     coupon: 'Free Shipping',
     shipping_tier: 'Ground',
-    items: getItemsArrayFromCart(),
   });
 }
 
@@ -120,13 +100,12 @@ export function sendAddShippingInfoEvent() {
  */
 export function sendPurchaseEvent() {
   event('purchase', {
-    value: computePriceOfItemsInCart(),
+    ...getItemsAndValueParametersFromCart(),
     affiliation: 'Prints of Poe Website',
     currency: 'USD',
     tax: 0,
     shipping: 0,
     coupon: 'Free Shipping',
     transaction_id: v4(),
-    items: getItemsArrayFromCart(),
   });
 }
