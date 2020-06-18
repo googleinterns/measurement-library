@@ -1,9 +1,9 @@
 import React from 'react';
 import {Carousel, Image} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
-import slideOne from '../../../images/slide_one.png';
-import slideTwo from '../../../images/slide_two.png';
-import slideThree from '../../../images/slide_three.png';
+import slideOne from '../../../images/slide_one.jpg';
+import slideTwo from '../../../images/slide_two.jpg';
+import slideThree from '../../../images/slide_three.jpg';
 import './HomeCarousel.css';
 
 /**
