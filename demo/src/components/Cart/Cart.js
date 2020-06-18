@@ -4,21 +4,7 @@ import {Container, Col, Row, Image, Form} from 'react-bootstrap';
 import './Cart.css';
 import {setQuantity} from '../../store/StoreHelpers.js';
 import PropTypes from 'prop-types';
-
-/**
- * Computes the price of purchasing the given quantity
- * of all items in the cart.
- * @param {ItemStore} items A {@link ItemStore} listing of items
- * to purchase and their desired quantity.
- * @return {number} The total price.
- */
-export const computePrice = (items) => {
-  let totalPrice = 0;
-  for (const item of Object.values(items)) {
-    totalPrice += item.quantity * item.cost;
-  }
-  return totalPrice;
-};
+import {computePriceOfItemsInCart} from '../../utils.js';
 
 /**
  * Creates a component describing a shopping Cart.
@@ -70,7 +56,7 @@ const CartBase = function({items, setQuantity}) {
       <Row className='final-row'>
         <Col xs={4}/>
         <Col xs={6} className='to-right'>Subtotal:</Col>
-        <Col xs={2}>{computePrice(items).toFixed(2)}$</Col>
+        <Col xs={2}>{computePriceOfItemsInCart().toFixed(2)}$</Col>
       </Row>
     </Container>
   );
