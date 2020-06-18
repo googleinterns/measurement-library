@@ -10,7 +10,8 @@ import {CodeModal} from '../../components/CodeModal/CodeModal.js';
 import {BillingInfoForm} from '../../components/BillingInfoForm/BillingInfoForm.js';
 // eslint-disable-next-line max-len
 import {getAddPaymentInfoCodeSnippet, getAddShippingInfoCodeSnippet, getPurchaseCodeSnippet} from '../../lib/gtagSnippets.js';
-import {addPaymentInfo, addShippingInfo, purchase} from '../../lib/gtagEvents';
+// eslint-disable-next-line max-len
+import {sendAddPaymentInfoEvent, sendAddShippingInfoEvent, sendPurchaseEvent} from '../../lib/gtagEvents';
 import {getMeasureCodeSnippet} from '../../utils';
 
 /**
@@ -42,7 +43,7 @@ export function CheckoutScreen() {
   function continueIfPersonalValid() {
     const form = document.getElementById(USER_FORM_ID);
     if (form.checkValidity()) {
-      addShippingInfo();
+      sendAddShippingInfoEvent();
       setShippingDone(true);
     } else {
       form.reportValidity();
@@ -58,8 +59,8 @@ export function CheckoutScreen() {
     const formPersonal = document.getElementById(USER_FORM_ID);
     const formBilling = document.getElementById(BILLING_FORM_ID);
     if (formBilling.checkValidity() && formPersonal.checkValidity()) {
-      addPaymentInfo();
-      purchase();
+      sendAddPaymentInfoEvent();
+      sendPurchaseEvent();
       // navigate to thank you page with react-router
       history.push('/thanks');
     } else {

@@ -10,7 +10,7 @@ import '../CodeModal/CodeModal.css';
 import {computePriceOfItemsInCart} from '../../utils.js';
 import {getMeasureCodeSnippet} from '../../utils';
 import {getRemoveFromCartCodeSnippet} from '../../lib/gtagSnippets';
-import {removeFromCart} from '../../lib/gtagEvents';
+import {sendRemoveFromCartEvent} from '../../lib/gtagEvents';
 
 /**
  * Creates a component describing a shopping Cart.
@@ -34,6 +34,7 @@ const CartBase = function({items, setQuantity, removeOneFromCart}) {
         </Col>
         <Col><h3>{item.name}</h3><p>{item.description}</p>
           <Row>
+            <Col xs={12} md={9}>
               {/** Don't refresh the page when the enter key is pressed. */}
               <Form onSubmit={(e)=>e.preventDefault()}>
                 <Form.Group>
@@ -48,7 +49,7 @@ const CartBase = function({items, setQuantity, removeOneFromCart}) {
             <Col xs={3} className="remove-from-cart-icons">
               <span className="clickable-box">
                 <FiTrash2 size={16} onClick={()=>{
-                  removeFromCart(itemID);
+                  sendRemoveFromCartEvent(itemID);
                   removeOneFromCart(itemID);
                 }}/>
               </span>

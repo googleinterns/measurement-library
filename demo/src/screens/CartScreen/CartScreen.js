@@ -6,7 +6,7 @@ import './CartScreen.css';
 import '../NavButton.css';
 import {CodeModal} from '../../components/CodeModal/CodeModal';
 import {getBeginCheckoutCodeSnippet} from '../../lib/gtagSnippets.js';
-import {beginCheckout} from '../../lib/gtagEvents';
+import {sendBeginCheckoutEvent} from '../../lib/gtagEvents';
 import {getMeasureCodeSnippet} from '../../utils';
 
 /**
@@ -22,7 +22,8 @@ export function CartScreen() {
       </Row>
       <Row key='checkoutRow'>
         <div className='button-like'>
-          <Link to='/checkout' className='plain-text' onClick={beginCheckout}>
+          <Link to='/checkout' className='plain-text'
+            onClick={sendBeginCheckoutEvent}>
               Continue to checkout
           </Link>{' '}
           <CodeModal popupId={'begin_checkout'}
