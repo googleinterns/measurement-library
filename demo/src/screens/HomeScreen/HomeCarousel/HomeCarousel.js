@@ -10,11 +10,12 @@ import './HomeCarousel.css';
 
 /**
  * Creates slideshow component for showcasing our latest deals and offerings.
- * @return {!JSX} The component.
+ * @return {!JSX}
  */
 export function HomeCarousel() {
+  // Send view_promotion event when the carousel loads for the first time.
   useEffect(() => {
-    console.log(event('view_promotion', {
+    event('view_promotion', {
       items: [
         {
           ...getItemParameters('7ba94'),
@@ -31,8 +32,54 @@ export function HomeCarousel() {
         },
       ],
       promotion_name: 'Home Carousel',
-    }));
+    });
   }, []);
+
+  /**
+   * Send select_promotion event to Google Analytics when the first
+   * carousel slide item is selected.
+   */
+  function onSlideOneClick() {
+    event('select_promotion', {
+      items: [
+        {
+          ...getItemParameters('7ba94'),
+          promotion_name: 'Home Carousel',
+        },
+      ],
+    });
+  }
+
+  /**
+   * Send select_promotion event to Google Analytics when the second
+   * carousel slide item is selected.
+   */
+  function onSlideTwoClick() {
+    event('select_promotion', {
+      items: [
+        {
+          ...getItemParameters('hjdf7'),
+          promotion_name: 'Home Carousel',
+          discount: 25,
+        },
+      ],
+    });
+  }
+
+  /**
+   * Send select_promotion event to Google Analytics when the third
+   * carousel slide item is selected.
+   */
+  function onSlideThreeClick() {
+    event('select_promotion', {
+      items: [
+        {
+          ...getItemParameters('3h488'),
+          promotion_name: 'Home Carousel',
+        },
+      ],
+    });
+  }
 
   return (
     <Carousel>
@@ -45,7 +92,12 @@ export function HomeCarousel() {
         <Carousel.Caption>
           <h3>Stunning High Quality Prints Available</h3>
           <p>{`View our `}
-            <Link to="/product/7ba94">latest piece</Link>.
+            <Link
+              onClick={onSlideOneClick}
+              to="/product/7ba94"
+            >
+              latest piece
+            </Link>.
           </p>
         </Carousel.Caption>
       </Carousel.Item>
@@ -58,7 +110,7 @@ export function HomeCarousel() {
         <Carousel.Caption>
           <h3>SALE!</h3>
           <p>{`Get this classic 50% off. `}
-            <Link to="/product/hjdf7">View Deal</Link>
+            <Link onClick={onSlideTwoClick} to="/product/hjdf7">View Deal</Link>
           </p>
         </Carousel.Caption>
       </Carousel.Item>
@@ -71,7 +123,7 @@ export function HomeCarousel() {
         <Carousel.Caption>
           <h3 className="font-italic">Toe Beans</h3>
           <p>{`Seen like never before. `}
-            <Link to="/product/3h488">Buy Now</Link>
+            <Link onClick={onSlideThreeClick} to="/product/3h488">Buy Now</Link>
           </p>
         </Carousel.Caption>
       </Carousel.Item>
