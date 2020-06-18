@@ -7,7 +7,7 @@ import {initialState} from './initialState.js';
  * changes to make given in the action parameter.
  * @param {{items:ItemStore}} state The state to take in initially.
  * @param {{type:string, id:string, amount:?number}} action A description of
- * the action to take.
+ *    the action to take.
  * @return {!Object} The new state.
  */
 function reducer(state = {}, action) {

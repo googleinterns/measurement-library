@@ -20,7 +20,6 @@ export const computePrice = (items) => {
   return totalPrice;
 };
 
-
 /**
  * Creates a component describing a shopping Cart.
  * @param {ItemStore} items The global {@link ItemStore} site object.
