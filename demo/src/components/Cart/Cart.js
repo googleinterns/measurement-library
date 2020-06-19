@@ -7,9 +7,8 @@ import {CodeModal} from '../CodeModal/CodeModal';
 import {FiTrash2} from 'react-icons/fi';
 import './Cart.css';
 import '../CodeModal/CodeModal.css';
-import {computePriceOfItemsInCart} from '../../utils.js';
-import {getMeasureCodeSnippet} from '../../utils';
-import {getRemoveFromCartCodeSnippet} from '../../lib/gtagSnippets';
+import {computePriceOfItemsInCart, getMeasureCodeSnippet} from '../../utils.js';
+import {getRemoveFromCartCodeSnippet, getViewCartCodeSnippet} from '../../lib/gtagSnippets';
 import {sendRemoveFromCartEvent} from '../../lib/gtagEvents';
 
 /**
@@ -68,7 +67,11 @@ const CartBase = function({items, setQuantity, removeOneFromCart}) {
   return (
     <Container className='cart-container'>
       <Row key='cart-header' className='header-row'>
-        <Col xs={4}/>
+        <Col xs={4}>
+          <CodeModal popupId={'view_cart'}
+            gtagCode={getViewCartCodeSnippet()}
+            measureCode={getMeasureCodeSnippet()}/>
+        </Col>
         <Col xs={6}/>
         <Col xs={2}>Price</Col>
       </Row>

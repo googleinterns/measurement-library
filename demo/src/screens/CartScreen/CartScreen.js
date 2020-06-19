@@ -1,13 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Cart} from '../../components/Cart/Cart';
 import {Container, Row} from 'react-bootstrap';
 import {useHistory} from 'react-router-dom';
 import './CartScreen.css';
 import '../NavButton.css';
-import {CodeModal} from '../../components/CodeModal/CodeModal';
-import {getBeginCheckoutCodeSnippet} from '../../lib/gtagSnippets.js';
-import {sendBeginCheckoutEvent} from '../../lib/gtagEvents';
-import {getMeasureCodeSnippet} from '../../utils';
+import {sendViewCartEvent} from '../../lib/gtagEvents';
 
 /**
  * Page component for where a user can review
@@ -17,12 +14,15 @@ import {getMeasureCodeSnippet} from '../../utils';
 export function CartScreen() {
   const /** !Object */ history = useHistory();
 
+  // Send a view cart event whenever this page opens the first time
+  // this page opens.
+  useEffect(sendViewCartEvent, []);
+
   /**
    * Proceed to the checkout screen, sending the
    * relevant gtag event.
    */
   function proceedToCheckout() {
-    sendBeginCheckoutEvent();
     history.push('/checkout');
   }
 
@@ -34,9 +34,6 @@ export function CartScreen() {
       <Row key='checkoutRow'>
         <div className='button-like' onClick={proceedToCheckout}>
           {'Continue to checkout '}
-          <CodeModal popupId={'begin_checkout'}
-            gtagCode={getBeginCheckoutCodeSnippet()}
-            ourCode={getMeasureCodeSnippet()}/>
         </div>
       </Row>
     </Container>

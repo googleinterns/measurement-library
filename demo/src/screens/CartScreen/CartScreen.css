@@ -12,3 +12,9 @@ a.plain-text{
   line-height: 0;
   padding: 1px;
 }
+
+.space-to-the-right {
+  display: inline-block;
+  margin-right: 50px;
+}
+

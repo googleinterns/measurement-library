@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Container, Col, Row} from 'react-bootstrap';
 import {UserInfoForm} from '../../components/UserInfoForm/UserInfoForm.js';
 import {useHistory} from 'react-router-dom';
@@ -6,13 +6,11 @@ import './CheckoutScreen.css';
 import '../NavButton.css';
 import {MiniCart} from '../../components/MiniCart/MiniCart.js';
 import {CodeModal} from '../../components/CodeModal/CodeModal.js';
-// eslint-disable-next-line max-len
 import {BillingInfoForm} from '../../components/BillingInfoForm/BillingInfoForm.js';
-// eslint-disable-next-line max-len
 import {getAddPaymentInfoCodeSnippet, getAddShippingInfoCodeSnippet, getPurchaseCodeSnippet} from '../../lib/gtagSnippets.js';
-// eslint-disable-next-line max-len
-import {sendAddPaymentInfoEvent, sendAddShippingInfoEvent, sendPurchaseEvent} from '../../lib/gtagEvents';
+import {sendAddPaymentInfoEvent, sendAddShippingInfoEvent, sendBeginCheckoutEvent, sendPurchaseEvent} from '../../lib/gtagEvents';
 import {getMeasureCodeSnippet} from '../../utils';
+import {getBeginCheckoutCodeSnippet} from '../../lib/gtagSnippets';
 
 /**
  * The ID for the personal info form the user will fill out on this page.
@@ -34,6 +32,9 @@ const BILLING_FORM_ID = 'billing-info-form';
 export function CheckoutScreen() {
   const [shippingDone, setShippingDone] = useState(false);
   const /** !Object */ history = useHistory();
+
+  // begin checkout on first page load only
+  useEffect(sendBeginCheckoutEvent, []);
 
   /**
    * If the personal information the user has put in is valid,
@@ -93,8 +94,13 @@ export function CheckoutScreen() {
   return (
     <Container>
       <Row className='checkout-header'>
-        <Col xs={12} md={6}>Billing Details</Col>
-        <Col xs={12} md={6} className='hide-medium-or-smaller'>Your order</Col>
+        <Col xs={12} md={6}>
+          <CodeModal popupId={'begin_checkout'}
+            gtagCode={getBeginCheckoutCodeSnippet()}
+            measureCode={getMeasureCodeSnippet()}/>
+          {' Billing Details'}</Col>
+        <Col xs={12} md={6} className='hide-medium-or-smaller'>Your order
+        </Col>
       </Row>
       <Row className='checkout-content'>
         <Col xs={12} md={6}>
