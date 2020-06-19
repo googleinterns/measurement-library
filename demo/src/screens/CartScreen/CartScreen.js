@@ -18,21 +18,13 @@ export function CartScreen() {
   // this page opens.
   useEffect(sendViewCartEvent, []);
 
-  /**
-   * Proceed to the checkout screen, sending the
-   * relevant gtag event.
-   */
-  function proceedToCheckout() {
-    history.push('/checkout');
-  }
-
   return (
     <Container>
       <Row key='cartRow'>
         <Cart/>
       </Row>
       <Row key='checkoutRow'>
-        <div className='button-like' onClick={proceedToCheckout}>
+        <div className='button-like' onClick={()=>history.push('/checkout')}>
           {'Continue to checkout '}
         </div>
       </Row>
