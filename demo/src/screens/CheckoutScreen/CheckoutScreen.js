@@ -70,18 +70,18 @@ export function CheckoutScreen() {
   }
 
   const submitUserInfoButton =
-  <div className='button-like'>
-    <span onClick={continueIfPersonalValid}>{'Continue'}</span>
-    <CodeModal popupId={'purchase'}
+  <div className='button-like' onClick={continueIfPersonalValid}>
+    Continue
+    <CodeModal popupId={'addShipping'}
       gtagCode={getAddShippingInfoCodeSnippet()}
       measureCode={getMeasureCodeSnippet()}/>
   </div>;
 
   const billingForm = (<>
     <BillingInfoForm formId={BILLING_FORM_ID}/>
-    <div className='button-like'>
-      <span onClick={navIfFormValid}>{'Confirm Order '}</span>
-      <CodeModal popupId={'purchase'}
+    <div className='button-like' onClick={navIfFormValid}>
+      {'Confirm Order '}
+      <CodeModal popupId={'addPayment'}
         gtagCode={getAddPaymentInfoCodeSnippet()}
         measureCode={getMeasureCodeSnippet()}/>
       <CodeModal popupId={'purchase'}
