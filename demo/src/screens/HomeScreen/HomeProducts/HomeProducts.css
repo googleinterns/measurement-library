@@ -1,8 +1,11 @@
+.home-screen {
+  margin: 2% 2%;
+}
+
 .product-list {
   display: flex;
   flex-wrap: wrap;
   padding: 0px;
-  margin: 2% 2%;
 }
 
 .product-listing-container {
@@ -12,7 +15,7 @@
 }
 
 @media (min-width: 60em) {
-  .product-list {
+  .home-screen {
     margin: 2% 5%;
   }
 
@@ -22,13 +25,13 @@
 }
 
 @media (min-width: 90em) {
-  .product-list {
+  .home-screen {
     margin: 2% 10%;
   }
 }
 
 @media (min-width: 110em) {
-  .product-list {
+  .home-screen {
     margin: 2% 20%;
   }
 }

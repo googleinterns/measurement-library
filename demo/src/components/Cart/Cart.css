@@ -50,7 +50,7 @@
 }
 
 .remove-from-cart-icons {
-  margin-top: 33px;
+  display: contents;
 }
 
 @media only screen and (max-width: 300px) {
@@ -64,7 +64,7 @@
 .cart-container .final-row {
   background-color: #ececec;
   font-size: 16px;
-  padding: 10px 0;
+  padding: 10px;
 }
 
 .cart-container.mini .final-row {
@@ -83,4 +83,8 @@
 
 .to-right {
   text-align: right;
+}
+
+.to-center {
+  text-align: center;
 }
