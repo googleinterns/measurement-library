@@ -3,29 +3,19 @@
  */
 module.exports = function(config) {
   config.set({
-
     basePath: '',
     frameworks: ['jasmine'],
-
     // automatically run tests for files matching these regex
     files: [
       'spec/*.spec.js'
     ],
-
-    exclude: [
-    ],
-
-    preprocessors: {
-    },
-
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
       require('karma-spec-reporter'),
       require('karma-jasmine-html-reporter')
     ],
-
-    reporters: ['spec','kjhtml'],
+    reporters: ['spec', 'kjhtml'],
     colors: true,
     logLevel: config.LOG_DISABLE,
     // run tests when a file changes
