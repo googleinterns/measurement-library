@@ -34,17 +34,15 @@ h2 {
   color: #6c757d;
 }
 
-.header-with-modal {
-  display: table;
-}
-
 .header-with-modal .btn {
   display: table-cell;
   vertical-align: middle;
 }
 
 .header-with-modal h1,
-.header-with-modal h2 {
+.header-with-modal h2,
+.header-with-modal h3,
+.header-with-modal p {
   display: inline-table;
   margin: 0;
   vertical-align: middle;
