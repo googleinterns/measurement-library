@@ -1,6 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
 import {Container, Col, Row, Button} from 'react-bootstrap';
 import {useHistory} from 'react-router-dom';
 import {UserInfoForm} from '../../components/UserInfoForm/UserInfoForm.js';
