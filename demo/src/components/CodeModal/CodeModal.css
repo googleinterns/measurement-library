@@ -4,3 +4,14 @@
   padding: 10px;
   width: 300px;
 }
+
+.clickable-box {
+  padding: 6px;
+  border-radius: 5px;
+}
+
+.clickable-box:hover {
+  background-color: #DDD;
+  border: 1px solid black;
+  border-radius: 5px;
+}

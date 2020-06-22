@@ -26,6 +26,14 @@ export const getEventCodeSnippet = (event, parameters) => {
 };
 
 /**
+ * Creates a code snippet for a measure event.
+ * @return {string} Code snippet of the event.
+ */
+export const getMeasureCodeSnippet = () => {
+  return `measure("event", "something cool")`;
+};
+
+/**
  * Computes the price of purchasing the given quantity
  * of all items in the cart.
  * @return {number} The total price.
