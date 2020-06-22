@@ -30,7 +30,8 @@ const CartBase = function({items, setQuantity}) {
               <Form onSubmit={(e)=>e.preventDefault()}>
                 <Form.Group>
                   <Form.Label>Quantity</Form.Label>
-                  <Form.Control type='number' value={item.quantity}
+                  {/** Making item.quantity a string removes leading zeros. */}
+                  <Form.Control type='number' value={item.quantity.toString()}
                     onChange={(event) => {
                       setQuantity(itemID, Number(event.target.value));
                     }}/>
@@ -57,7 +58,7 @@ const CartBase = function({items, setQuantity}) {
       <Row className='final-row'>
         <Col xs={4}/>
         <Col xs={6} className='to-right'>Subtotal:</Col>
-        <Col xs={2}>{computePriceOfItemsInCart().toFixed(2)}$</Col>
+        <Col xs={2}>${computePriceOfItemsInCart().toFixed(2)}</Col>
       </Row>
     </Container>
   );
