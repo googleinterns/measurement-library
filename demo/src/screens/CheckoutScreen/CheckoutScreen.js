@@ -53,7 +53,7 @@ export function CheckoutScreen() {
   /**
    * Navigate to the thank you page iff the user info form and
    * billing forms are valid.
-   * Otherwise, alert the user of invalid form fields
+   * Otherwise, alert the user of invalid form fields.
    */
   function navIfFormValid() {
     const formPersonal = document.getElementById(USER_FORM_ID);

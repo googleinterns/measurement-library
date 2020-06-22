@@ -44,8 +44,9 @@ const CartBase = function({items, setQuantity, removeOneFromCart}) {
               {/** Don't refresh the page when the enter key is pressed. */}
               <Form onSubmit={(e)=>e.preventDefault()}>
                 <Form.Group>
-                  <Form.Label>{'Quantity'}</Form.Label>
-                  <Form.Control type='number' value={item.quantity}
+                  <Form.Label>Quantity</Form.Label>
+                  {/** Making item.quantity a string removes leading zeros. */}
+                  <Form.Control type='number' value={item.quantity.toString()}
                     onChange={(event) => {
                       setQuantity(itemID, Number(event.target.value));
                     }}/>
