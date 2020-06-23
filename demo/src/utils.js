@@ -66,11 +66,25 @@ export function getItemParameters(itemId) {
 }
 
 /**
- * Collects all the standard item parameters from the items in the cart
- * and returns them in an array.
- * @return {Array<!ItemParameters>}
+ * Collects a single item's standard parameters and returns it as an
+ * object with items attribute mapped to items array containing single item.
+ * @param {string} itemId
+ * @return {{items: Array<!ItemParameters>}}
  */
-export function getItemsArrayFromCart() {
+export function getItemsParameterFromSingleItem(itemId) {
+  return {
+    items: [{
+      ...getItemParameters(itemId),
+    }],
+  };
+}
+
+/**
+ * Collects all the standard item parameters from the items in the cart
+ * and returns them as an object with items attribute mapped to items array.
+ * @return {{items: Array<!ItemParameters>}}
+ */
+export function getItemsParameterFromCart() {
   const /** Array<!ItemParameters> */ itemsArray = [];
   const /** {ItemStore} */ items = store.getState().items;
   for (const [itemID, item] of Object.entries(items)) {
@@ -80,5 +94,19 @@ export function getItemsArrayFromCart() {
       });
     }
   }
-  return itemsArray;
+  return {
+    items: itemsArray,
+  };
+}
+
+/**
+ * Collects standard parameters for checkout related events and returns
+ * them as an object with items and value attributes mapped to cart values.
+ * @return {{items: Array<!ItemParameters>, value: number}}
+ */
+export function getItemsAndValueParametersFromCart() {
+  return {
+    ...getItemsParameterFromCart(),
+    value: computePriceOfItemsInCart(),
+  };
 }
