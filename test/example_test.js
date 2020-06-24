@@ -1,3 +1,6 @@
+/*
+ * TODO: Replace this test file with real tests
+ */
 describe('Test that the tests are running', function(){
   let three;
   beforeEach(function(){

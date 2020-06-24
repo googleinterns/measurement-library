@@ -7,7 +7,8 @@ module.exports = function(config) {
     frameworks: ['jasmine'],
     // automatically run tests for files matching these regex
     files: [
-      'spec/*.spec.js'
+      // test files
+      'test/*_test.js'
     ],
     plugins: [
       require('karma-jasmine'),
