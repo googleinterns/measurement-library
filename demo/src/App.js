@@ -27,7 +27,7 @@ function computeNumberOfItemsInCart(items) {
  * @param {!ItemStore} items The items stored in the site state.
  * @return {!JSX}
  */
-const AppBase = function({items}) {
+const AppBase = ({items}) => {
   const itemsInCart = useMemo(() => {
     return computeNumberOfItemsInCart(items);
   }, [items]);

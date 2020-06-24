@@ -13,7 +13,7 @@ import {computePriceOfItemsInCart} from '../../utils.js';
  *      the quantity of an item in the global state.
  * @return {!JSX} The component.
  */
-const CartBase = function({items, setQuantity}) {
+const CartBase = ({items, setQuantity}) => {
   const /** Array<!JSX> */ itemsRender = [];
 
   // Create the content of the cart display, with one row per item.

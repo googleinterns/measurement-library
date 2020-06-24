@@ -28,7 +28,7 @@ const BILLING_FORM_ID = 'billing-info-form';
  * @param {function()} clearCart A function to clear all items from cart.
  * @return {!JSX}
  */
-const CheckoutScreenBase = function({clearCart}) {
+const CheckoutScreenBase = ({clearCart}) => {
   const [shippingDone, setShippingDone] = useState(false);
   const /** !Object */ history = useHistory();
 
