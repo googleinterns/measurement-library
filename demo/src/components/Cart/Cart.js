@@ -15,13 +15,13 @@ import {sendRemoveFromCartEvent} from '../../lib/gtagEvents';
  * Creates a component describing a shopping Cart.
  * @param {ItemStore} items The global {@link ItemStore} site object.
  * @param {function(string, number)} setQuantity A function to modify
- *      the quantity of an item in the global state.
+ *     the quantity of an item in the global state.
  * @param {function(string)} removeOneFromCart A function to reduce the
- * quantity of an element in the cart by 1, deleting it if the quantity is
- * empty.
+ *     quantity of an element in the cart by 1, deleting it if the quantity is
+ *     empty.
  * @return {!JSX} The component.
  */
-const CartBase = function({items, setQuantity, removeOneFromCart}) {
+const CartBase = ({items, setQuantity, removeOneFromCart}) => {
   const /** Array<!JSX> */ itemsRender = [];
 
   // Create the content of the cart display, with one row per item.
