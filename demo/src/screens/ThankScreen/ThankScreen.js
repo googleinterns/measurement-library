@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
 /**
- * @param {!Object} items The items stored in the site state
+ * @param {{items:Array}} items The items stored in the site state
  * @return {!JSX} Page component where we thank the user
  *     for their purchase(s).
  */
@@ -15,18 +15,16 @@ export const ThankScreenBase = function({items}) {
     const products = [];
     const usedItemSet = new Set();
 
-    let i;
-    for (i = 0; i < ITEMS_TO_DISPLAY; ++i) {
-      let maxPrice = 0;
+    for (let i = 0; i < ITEMS_TO_DISPLAY; ++i) {
       let maxPriceItem;
       let maxPriceID;
 
       // Finds and pushes the most expensive item that has not yet been used.
       for (const [itemID, item] of Object.entries(items)) {
-        if (item.cost > maxPrice && !usedItemSet.has(itemID)) {
+        if (item.cost > (maxPriceItem ? maxPriceItem.cost: 0) &&
+            !usedItemSet.has(itemID)) {
           maxPriceItem = item;
           maxPriceID = itemID;
-          maxPrice = item.cost;
         }
       }
       products.push(
@@ -53,9 +51,9 @@ export const ThankScreenBase = function({items}) {
         <Col xs={10}>
           <Jumbotron>
             <div style = {{paddingBottom: 50, fontSize: 30}}>
-              {'Thank you for your purchase!'}
+              Thank you for your purchase!
             </div>
-            {'Here are some other items you may be interested in:'}
+            Here are some other items you may be interested in:
             <br/>
             <ul className="product-list">
               {productListings}
@@ -81,7 +79,7 @@ const mapStateToProps = (state) => ({
 });
 
 /*
- * Decorate the ProductScreenBase function, implicity passing in
+ * Decorate the ThankScreenBase function, implicity passing in
  * information about the global site state. Also pass mapDispatchToProps
  * function to allow modification of global cart.
  */
