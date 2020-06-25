@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
 /**
- * @param {{items:Array}} items The items stored in the site state
+ * @param {{items:Array}} items The items stored in the site state.
  * @return {!JSX} Page component where we thank the user
  *     for their purchase(s).
  */
