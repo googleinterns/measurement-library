@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import {Button, Modal, Tabs, Tab} from 'react-bootstrap';
+import {Modal, Tabs, Tab} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import './CodeModal.css';
 import Prism from 'prismjs';
+import {GoQuestion} from 'react-icons/go';
 import 'prismjs/themes/prism.css';
 
 CodeModal.propTypes = {
@@ -22,7 +23,7 @@ CodeModal.propTypes = {
 export function CodeModal({popupId, measureCode, gtagCode}) {
   const [showing, setShowing] = useState(false);
 
-  // Highlight the code in the modal after the page renders
+  // Highlight the code in the modal after the page renders.
   useEffect(()=> {
     Prism.highlightAll();
   });
@@ -46,8 +47,19 @@ export function CodeModal({popupId, measureCode, gtagCode}) {
     </Tabs>
   </Modal>;
 
-  return (<>
-    <Button onClick={()=>setShowing(true)}>Display Modal</Button>
+  return (<span className="clickable-box" onClick=
+    {(e)=> {
+      // This element is often on top of other buttons, don't
+      // fire them.
+      e.stopPropagation();
+      /*
+       * Not the same as setShowing(true). setShowing(true) would
+       * call when the modal is showing and override attempts to close it, as
+       * once the modal is up, anywhere you click fires this event.
+       */
+      if (!showing) setShowing(true);
+    }}>
+    <GoQuestion size={16}/>
     {modal}
-  </>);
+  </span>);
 }
