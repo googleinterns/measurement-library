@@ -1,10 +1,12 @@
 import React from 'react';
-import {Container, Row, Col, Image, Button} from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
+import ModalImage from 'react-modal-image';
 import {useParams} from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {addOneToCart} from '../../store/StoreHelpers.js';
+import './ProductScreen.css';
 
 /**
  * @param {!Object<string,
@@ -30,46 +32,36 @@ const ProductScreenBase = function({items, addToCart}) {
   };
 
   return (
-    <Container>
-      <Row>
-        <Col/>
-        <Col xs={5}>
-          <div>
-            <Image src={currProduct.image} width="100%"/>
-            <Container>
-              <Row>
-                <Col>
-                    Name: {currProduct.name}
-                </Col>
-                <Col xs="8"/>
-                <Col>
-                    Price: ${currProduct.cost}
-                </Col>
-              </Row>
-            </Container>
-            <br/>
-            <p>
-              {currProduct.description}
-            </p>
-            <Container>
-              <Row>
-                <Col>
-                  <Button onClick={addOnClick} disabled = {currProduct.inCart}>
-                    {buttonText}
-                  </Button>
-                </Col>
-                <Col xs="3"/>
-                <Col>
-                  <Button variant="success" onClick={buyOnClick}
-                    as={Link} to='/cart'>Buy Now</Button>
-                </Col>
-              </Row>
-            </Container>
+    <div className="product-page">
+      <div className="product-info">
+        <h1>{currProduct.name}</h1>
+        <ModalImage
+          className="product-image"
+          small={currProduct.thumbnail}
+          large={currProduct.image}
+        />
+        <p className="font-italic">Click image to view full print.</p>
+        <div className="about-product">
+          <p>{'Price: '}
+            <span className="font-weight-bold">${currProduct.cost}</span>
+          </p>
+          <p>
+            {currProduct.description}
+          </p>
+          <div className="button-row">
+            <Button
+              variant="secondary"
+              onClick={addOnClick}
+              disabled={currProduct.inCart}
+            >
+              {buttonText}
+            </Button>
+            <Button variant="secondary" onClick={buyOnClick}
+              as={Link} to='/cart'>Buy Now</Button>
           </div>
-        </Col>
-        <Col/>
-      </Row>
-    </Container>
+        </div>
+      </div>
+    </div>
   );
 };
 
