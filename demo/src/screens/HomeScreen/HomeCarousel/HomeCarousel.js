@@ -62,7 +62,7 @@ export function HomeCarousel() {
           ...getItemParameters(itemId),
           promotion_name: 'Home Carousel',
           // if discount is positive, include it in the item parameter
-          ...(discount > 0 && {discount}),
+          ...(discount > 0 ? {discount} : {}),
         },
       ],
     };

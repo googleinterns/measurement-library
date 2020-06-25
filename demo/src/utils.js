@@ -69,7 +69,7 @@ export function getItemParameters(itemId) {
     item_name: items[itemId].name,
     price: items[itemId].cost,
     // if quantity is positive, include it in the item parameter
-    ...(quantity > 0 && {quantity}),
+    ...(quantity > 0 ? {quantity} : {}),
   };
 }
 
