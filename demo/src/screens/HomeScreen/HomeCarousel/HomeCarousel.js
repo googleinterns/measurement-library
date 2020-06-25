@@ -111,7 +111,7 @@ export function HomeCarousel() {
         <Carousel.Caption>
           <div className="header-with-modal carousel-header">
             <h3>
-              Stunning High Quality Prints Available
+              {`Stunning High Quality Prints Available`}
               {carouselCodeModal}
             </h3>
           </div>
@@ -123,7 +123,7 @@ export function HomeCarousel() {
                 }}
                 to="/product/7ba94"
               >
-              latest piece
+                {`latest piece`}
               </Link>
             </p>
             {getSelectPromotionCodeModal('7ba94')}
@@ -139,7 +139,7 @@ export function HomeCarousel() {
         <Carousel.Caption>
           <div className="header-with-modal carousel-header">
             <h3>
-              SALE!
+              {`SALE!`}
             </h3>
             {carouselCodeModal}
           </div>
@@ -151,7 +151,7 @@ export function HomeCarousel() {
                 }}
                 to="/product/hjdf7"
               >
-              View Deal
+                {`View Deal`}
               </Link>
             </p>
             {getSelectPromotionCodeModal('hjdf7', 25)}
@@ -167,7 +167,7 @@ export function HomeCarousel() {
         <Carousel.Caption>
           <div className="header-with-modal carousel-header">
             <h3 className="font-italic">
-              Toe Beans
+              {`Toe Beans`}
             </h3>
             {carouselCodeModal}
           </div>
@@ -180,7 +180,7 @@ export function HomeCarousel() {
                 }}
                 to="/product/3h488"
               >
-                Buy Now
+                {`Buy Now`}
               </Link>
             </p>
             {getSelectPromotionCodeModal('3h488')}
