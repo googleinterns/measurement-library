@@ -25,7 +25,7 @@ const MiniCartBase = ({items}) => {
   }
 
   return (
-    <Container className='cartContainer mini'>
+    <Container className='cart-container mini'>
       <Row key='cart-header' className='header-row'>
         <Col xs={5}>Name</Col>
         <Col>Count</Col>
