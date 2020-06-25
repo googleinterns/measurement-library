@@ -30,7 +30,6 @@ export function HomeCarousel() {
         promotion_name: 'Home Carousel',
       },
     ],
-    promotion_name: 'Home Carousel',
   };
 
   // Send view_promotion event when the carousel loads for the first time.
