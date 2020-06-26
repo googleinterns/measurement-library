@@ -1,4 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 import {Container, Col, Row} from 'react-bootstrap';
 import {UserInfoForm} from '../../components/UserInfoForm/UserInfoForm.js';
 import {useHistory} from 'react-router-dom';
@@ -7,6 +9,7 @@ import '../NavButton.css';
 import {MiniCart} from '../../components/MiniCart/MiniCart.js';
 import {CodeModal} from '../../components/CodeModal/CodeModal.js';
 import {BillingInfoForm} from '../../components/BillingInfoForm/BillingInfoForm.js';
+import {clearCart} from '../../store/StoreHelpers.js';
 import {getAddPaymentInfoCodeSnippet, getAddShippingInfoCodeSnippet, getPurchaseCodeSnippet} from '../../lib/gtagSnippets.js';
 import {sendAddPaymentInfoEvent, sendAddShippingInfoEvent, sendBeginCheckoutEvent, sendPurchaseEvent} from '../../lib/gtagEvents';
 import {getMeasureCodeSnippet} from '../../utils';
@@ -27,9 +30,10 @@ const BILLING_FORM_ID = 'billing-info-form';
 /**
  * Page component for a user to enter in personal billing information
  * and confirm the items in their cart.
+ * @param {function()} clearCart A function to clear all items from cart.
  * @return {!JSX}
  */
-export function CheckoutScreen() {
+const CheckoutScreenBase = ({clearCart}) => {
   const [shippingDone, setShippingDone] = useState(false);
   const /** !Object */ history = useHistory();
 
@@ -60,6 +64,7 @@ export function CheckoutScreen() {
     const formPersonal = document.getElementById(USER_FORM_ID);
     const formBilling = document.getElementById(BILLING_FORM_ID);
     if (formBilling.checkValidity() && formPersonal.checkValidity()) {
+      clearCart();
       sendAddPaymentInfoEvent();
       sendPurchaseEvent();
       // navigate to thank you page with react-router
@@ -116,4 +121,11 @@ export function CheckoutScreen() {
       </Row>
     </Container>
   );
-}
+};
+
+CheckoutScreenBase.propTypes = {
+  clearCart: PropTypes.func,
+};
+
+export const CheckoutScreen = connect(null,
+    {clearCart})(CheckoutScreenBase);

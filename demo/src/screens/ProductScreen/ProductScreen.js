@@ -21,7 +21,7 @@ import './ProductScreen.css';
  * @return {!JSX} Page component for where a user can view
  *     details about a single product.
  */
-const ProductScreenBase = function({items, addToCart}) {
+const ProductScreenBase = ({items, addToCart}) => {
   const {id} = useParams();
   const currProduct = items[id];
   const buttonText = currProduct.inCart ? 'In Cart' : 'Add to Cart';
