@@ -1,6 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {Container, Col, Row, Button} from 'react-bootstrap';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 import {useHistory} from 'react-router-dom';
+import {clearCart} from '../../store/StoreHelpers.js';
 import {UserInfoForm} from '../../components/UserInfoForm/UserInfoForm.js';
 import {MiniCart} from '../../components/MiniCart/MiniCart.js';
 import {CodeModal} from '../../components/CodeModal/CodeModal.js';
@@ -26,9 +29,10 @@ const BILLING_FORM_ID = 'billing-info-form';
 /**
  * Page component for a user to enter in personal billing information
  * and confirm the items in their cart.
+ * @param {function()} clearCart A function to clear all items from cart.
  * @return {!JSX}
  */
-export function CheckoutScreen() {
+const CheckoutScreenBase = ({clearCart}) => {
   const [shippingDone, setShippingDone] = useState(false);
   const /** !Object */ history = useHistory();
 
@@ -59,6 +63,7 @@ export function CheckoutScreen() {
     const formPersonal = document.getElementById(USER_FORM_ID);
     const formBilling = document.getElementById(BILLING_FORM_ID);
     if (formBilling.checkValidity() && formPersonal.checkValidity()) {
+      clearCart();
       sendAddPaymentInfoEvent();
       sendPurchaseEvent();
       // navigate to thank you page with react-router
@@ -122,4 +127,11 @@ export function CheckoutScreen() {
       </Row>
     </Container>
   );
-}
+};
+
+CheckoutScreenBase.propTypes = {
+  clearCart: PropTypes.func,
+};
+
+export const CheckoutScreen = connect(null,
+    {clearCart})(CheckoutScreenBase);

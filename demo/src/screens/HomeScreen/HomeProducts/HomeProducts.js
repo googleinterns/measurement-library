@@ -9,7 +9,7 @@ import './HomeProducts.css';
  * @param {!ItemStore} items The items stored in the site state
  * @return {!JSX}
  */
-const HomeProductsBase = function({items}) {
+const HomeProductsBase = ({items}) => {
   const /** Array<!JSX> */ productListings = useMemo(() => {
     const products = [];
     for (const [itemID, item] of Object.entries(items)) {

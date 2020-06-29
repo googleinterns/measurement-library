@@ -13,7 +13,10 @@ import {initialState} from './initialState.js';
 function reducer(state = {}, action) {
   // Deep copy state so as not to mutate anything.
   const newState = deepCopy(state);
-  const item = newState.items[action.id];
+  let item;
+  if (action.id) {
+    item = newState.items[action.id];
+  }
   switch (action.type) {
     case 'INCREMENT':
       item.quantity++;
@@ -36,6 +39,8 @@ function reducer(state = {}, action) {
       }
       item.quantity = action.amount;
       break;
+    case 'CLEAR':
+      return initialState;
     default:
   }
   return newState;

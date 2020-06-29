@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Button} from 'react-bootstrap';
 import ModalImage from 'react-modal-image';
 import {useParams} from 'react-router-dom';
@@ -6,6 +6,10 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {addOneToCart} from '../../store/StoreHelpers.js';
+import {CodeModal} from '../../components/CodeModal/CodeModal.js';
+import {sendAddToCartEvent, sendViewItemEvent} from '../../lib/gtagEvents';
+import {getAddToCartCodeSnippet, getViewItemCodeSnippet} from '../../lib/gtagSnippets.js';
+import {getMeasureCodeSnippet} from '../../utils';
 import './ProductScreen.css';
 
 /**
@@ -17,24 +21,47 @@ import './ProductScreen.css';
  * @return {!JSX} Page component for where a user can view
  *     details about a single product.
  */
-const ProductScreenBase = function({items, addToCart}) {
+const ProductScreenBase = ({items, addToCart}) => {
   const {id} = useParams();
   const currProduct = items[id];
   const buttonText = currProduct.inCart ? 'In Cart' : 'Add to Cart';
 
+  // begin checkout on first page load only.
+  const sendViewItem = () => {
+    sendViewItemEvent(id);
+  };
+  useEffect(sendViewItem, []);
+
+  // displays code modal only if add to cart is an option
+  const displayModal = () => {
+    if (!currProduct.inCart) {
+      return (<CodeModal popupId={'addToCart'}
+        gtagCode={getAddToCartCodeSnippet(id)}
+        measureCode={getMeasureCodeSnippet(id)}/>);
+    }
+    return;
+  };
+
   const addOnClick = () => {
     addToCart(id);
+    sendAddToCartEvent(id);
   };
   const buyOnClick = () => {
     if (!currProduct.inCart) {
       addToCart(id);
+      sendAddToCartEvent(id);
     }
   };
 
   return (
     <div className="product-page">
       <div className="product-info">
-        <h1>{currProduct.name}</h1>
+        <h1>
+          {currProduct.name}
+          <CodeModal popupId={'ViewItem'}
+            gtagCode={getViewItemCodeSnippet(id)}
+            measureCode={getMeasureCodeSnippet(id)}/>
+        </h1>
         <ModalImage
           className="product-image"
           small={currProduct.thumbnail}
@@ -56,8 +83,12 @@ const ProductScreenBase = function({items, addToCart}) {
             >
               {buttonText}
             </Button>
+            {displayModal()}
             <Button variant="secondary" onClick={buyOnClick}
               as={Link} to='/cart'>Buy Now</Button>
+            <CodeModal popupId={'addToCart'}
+              gtagCode={getAddToCartCodeSnippet(id)}
+              measureCode={getMeasureCodeSnippet(id)}/>
           </div>
         </div>
       </div>

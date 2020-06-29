@@ -43,3 +43,13 @@ export function setQuantity(id, amount) {
     amount: amount,
   };
 }
+
+/**
+ * Removes all items from cart.
+ * @return {{type: string}} Object describing the operation.
+ */
+export function clearCart() {
+  return {
+    type: 'CLEAR',
+  };
+}
