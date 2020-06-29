@@ -21,7 +21,7 @@ export const ThankScreenBase = function({items}) {
 
       // Finds and pushes the most expensive item that has not yet been used.
       for (const [itemID, item] of Object.entries(items)) {
-        if (item.cost > (maxPriceItem ? maxPriceItem.cost: 0) &&
+        if (item.cost > (maxPriceItem ? maxPriceItem.cost : 0) &&
             !usedItemSet.has(itemID)) {
           maxPriceItem = item;
           maxPriceID = itemID;
