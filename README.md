@@ -13,7 +13,16 @@ yarn install
 npm install
 ```
 
-Next, add karma to your path if it isn't already.
+Next, run the tests using yarn or npm:
+
+```shell script
+yarn test
+# or
+npm test
+```
+
+## Running tests interactively
+You can also run the tests "interactively" via Karma directly. Add Karma to your path if it isn't already:
 
 ```shell script
 yarn global add karma-cli
@@ -22,7 +31,7 @@ npm install -g karma-cli
 ```
 
 Next, run the tests with karma
+
 ```shell script
 karma start
 ```
-
