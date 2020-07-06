@@ -50,11 +50,12 @@ export const ThankScreenBase = function({items}) {
         <Col/>
         <Col xs={10}>
           <Jumbotron>
-            <div style = {{paddingBottom: 50, fontSize: 30}}>
+            <h1>
               Thank you for your purchase!
-            </div>
-            Here are some other items you may be interested in:
-            <br/>
+            </h1>
+            <p>
+              Here are some other items you may be interested in:
+            </p>
             <ul className="product-list">
               {productListings}
             </ul>
