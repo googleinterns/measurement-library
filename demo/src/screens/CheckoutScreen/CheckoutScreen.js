@@ -1,19 +1,18 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
+import {Container, Col, Row, Button} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {Container, Col, Row} from 'react-bootstrap';
-import {UserInfoForm} from '../../components/UserInfoForm/UserInfoForm.js';
 import {useHistory} from 'react-router-dom';
-import './CheckoutScreen.css';
-import '../NavButton.css';
+import {clearCart} from '../../store/StoreHelpers.js';
+import {UserInfoForm} from '../../components/UserInfoForm/UserInfoForm.js';
 import {MiniCart} from '../../components/MiniCart/MiniCart.js';
 import {CodeModal} from '../../components/CodeModal/CodeModal.js';
 import {BillingInfoForm} from '../../components/BillingInfoForm/BillingInfoForm.js';
-import {clearCart} from '../../store/StoreHelpers.js';
-import {getAddPaymentInfoCodeSnippet, getAddShippingInfoCodeSnippet, getPurchaseCodeSnippet} from '../../lib/gtagSnippets.js';
-import {sendAddPaymentInfoEvent, sendAddShippingInfoEvent, sendBeginCheckoutEvent, sendPurchaseEvent} from '../../lib/gtagEvents';
-import {getMeasureCodeSnippet} from '../../utils';
-import {getBeginCheckoutCodeSnippet} from '../../lib/gtagSnippets';
+import {getAddPaymentInfoCodeSnippet, getAddShippingInfoCodeSnippet, getPurchaseCodeSnippet, getBeginCheckoutCodeSnippet} from '../../lib/gtagSnippets.js';
+import {sendAddPaymentInfoEvent, sendAddShippingInfoEvent, sendBeginCheckoutEvent, sendPurchaseEvent} from '../../lib/gtagEvents.js';
+import {getMeasureCodeSnippet} from '../../utils.js';
+import './CheckoutScreen.css';
+import '../NavButton.css';
 
 /**
  * The ID for the personal info form the user will fill out on this page.
@@ -76,35 +75,42 @@ const CheckoutScreenBase = ({clearCart}) => {
   }
 
   const submitUserInfoButton =
-  <div className='button-like' onClick={continueIfPersonalValid}>
-    Continue
-    <CodeModal popupId={'addShipping'}
-      gtagCode={getAddShippingInfoCodeSnippet()}
-      measureCode={getMeasureCodeSnippet()}/>
-  </div>;
+    <Row className='checkout-row'>
+      <Button variant='secondary' onClick={continueIfPersonalValid}>
+        Continue
+      </Button>
+      <CodeModal
+        popupId={'addShipping'}
+        gtagCode={getAddShippingInfoCodeSnippet()}
+        measureCode={getMeasureCodeSnippet()}
+      />
+    </Row>;
 
-  const billingForm = (<>
-    <BillingInfoForm formId={BILLING_FORM_ID}/>
-    <div className='button-like' onClick={navIfFormValid}>
-      {'Confirm Order '}
+  const billingForm =
+    <Row className='checkout-row'>
+      <BillingInfoForm formId={BILLING_FORM_ID}/>
+      <Button variant='secondary' onClick={navIfFormValid}>
+        Purchase
+      </Button>
       <CodeModal popupId={'addPayment'}
         gtagCode={getAddPaymentInfoCodeSnippet()}
         measureCode={getMeasureCodeSnippet()}/>
       <CodeModal popupId={'purchase'}
         gtagCode={getPurchaseCodeSnippet()}
         measureCode={getMeasureCodeSnippet()}/>
-    </div>
-  </>);
+    </Row>;
 
   return (
     <Container>
       <Row className='checkout-header'>
-        <Col xs={12} md={6}>
+        <Col xs={12} md={6} className='header-with-modal'>
+          <h2>Billing Details</h2>
           <CodeModal popupId={'begin_checkout'}
             gtagCode={getBeginCheckoutCodeSnippet()}
             measureCode={getMeasureCodeSnippet()}/>
-          {' Billing Details'}</Col>
-        <Col xs={12} md={6} className='hide-medium-or-smaller'>Your order
+        </Col>
+        <Col xs={12} md={6} className='hide-medium-or-smaller'>
+          <h2>Your Order</h2>
         </Col>
       </Row>
       <Row className='checkout-content'>
@@ -112,7 +118,7 @@ const CheckoutScreenBase = ({clearCart}) => {
           <UserInfoForm formId={USER_FORM_ID}/>
         </Col>
         <Col xs={12} className='hide-medium-or-bigger checkout-header'>
-          Your order
+          <h2>Your Order</h2>
         </Col>
         <Col xs={12} md={6}>
           <MiniCart/>

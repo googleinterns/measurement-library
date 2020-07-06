@@ -1,15 +1,16 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Container, Col, Row, Image, Form} from 'react-bootstrap';
-import {setQuantity, removeOneFromCart} from '../../store/StoreHelpers.js';
+import {Link} from 'react-router-dom';
+import {Container, Col, Row, Image, Form, Button} from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import {CodeModal} from '../CodeModal/CodeModal';
 import {FiTrash2} from 'react-icons/fi';
+import {setQuantity, removeOneFromCart} from '../../store/StoreHelpers.js';
+import {CodeModal} from '../CodeModal/CodeModal.js';
+import {computePriceOfItemsInCart, getMeasureCodeSnippet} from '../../utils.js';
+import {getRemoveFromCartCodeSnippet, getViewCartCodeSnippet} from '../../lib/gtagSnippets.js';
+import {sendRemoveFromCartEvent} from '../../lib/gtagEvents.js';
 import './Cart.css';
 import '../CodeModal/CodeModal.css';
-import {computePriceOfItemsInCart, getMeasureCodeSnippet} from '../../utils.js';
-import {getRemoveFromCartCodeSnippet, getViewCartCodeSnippet} from '../../lib/gtagSnippets';
-import {sendRemoveFromCartEvent} from '../../lib/gtagEvents';
 
 /**
  * Creates a component describing a shopping Cart.
@@ -28,12 +29,18 @@ const CartBase = ({items, setQuantity, removeOneFromCart}) => {
   for (const [itemID, item] of Object.entries(items)) {
     if (item.inCart) {
       itemsRender.push(<Row key={itemID} className='item-row'>
-        <Col xs={12} md={4}>
-          <Image fluid className='image-holder' src={item.thumbnail}/>
+        <Col xs={12} md={4} lg={3} className="to-center">
+          <Link to={`/product/${itemID}`}>
+            <Image fluid className='image-holder' src={item.thumbnail}/>
+          </Link>
         </Col>
-        <Col><h3>{item.name}</h3><p>{item.description}</p>
+        <Col>
+          <Link className="product-title" to={`/product/${itemID}`}>
+            <h2>{item.name}</h2>
+          </Link>
+          <p>{item.description}</p>
           <Row>
-            <Col xs={12} md={9}>
+            <Col xs={3} lg={2}>
               {/** Don't refresh the page when the enter key is pressed. */}
               <Form onSubmit={(e)=>e.preventDefault()}>
                 <Form.Group>
@@ -46,13 +53,13 @@ const CartBase = ({items, setQuantity, removeOneFromCart}) => {
                 </Form.Group>
               </Form>
             </Col>
-            <Col xs={3} className="remove-from-cart-icons">
-              <span className="clickable-box">
+            <Col className="remove-from-cart-icons">
+              <Button variant="link">
                 <FiTrash2 size={16} onClick={()=>{
                   sendRemoveFromCartEvent(itemID);
                   removeOneFromCart(itemID);
                 }}/>
-              </span>
+              </Button>
               <CodeModal popupId={'set' + itemID}
                 gtagCode={getRemoveFromCartCodeSnippet(itemID)}
                 measureCode={getMeasureCodeSnippet()}/>
@@ -68,18 +75,18 @@ const CartBase = ({items, setQuantity, removeOneFromCart}) => {
   return (
     <Container className='cart-container'>
       <Row key='cart-header' className='header-row'>
-        <Col xs={4}>
+        <Col xs={10} className='header-with-modal'>
+          <h2>Items In Cart</h2>
           <CodeModal popupId={'view_cart'}
             gtagCode={getViewCartCodeSnippet()}
             measureCode={getMeasureCodeSnippet()}/>
         </Col>
-        <Col xs={6}/>
         <Col xs={2}>Price</Col>
       </Row>
       {itemsRender}
       <Row className='final-row'>
-        <Col xs={4}/>
-        <Col xs={6} className='to-right'>Subtotal:</Col>
+        <Col xs={6}/>
+        <Col xs={4} className='to-right'>Subtotal:</Col>
         <Col xs={2}>${computePriceOfItemsInCart().toFixed(2)}</Col>
       </Row>
     </Container>

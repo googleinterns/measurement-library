@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Modal, Tabs, Tab} from 'react-bootstrap';
+import {Modal, Tabs, Tab, Button} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import './CodeModal.css';
 import Prism from 'prismjs';
@@ -47,7 +47,7 @@ export function CodeModal({popupId, measureCode, gtagCode}) {
     </Tabs>
   </Modal>;
 
-  return (<span className="clickable-box" onClick=
+  return (<Button variant="link" onClick=
     {(e)=> {
       // This element is often on top of other buttons, don't
       // fire them.
@@ -61,5 +61,5 @@ export function CodeModal({popupId, measureCode, gtagCode}) {
     }}>
     <GoQuestion size={16}/>
     {modal}
-  </span>);
+  </Button>);
 }

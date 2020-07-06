@@ -29,7 +29,7 @@ const HomeProductsBase = ({items}) => {
   }, [items]);
 
   return (
-    <ul className="product-list">
+    <ul className="home-screen product-list">
       {productListings}
     </ul>
   );
