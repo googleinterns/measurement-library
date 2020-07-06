@@ -1,0 +1,42 @@
+.product-page {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.product-info {
+  margin: 0 auto 0 auto;
+  max-width: 600px;
+  width: 80%;
+}
+
+.product-page h1 {
+  font-size: 2rem;
+}
+
+.about-product {
+  text-align: left;
+}
+
+.product-image {
+  transition: .3s;
+}
+
+.product-image:hover {
+  opacity: .6;
+  text-decoration: inherit;
+}
+
+.button-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+@media (min-width: 40em) {
+  .product-info {
+    width: 100%;
+  }
+
+  .product-info h1 {
+    font-size: 2.5rem;
+  }
+}

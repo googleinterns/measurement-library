@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Cart} from '../../components/Cart/Cart';
-import {Container, Col, Row} from 'react-bootstrap';
-import {Link} from 'react-router-dom';
+import {Container, Row} from 'react-bootstrap';
+import {useHistory} from 'react-router-dom';
 import './CartScreen.css';
+import '../NavButton.css';
+import {sendViewCartEvent} from '../../lib/gtagEvents';
 
 /**
  * Page component for where a user can review
@@ -10,18 +12,21 @@ import './CartScreen.css';
  * @return {!JSX} The JSX for the page
  */
 export function CartScreen() {
+  const /** !Object */ history = useHistory();
+
+  // Send a view cart event whenever this page opens the first time
+  // this page opens.
+  useEffect(sendViewCartEvent, []);
+
   return (
     <Container>
       <Row key='cartRow'>
         <Cart/>
       </Row>
       <Row key='checkoutRow'>
-        <Col/>
-        <Col/>
-        <Col>
-          <Link to='/checkout' className='button-link'>
-              Continue to checkout</Link>
-        </Col>
+        <div className='button-like' onClick={()=>history.push('/checkout')}>
+          {'Continue to checkout '}
+        </div>
       </Row>
     </Container>
   );

@@ -26,6 +26,14 @@ export const getEventCodeSnippet = (event, parameters) => {
 };
 
 /**
+ * Creates a code snippet for a measure event.
+ * @return {string} Code snippet of the event.
+ */
+export const getMeasureCodeSnippet = () => {
+  return `measure("event", "something cool")`;
+};
+
+/**
  * Computes the price of purchasing the given quantity
  * of all items in the cart.
  * @return {number} The total price.
@@ -61,16 +69,30 @@ export function getItemParameters(itemId) {
     item_name: items[itemId].name,
     price: items[itemId].cost,
     // if quantity is positive, include it in the item parameter
-    ...(quantity > 0 && {quantity}),
+    ...(quantity > 0 ? {quantity} : {}),
+  };
+}
+
+/**
+ * Collects a single item's standard parameters and returns it as an
+ * object with items attribute mapped to items array containing single item.
+ * @param {string} itemId
+ * @return {{items: Array<!ItemParameters>}}
+ */
+export function getItemsParameterFromSingleItem(itemId) {
+  return {
+    items: [{
+      ...getItemParameters(itemId),
+    }],
   };
 }
 
 /**
  * Collects all the standard item parameters from the items in the cart
- * and returns them in an array.
- * @return {Array<!ItemParameters>}
+ * and returns them as an object with items attribute mapped to items array.
+ * @return {{items: Array<!ItemParameters>}}
  */
-export function getItemsArrayFromCart() {
+export function getItemsParameterFromCart() {
   const /** Array<!ItemParameters> */ itemsArray = [];
   const /** {ItemStore} */ items = store.getState().items;
   for (const [itemID, item] of Object.entries(items)) {
@@ -80,5 +102,19 @@ export function getItemsArrayFromCart() {
       });
     }
   }
-  return itemsArray;
+  return {
+    items: itemsArray,
+  };
+}
+
+/**
+ * Collects standard parameters for checkout related events and returns
+ * them as an object with items and value attributes mapped to cart values.
+ * @return {{items: Array<!ItemParameters>, value: number}}
+ */
+export function getItemsAndValueParametersFromCart() {
+  return {
+    ...getItemsParameterFromCart(),
+    value: computePriceOfItemsInCart(),
+  };
 }

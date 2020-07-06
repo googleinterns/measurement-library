@@ -1,11 +1,19 @@
-import React, {useState} from 'react';
-import {Container, Col, Row, Button} from 'react-bootstrap';
+import React, {useState, useEffect} from 'react';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
+import {Container, Col, Row} from 'react-bootstrap';
 import {UserInfoForm} from '../../components/UserInfoForm/UserInfoForm.js';
 import {useHistory} from 'react-router-dom';
 import './CheckoutScreen.css';
+import '../NavButton.css';
 import {MiniCart} from '../../components/MiniCart/MiniCart.js';
-// eslint-disable-next-line max-len
+import {CodeModal} from '../../components/CodeModal/CodeModal.js';
 import {BillingInfoForm} from '../../components/BillingInfoForm/BillingInfoForm.js';
+import {clearCart} from '../../store/StoreHelpers.js';
+import {getAddPaymentInfoCodeSnippet, getAddShippingInfoCodeSnippet, getPurchaseCodeSnippet} from '../../lib/gtagSnippets.js';
+import {sendAddPaymentInfoEvent, sendAddShippingInfoEvent, sendBeginCheckoutEvent, sendPurchaseEvent} from '../../lib/gtagEvents';
+import {getMeasureCodeSnippet} from '../../utils';
+import {getBeginCheckoutCodeSnippet} from '../../lib/gtagSnippets';
 
 /**
  * The ID for the personal info form the user will fill out on this page.
@@ -22,11 +30,15 @@ const BILLING_FORM_ID = 'billing-info-form';
 /**
  * Page component for a user to enter in personal billing information
  * and confirm the items in their cart.
+ * @param {function()} clearCart A function to clear all items from cart.
  * @return {!JSX}
  */
-export function CheckoutScreen() {
+const CheckoutScreenBase = ({clearCart}) => {
   const [shippingDone, setShippingDone] = useState(false);
   const /** !Object */ history = useHistory();
+
+  // begin checkout on first page load only
+  useEffect(sendBeginCheckoutEvent, []);
 
   /**
    * If the personal information the user has put in is valid,
@@ -36,6 +48,7 @@ export function CheckoutScreen() {
   function continueIfPersonalValid() {
     const form = document.getElementById(USER_FORM_ID);
     if (form.checkValidity()) {
+      sendAddShippingInfoEvent();
       setShippingDone(true);
     } else {
       form.reportValidity();
@@ -45,12 +58,15 @@ export function CheckoutScreen() {
   /**
    * Navigate to the thank you page iff the user info form and
    * billing forms are valid.
-   * Otherwise, alert the user of invalid form fields
+   * Otherwise, alert the user of invalid form fields.
    */
   function navIfFormValid() {
     const formPersonal = document.getElementById(USER_FORM_ID);
     const formBilling = document.getElementById(BILLING_FORM_ID);
     if (formBilling.checkValidity() && formPersonal.checkValidity()) {
+      clearCart();
+      sendAddPaymentInfoEvent();
+      sendPurchaseEvent();
       // navigate to thank you page with react-router
       history.push('/thanks');
     } else {
@@ -60,17 +76,36 @@ export function CheckoutScreen() {
   }
 
   const submitUserInfoButton =
-      <Button onClick={continueIfPersonalValid}>Continue</Button>;
+  <div className='button-like' onClick={continueIfPersonalValid}>
+    Continue
+    <CodeModal popupId={'addShipping'}
+      gtagCode={getAddShippingInfoCodeSnippet()}
+      measureCode={getMeasureCodeSnippet()}/>
+  </div>;
+
   const billingForm = (<>
     <BillingInfoForm formId={BILLING_FORM_ID}/>
-    <Button onClick={navIfFormValid}>Confirm order</Button>
+    <div className='button-like' onClick={navIfFormValid}>
+      {'Confirm Order '}
+      <CodeModal popupId={'addPayment'}
+        gtagCode={getAddPaymentInfoCodeSnippet()}
+        measureCode={getMeasureCodeSnippet()}/>
+      <CodeModal popupId={'purchase'}
+        gtagCode={getPurchaseCodeSnippet()}
+        measureCode={getMeasureCodeSnippet()}/>
+    </div>
   </>);
 
   return (
     <Container>
       <Row className='checkout-header'>
-        <Col xs={12} md={6}>Billing Details</Col>
-        <Col xs={12} md={6} className='hide-medium-or-smaller'>Your order</Col>
+        <Col xs={12} md={6}>
+          <CodeModal popupId={'begin_checkout'}
+            gtagCode={getBeginCheckoutCodeSnippet()}
+            measureCode={getMeasureCodeSnippet()}/>
+          {' Billing Details'}</Col>
+        <Col xs={12} md={6} className='hide-medium-or-smaller'>Your order
+        </Col>
       </Row>
       <Row className='checkout-content'>
         <Col xs={12} md={6}>
@@ -86,4 +121,11 @@ export function CheckoutScreen() {
       </Row>
     </Container>
   );
-}
+};
+
+CheckoutScreenBase.propTypes = {
+  clearCart: PropTypes.func,
+};
+
+export const CheckoutScreen = connect(null,
+    {clearCart})(CheckoutScreenBase);
