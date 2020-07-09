@@ -30,8 +30,14 @@ yarn global add karma-cli
 npm install -g karma-cli
 ```
 
-Next, run the tests with karma
+Next, run the unit tests with karma from the root directory
 
 ```shell script
 karma start
+```
+
+To run the integration tests instead of the unit tests,
+
+```shell script
+karma start test/integration/karma.conf.js
 ```
