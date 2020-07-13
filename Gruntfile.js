@@ -21,7 +21,6 @@ module.exports = function(grunt) {
   grunt.initConfig({
     'pkg': grunt.file.readJSON('package.json'),
 
-    // Using https://www.npmjs.com/package/google-closure-compiler
     'closure-compiler': {
       my_target: {
         files: {
@@ -41,7 +40,7 @@ module.exports = function(grunt) {
     },
     'karma': {
       options: {
-        // Continue after running the tests
+        // Continue after running the tests.
         singleRun: true,
       },
       unit: {
@@ -65,7 +64,7 @@ module.exports = function(grunt) {
         configFile: 'karma.conf.js',
       },
       integrationBrowsers: {
-        options: { // same as for unitBrowsers
+        options: { // Same options as for unitBrowsers.
           frameworks: ['jasmine', 'detectBrowsers'],
           detectBrowsers: {
             enabled: true,

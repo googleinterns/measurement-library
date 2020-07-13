@@ -5,7 +5,7 @@ module.exports = function(config) {
   config.set({
     basePath: '',
     frameworks: ['jasmine'],
-    // automatically run tests for files matching these regex
+    // Automatically run tests for files matching these regex.
     files: [
       // ----------------- Third Party Dependencies ----------------------------
       {pattern: 'node_modules/google-closure-library/closure/goog/base.js'},
