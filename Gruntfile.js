@@ -31,8 +31,10 @@ module.exports = function(grunt) {
             'node_modules/google-closure-library/closure/goog/base.js'
           ],
           hide_warnings_for: 'google-closure-library',
+          warning_level: 'VERBOSE',
           compilation_level: 'ADVANCED_OPTIMIZATIONS',
-          language_in: 'ECMASCRIPT6',
+          language_in: 'ECMASCRIPT6_STRICT',
+          language_out: 'ECMASCRIPT5_STRICT',
           output_wrapper: '(function(){%output%})();',
           jscomp_warning: 'lintChecks',
         },

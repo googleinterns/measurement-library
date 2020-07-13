@@ -4,7 +4,10 @@ Measurement library will provide an open source alternative for sites/apps to se
 
 **This is not an officially supported Google product.**
 
-# Running tests locally
+# Running tests and creating the build
+
+You will need to have either [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+or [yarn](https://classic.yarnpkg.com/en/docs/install/#debian-stable) installed.
 
 First, install dependencies with yarn or npm
 ```shell script
