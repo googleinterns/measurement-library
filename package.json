@@ -1,7 +1,12 @@
 {
+  "name": "measurement-library",
+  "version": "1.0.0",
+  "description": "An open source library for sites and apps to send events to Google Analytics.",
   "scripts": {
     "start": "grunt",
-    "test": "grunt test"
+    "test": "grunt test",
+    "unit": "karma start",
+    "integration": "karma start test/integration/karma.conf.js"
   },
   "dependencies": {
     "google-closure-compiler": "~20200628.0.0",
@@ -22,5 +27,31 @@
     "karma-firefox-launcher": "~1.3.0",
     "karma-ie-launcher": "~1.0.0",
     "karma-safari-launcher": "~1.0.0"
-  }
+  },
+  "//": "Contributers are listed in alphabetical order by last name",
+  "contributors": [
+    "KJ Galvan",
+    "Alex Li",
+    "Alex Nau",
+    "Eugene Sambursky",
+    "Pedro Silva",
+    "Dustin Urbaniec"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/googleinterns/measurement-library"
+  },
+  "directories": {
+    "lib": "./src",
+    "bin": "./dist",
+    "test": "./test"
+  },
+  "keywords": [
+    "javascript",
+    "utils",
+    "analytics",
+    "measurement",
+    "google-analytics"
+  ],
+  "license": "Apache-2.0"
 }

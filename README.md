@@ -25,22 +25,18 @@ npm test
 ```
 
 ## Running tests interactively
-You can also run the tests "interactively" via Karma directly. Add Karma to your path if it isn't already:
+You can also run the tests "interactively" via Karma directly.
 
 ```shell script
-yarn global add karma-cli
-# or
-npm install -g karma-cli
-```
-
-Next, run the unit tests with karma from the root directory
-
-```shell script
-karma start
+yarn unit
+or
+npm unit
 ```
 
 To run the integration tests instead of the unit tests,
 
 ```shell script
-karma start test/integration/karma.conf.js
+yarn integration
+or
+npm integration
 ```
