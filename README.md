@@ -4,7 +4,10 @@ Measurement library will provide an open source alternative for sites/apps to se
 
 **This is not an officially supported Google product.**
 
-# Running tests locally
+# Running tests and creating the build
+
+You will need to have either [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+or [yarn](https://classic.yarnpkg.com/en/docs/install/#debian-stable) installed.
 
 First, install dependencies with yarn or npm
 ```shell script
@@ -22,16 +25,18 @@ npm test
 ```
 
 ## Running tests interactively
-You can also run the tests "interactively" via Karma directly. Add Karma to your path if it isn't already:
+You can also run the tests "interactively" via Karma directly.
 
 ```shell script
-yarn global add karma-cli
-# or
-npm install -g karma-cli
+yarn unit
+or
+npm unit
 ```
 
-Next, run the tests with karma
+To run the integration tests instead of the unit tests,
 
 ```shell script
-karma start
+yarn integration
+or
+npm integration
 ```
