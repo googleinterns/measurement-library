@@ -24,7 +24,7 @@ const runInBothOrders = (config, test) => {
     config();
   };
 
-  // Test when the snippet fires first. Does not work now.
+  // Test when the snippet fires first.
   snippet();
   setup();
   test();
@@ -37,7 +37,6 @@ const runInBothOrders = (config, test) => {
 };
 
 describe(`The behavior of the setup function of measurement library`, () => {
-
   beforeEach(() => {
     storageInterface = jasmine.createSpyObj('storageInterface',
         ['get', 'set', 'config']);
