@@ -8,10 +8,12 @@ module.exports = function(config) {
     // Automatically run tests for files matching these regex.
     files: [
       // ----------------- Third Party Dependencies ----------------------------
-      {pattern: 'node_modules/google-closure-library/closure/goog/base.js'},
-      // ------------------------ Source Files ---------------------------------
       // Dependencies must be listed before the file they are used in for
       // the googmodule preprocessor to function properly.
+      {pattern: 'node_modules/google-closure-library/closure/goog/base.js'},
+      {pattern: 'data-layer-helper/src/plain/is_plain_object.js'},
+      {pattern: 'data-layer-helper/src/helper/helper.js'},
+      // ------------------------ Source Files ---------------------------------
       {pattern: 'src/**/*.js'},
       // ------------------------- Test Files ----------------------------------
       'test/*_test.js'

@@ -27,7 +27,8 @@ module.exports = function(grunt) {
         },
         options: {
           js: [
-            'node_modules/google-closure-library/closure/goog/base.js'
+            'node_modules/google-closure-library/closure/goog/base.js',
+            'data-layer-helper/src/**/*.js',
           ],
           hide_warnings_for: 'google-closure-library',
           warning_level: 'VERBOSE',
