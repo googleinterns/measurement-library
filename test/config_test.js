@@ -9,10 +9,11 @@ let measure;
 
 /**
  * Run a test, once assuming that the measure snippet fired before the call
- * to setup, then again assuming that the gtag snippet fired after the call
+ * to setup, then again assuming that the measure snippet fired after the call
  * to setup.
- * @param {function} config The configuration done in the gtag code snippet
- * @param {function} test The tests to run after both have fired
+ * @param {function()} config The configuration to be done in the
+ *     measure code snippet.
+ * @param {function()} test The tests to run after both have fired.
  */
 const runInBothOrders = (config, test) => {
   // The code snippet that is run asynchronously.
