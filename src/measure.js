@@ -23,4 +23,4 @@ function setup() {
 
 setup();
 
-exports = {setup};
+exports = setup;

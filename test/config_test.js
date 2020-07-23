@@ -1,7 +1,7 @@
 goog.module('measurementlibrary.measure.testing.setup');
 goog.setTestOnly();
 
-const {setup} = goog.require('measurementlibrary.measure');
+const setup = goog.require('measurementlibrary.measure');
 
 let storageInterface;
 let eventProcessor;
