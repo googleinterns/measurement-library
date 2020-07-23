@@ -3,7 +3,6 @@ goog.module('measurementlibrary.Storage.StorageInterface');
 /**
  * A class implementing this interface allows for storage and retrieval of data.
  *
- * @typedef StorageInterface
  * @interface
  */
 class StorageInterface {
