@@ -7,7 +7,7 @@ goog.module('measurementlibrary.Storage.StorageInterface');
  */
 class StorageInterface {
   /**
-   * Save a key value pair into the storage interface for up to a
+   * Saves a key value pair into the storage interface for up to a
    * maximum time to live.
    *
    * @param {string} key The location at which to store data.
@@ -18,8 +18,7 @@ class StorageInterface {
   save(key, value, secondsToLive) {};
 
   /**
-   * Load the value associated with a key at a particular location in the
-   * storageInterface.
+   * Loads the value associated with a given key in the storageInterface.
    *
    * @param {string} key The location at which to load data.
    * @param {*=} defaultValue The value to load if no key is stored at

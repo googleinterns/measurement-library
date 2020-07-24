@@ -13,7 +13,7 @@ goog.module('measurementlibrary.EventProcessor.EventProcessorInterface');
  */
 class EventProcessor {
   /**
-   * Process an event passed into the data layer.
+   * Processes an event passed into the data layer.
    *
    * @param {!StorageInterface} storageInterface An interface to an object to
    *    load or save persistent data with.
@@ -25,7 +25,7 @@ class EventProcessor {
   processEvent(storageInterface, modelInterface, eventName, ...eventArgs) {};
 
   /**
-   * Decide if a given key should be persisted to long term storage, or just
+   * Decides if a given key should be persisted to long term storage, or just
    * saved locally to the data layer.
    *
    * @param {string} key The location at which to store data.
