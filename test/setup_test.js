@@ -14,27 +14,31 @@ let measure;
  * @param {function()} config The configuration to be done in the
  *     measure code snippet.
  * @param {function()} test The tests to run after both have fired.
+ * @param {string} dataLayerName The name of the window property that
+ *     contains the data layer.
  */
-const runInBothOrders = (config, test) => {
+const runInBothOrders = (config, test, dataLayerName = 'dataLayer') => {
   // The code snippet that is run asynchronously.
   const snippet = () => {
-    window.dataLayer = window.dataLayer || [];
+    window[dataLayerName] = window[dataLayerName] || [];
     measure = function() {
-      dataLayer.push(arguments);
+      window[dataLayerName].push(arguments);
     };
     config();
   };
 
   // Test when the snippet fires first.
   snippet();
-  setup();
+  setup(dataLayerName);
   test();
+  window[dataLayerName] = undefined;
 
-  window.dataLayer = undefined;
   // Test when the setup function fires first.
-  setup();
+  setup(dataLayerName);
   snippet();
   test();
+  // Reset for the next test.
+  window[dataLayerName] = undefined;
 };
 
 describe(`The behavior of the setup function of measurement library`, () => {
@@ -69,5 +73,26 @@ describe(`The behavior of the setup function of measurement library`, () => {
                 expect(storageInterface.config).not.toHaveBeenCalled();
               });
         });
+
+    it('calls the data layer once when initially configured',
+        () => {
+          runInBothOrders(
+              /* config= */
+              () => measure('config', eventProcessor, storageInterface),
+              /* test=  */ () => {
+                expect(window.dataLayer.length).toBe(1);
+              });
+        });
   });
+
+  it('works with a different name for dataLayer',
+      () => {
+        runInBothOrders(
+            /* config= */
+            () => measure('config', eventProcessor, storageInterface),
+            /* test=  */ () => {
+              expect(window.coolLayer.length).toBe(1);
+            },
+            /* dataLayerName= */ 'coolLayer');
+      });
 });
