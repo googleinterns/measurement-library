@@ -17,22 +17,28 @@ class EventProcessor {
    *
    * @param {!StorageInterface} storageInterface An interface to an object to
    *    load or save persistent data with.
-   * @param {{get:function(string):*, set:function(string, *)}} modelInterface An
-   *    interface to load or save short term page data from the data layer.
+   * @param {{get:function(string):*, set:function(string, *)}} modelInterface
+   *    An interface to load or save short term page data from the data layer.
    * @param {string} eventName The name of the event passed to the data layer.
    * @param {...*} eventArgs The events passed to the data layer
    */
   processEvent(storageInterface, modelInterface, eventName, ...eventArgs) {};
 
   /**
-   * Decides if a given key should be persisted to long term storage, or just
-   * saved locally to the data layer.
+   * Decides how long a given key should be persisted to long term storage for.
+   * Regardless of the output, data will always be saved
+   * locally to the data layer.
    *
-   * @param {string} key The location at which to store data.
+   * @param {string} key The location at which to store data in the model.
+   *    Dot notation is used to access a nested value (i.e. 'employees.jim'
+   *    is the key 'jim' in the nested 'employees' object).
    * @param {*} value The data to store.
-   * @return {boolean} True iff the key should be persisted.
+   * @return {number} How long the key should be stored in seconds.
+   *     If -1, then the default value saved in storage will be used.
+   *     If 0, the data is not saved to long term storage at all.
+   *     If Number.POSITIVE_INFINITY, data will be stored forever.
    */
-  shouldPersist(key, value) {};
+  persistTime(key, value) {};
 
 }
 
