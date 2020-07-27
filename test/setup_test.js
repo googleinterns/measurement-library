@@ -6,6 +6,17 @@ const setup = goog.require('measurementlibrary.measure');
 let storageInterface;
 let eventProcessor;
 let measure;
+let dataLayer;
+
+/** Reset all the global variables for a new test. */
+function reset() {
+  storageInterface = jasmine.createSpyObj('storageInterface',
+      ['get', 'set', 'config']);
+  eventProcessor = jasmine.createSpyObj('eventProcessor',
+      ['shouldPersist', 'processEvent', 'config']);
+  measure = undefined;
+  dataLayer = [];
+}
 
 /**
  * Run a test, once assuming that the measure snippet fired before the call
@@ -14,40 +25,31 @@ let measure;
  * @param {function()} config The configuration to be done in the
  *     measure code snippet.
  * @param {function()} test The tests to run after both have fired.
- * @param {string} dataLayerName The name of the window property that
- *     contains the data layer.
  */
-const runInBothOrders = (config, test, dataLayerName = 'dataLayer') => {
+const runInBothOrders = (config, test) => {
   // The code snippet that is run asynchronously.
-  const snippet = () => {
-    window[dataLayerName] = window[dataLayerName] || [];
+  const snippet = (dataLayer) => {
     measure = function() {
-      window[dataLayerName].push(arguments);
+      dataLayer.push(arguments);
     };
     config();
   };
 
+  reset();
   // Test when the snippet fires first.
-  snippet();
-  setup(dataLayerName);
+  snippet(dataLayer);
+  setup(dataLayer);
   test();
-  window[dataLayerName] = undefined;
 
+  reset();
   // Test when the setup function fires first.
-  setup(dataLayerName);
-  snippet();
+  setup(dataLayer);
+  snippet(dataLayer);
   test();
-  // Reset for the next test.
-  window[dataLayerName] = undefined;
 };
 
 describe(`The behavior of the setup function of measurement library`, () => {
-  beforeEach(() => {
-    storageInterface = jasmine.createSpyObj('storageInterface',
-        ['get', 'set', 'config']);
-    eventProcessor = jasmine.createSpyObj('eventProcessor',
-        ['shouldPersist', 'processEvent', 'config']);
-  });
+  beforeEach(reset);
 
   describe('the state immediately after calling config', () => {
     it('does not call any eventProcessor functions when initially configured',
@@ -80,7 +82,7 @@ describe(`The behavior of the setup function of measurement library`, () => {
               /* config= */
               () => measure('config', eventProcessor, storageInterface),
               /* test=  */ () => {
-                expect(window.dataLayer.length).toBe(1);
+                expect(dataLayer.length).toBe(1);
               });
         });
   });
@@ -91,8 +93,7 @@ describe(`The behavior of the setup function of measurement library`, () => {
             /* config= */
             () => measure('config', eventProcessor, storageInterface),
             /* test=  */ () => {
-              expect(window.coolLayer.length).toBe(1);
-            },
-            /* dataLayerName= */ 'coolLayer');
+              expect(dataLayer.length).toBe(1);
+            });
       });
 });

@@ -15,7 +15,8 @@ module.exports = function(config) {
       {pattern: 'data-layer-helper/src/plain/is_plain_object.js'},
       {pattern: 'data-layer-helper/src/helper/helper.js'},
       // ------------------------ Source Files ---------------------------------
-      {pattern: 'src/**/*.js'},
+      {pattern: 'src/measure.js'},
+      {pattern: 'src/main.js'},
       // ------------------------- Test Files ----------------------------------
       'test/*_test.js',
     ],
