@@ -10,9 +10,24 @@ const {DataLayerHelper} = goog.require('helper');
  */
 function setupMeasure(dataLayer) {
   /**
-   * @const {!DataLayerHelper} The DataLayerHelper to use with this application.
+   * The DataLayerHelper to use with this application.
+   * @private @const {!DataLayerHelper}
    */
   const helper = new DataLayerHelper(dataLayer);
+
+  /**
+   * A map from user-registered names to instances of event processors.
+   * @private @const {!Object<string, !EventProcessor>}
+   * TODO: Use this (included since it will be used in 2 parallel PRs later)
+   */
+  const eventInstances = {};
+
+  /**
+   * A map from user-registered names to storage instances.
+   * @private @const {!Object<string, !StorageInterface>}
+   * TODO: Use this (included since it will be used in 2 parallel PRs later)
+   */
+  const storageInstances = {};
 
   // TODO
 }
