@@ -1,4 +1,4 @@
-goog.module('measurementlibrary.Storage.StorageInterface');
+goog.module('measurement_library.Storage.StorageInterface');
 
 /**
  * A class implementing this interface allows for storage and retrieval of data.
