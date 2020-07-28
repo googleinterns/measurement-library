@@ -1,4 +1,4 @@
-goog.module('measurementlibrary.measure');
+goog.module('measurement_library.setup');
 
 const {DataLayerHelper} = goog.require('helper');
 
@@ -8,7 +8,7 @@ const {DataLayerHelper} = goog.require('helper');
  *
  * @param {!Array<*>} dataLayer The data layer to add listeners to.
  */
-function setup(dataLayer) {
+function setupMeasure(dataLayer) {
   /**
    * @const {!DataLayerHelper} The DataLayerHelper to use with this application.
    */
@@ -17,4 +17,5 @@ function setup(dataLayer) {
   // TODO
 }
 
-exports = setup;
+goog.exportSymbol('setupMeasure', setupMeasure);
+exports = setupMeasure;

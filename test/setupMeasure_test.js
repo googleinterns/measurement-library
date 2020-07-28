@@ -1,7 +1,7 @@
-goog.module('measurementlibrary.measure.testing.setup');
+goog.module('measurement_library.measure.testing.setup');
 goog.setTestOnly();
 
-const setup = goog.require('measurementlibrary.measure');
+const setupMeasure = goog.require('measurement_library.setup');
 
 let storageInterface;
 let eventProcessor;
@@ -34,16 +34,15 @@ const runInBothOrders = (config, test) => {
     };
     config();
   };
-
-  reset();
   // Test when the snippet fires first.
+  reset();
   snippet(dataLayer);
-  setup(dataLayer);
+  setupMeasure(dataLayer);
   test();
 
-  reset();
   // Test when the setup function fires first.
-  setup(dataLayer);
+  reset();
+  setupMeasure(dataLayer);
   snippet(dataLayer);
   test();
 };
@@ -86,14 +85,4 @@ describe(`The behavior of the setup function of measurement library`, () => {
               });
         });
   });
-
-  it('works with a different name for dataLayer',
-      () => {
-        runInBothOrders(
-            /* config= */
-            () => measure('config', eventProcessor, storageInterface),
-            /* test=  */ () => {
-              expect(dataLayer.length).toBe(1);
-            });
-      });
 });

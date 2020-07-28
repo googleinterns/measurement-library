@@ -1,10 +1,10 @@
-goog.module('measurementlibrary.main');
+goog.module('measurement_library.main');
 
-const setup = goog.require('measurementlibrary.measure');
+const setup = goog.require('measurement_library.setup');
 
 /**
- * @global {!Array} The data layer of the application, storing a record of
- * events that have changed over time.
+ * @global @const {!Array} The data layer of the application, storing a record
+ * of events that have changed over time.
  */
 window['dataLayer'] = window['dataLayer'] || [];
 
