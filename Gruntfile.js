@@ -31,6 +31,7 @@ module.exports = function(grunt) {
             'src/Storage/**/*.js',
             'src/EventProcessor/**/*.js',
           ],
+          externs: 'src/externs.js',
           hide_warnings_for: 'google-closure-library',
           warning_level: 'VERBOSE',
           compilation_level: 'ADVANCED_OPTIMIZATIONS',
