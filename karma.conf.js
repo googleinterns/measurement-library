@@ -11,10 +11,12 @@ module.exports = function(config) {
       // Dependencies must be listed before the file they are used in for
       // the googmodule preprocessor to function properly.
       {pattern: 'node_modules/google-closure-library/closure/goog/base.js'},
-      // Listing the files explicitly so they are processed in the right order
+      // Listing the files explicitly so they are processed in the right order.
       {pattern: 'data-layer-helper/src/plain/is_plain_object.js'},
       {pattern: 'data-layer-helper/src/helper/helper.js'},
       // ------------------------ Source Files ---------------------------------
+      {pattern: 'src/Storage/**/*.js'},
+      {pattern: 'src/EventProcessor/**/*.js'},
       {pattern: 'src/setup.js'},
       {pattern: 'src/main.js'},
       // ------------------------- Test Files ----------------------------------
