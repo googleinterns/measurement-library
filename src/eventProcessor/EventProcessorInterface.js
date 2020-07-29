@@ -1,5 +1,5 @@
-goog.require('measurement_library.Storage.StorageInterface');
-goog.module('measurement_library.EventProcessor.EventProcessorInterface');
+goog.require('measurementLibrary.storage.StorageInterface');
+goog.module('measurementLibrary.eventProcessor.EventProcessorInterface');
 
 /**
  * A class implementing this interface can react to events pushed to the

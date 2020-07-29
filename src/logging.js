@@ -1,4 +1,4 @@
-goog.module('measurement_library.logging');
+goog.module('measurementLibrary.logging');
 
 /**
  * @define {boolean} When true, potential code errors will be logged to the
