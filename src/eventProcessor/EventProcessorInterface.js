@@ -2,6 +2,7 @@
  * @fileoverview Functions a event processor must implement.
  * @externs
  */
+
 /**
  * A class implementing this interface can react to events pushed to the
  * data layer.

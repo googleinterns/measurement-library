@@ -12,8 +12,8 @@ module.exports = function(config) {
       // ------------------------ Source Files ---------------------------------
       // Dependencies must be listed before the file they are used in for
       // the googmodule preprocessor to function properly.
-      {pattern: 'src/Storage/**/*.js'},
-      {pattern: 'src/EventProcessor/**/*.js'},
+      {pattern: 'src/storage/**/*.js'},
+      {pattern: 'src/eventProcessor/**/*.js'},
       {pattern: 'src/**/*.js'},
       // ------------------------- Test Files ----------------------------------
       'test/*_test.js'

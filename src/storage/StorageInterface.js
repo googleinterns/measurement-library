@@ -2,6 +2,7 @@
  * @fileoverview Functions a storage interface must implement.
  * @externs
  */
+
 /**
  * A class implementing this interface allows for storage and retrieval of data.
  *
