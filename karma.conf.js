@@ -15,10 +15,11 @@ module.exports = function(config) {
       {pattern: 'data-layer-helper/src/plain/is_plain_object.js'},
       {pattern: 'data-layer-helper/src/helper/helper.js'},
       // ------------------------ Source Files ---------------------------------
-      {pattern: 'src/Storage/**/*.js'},
-      {pattern: 'src/EventProcessor/**/*.js'},
+      {pattern: 'src/storage/**/*.js'},
+      {pattern: 'src/eventProcessor/**/*.js'},
       {pattern: 'src/setup.js'},
       {pattern: 'src/main.js'},
+      {pattern: 'src/**/*.js'},
       // ------------------------- Test Files ----------------------------------
       'test/utils.js',
       'test/*_test.js',
