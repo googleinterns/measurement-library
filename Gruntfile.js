@@ -24,6 +24,7 @@ module.exports = function(grunt) {
       options: {
         js: [
           'node_modules/google-closure-library/closure/goog/base.js',
+          'data-layer-helper/src/**.js',
           'src/storage/**/*.js',
           'src/eventProcessor/**/*.js',
           'src/setup.js',
