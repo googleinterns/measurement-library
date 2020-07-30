@@ -1,4 +1,4 @@
-goog.module('measurement_library.setup');
+goog.module('measurementLibrary.setup');
 
 const {DataLayerHelper} = goog.require('helper');
 

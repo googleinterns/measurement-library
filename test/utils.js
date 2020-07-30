@@ -1,7 +1,7 @@
-goog.module('measurement_library.measure.testing.utils');
+goog.module('measurementLibrary.measure.testing.utils');
 goog.setTestOnly();
 
-const setupMeasure = goog.require('measurement_library.setup');
+const setupMeasure = goog.require('measurementLibrary.setup');
 
 const noop = () => {
 };
