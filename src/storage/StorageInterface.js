@@ -1,7 +1,4 @@
-/**
- * @fileoverview Functions a storage interface must implement.
- * @externs
- */
+goog.module('measurementLibrary.storage.StorageInterface');
 
 /**
  * A class implementing this interface allows for storage and retrieval of data.
@@ -35,3 +32,5 @@ class StorageInterface {
    */
   load(key, defaultValue) {};
 }
+
+exports = StorageInterface;

@@ -1,7 +1,5 @@
-/*
- * @fileoverview Functions a event processor must implement.
- * @externs
- */
+goog.module('measurementLibrary.eventProcessor.EventProcessorInterface');
+const StorageInterface = goog.require('measurementLibrary.storage.StorageInterface');
 
 /**
  * A class implementing this interface can react to events pushed to the
@@ -41,4 +39,7 @@ class EventProcessor {
    *     If Number.POSITIVE_INFINITY, data will be stored forever.
    */
   persistTime(key, value) {};
+
 }
+
+exports = EventProcessor;
