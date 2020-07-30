@@ -1,6 +1,7 @@
-goog.require('measurementlibrary.Storage.StorageInterface');
-goog.module('measurementlibrary.EventProcessor.EventProcessorInterface');
-
+/*
+ * @fileoverview Functions a event processor must implement.
+ * @externs
+ */
 /**
  * A class implementing this interface can react to events pushed to the
  * data layer.
@@ -22,7 +23,8 @@ class EventProcessor {
    * @param {string} eventName The name of the event passed to the data layer.
    * @param {!Object<string, *>=} eventArgs The events passed to the data layer.
    */
-  processEvent(storageInterface, modelInterface, eventName, eventArgs) {};
+  processEvent(storageInterface, modelInterface, eventName, eventArgs) {
+  }
 
   /**
    * Decides how long a given key should be persisted to long term storage for.
@@ -38,8 +40,5 @@ class EventProcessor {
    *     If 0, the data is not saved to long term storage at all.
    *     If Number.POSITIVE_INFINITY, data will be stored forever.
    */
-  persistTime(key, value) {};
-
+  persistTime(key, value) {}
 }
-
-exports = EventProcessor;

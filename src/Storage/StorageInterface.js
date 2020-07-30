@@ -1,5 +1,7 @@
-goog.module('measurementlibrary.Storage.StorageInterface');
-
+/**
+ * @fileoverview Functions a storage interface must implement.
+ * @externs
+ */
 /**
  * A class implementing this interface allows for storage and retrieval of data.
  *
@@ -17,7 +19,7 @@ class StorageInterface {
    * @param {number=} secondsToLive The maximum number of seconds that the key
    *    should be saved for.
    */
-  save(key, value, secondsToLive) {};
+  save(key, value, secondsToLive) {}
 
   /**
    * Loads the value associated with a given key in the storageInterface.
@@ -30,7 +32,5 @@ class StorageInterface {
    * @return {*} value The data stored at the given location, or defaultValue
    *    if none exist.
    */
-  load(key, defaultValue) {};
+  load(key, defaultValue) {}
 }
-
-exports = StorageInterface;

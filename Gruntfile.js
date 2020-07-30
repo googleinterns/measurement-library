@@ -23,16 +23,23 @@ module.exports = function(grunt) {
     'closure-compiler': {
       my_target: {
         files: {
-          'dist/measure.js': 'src/measure.js',
+          'dist/measure.js': 'src/main.js',
         },
         options: {
           js: [
             'node_modules/google-closure-library/closure/goog/base.js',
-            'src/Storage/**/*.js',
-            'src/EventProcessor/**/*.js',
+            'data-layer-helper/src/**.js',
+            'src/**.js',
+            '!src/main.js',
+            '!src/EventProcessor/EventProcessorInterface.js',
+            '!src/Storage/StorageInterface.js',
           ],
-          externs: 'src/externs.js',
+          externs: [
+            'src/EventProcessor/EventProcessorInterface.js',
+            'src/Storage/StorageInterface.js',
+          ],
           hide_warnings_for: 'google-closure-library',
+
           warning_level: 'VERBOSE',
           compilation_level: 'ADVANCED_OPTIMIZATIONS',
           language_in: 'ECMASCRIPT6_STRICT',
