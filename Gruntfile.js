@@ -21,9 +21,31 @@ module.exports = function(grunt) {
   grunt.initConfig({
     'pkg': grunt.file.readJSON('package.json'),
     'closure-compiler': {
-      my_target: {
+      options: {
+        js: [
+          'node_modules/google-closure-library/closure/goog/base.js',
+          'src/storage/**/*.js',
+          'src/eventProcessor/**/*.js',
+        ],
+        hide_warnings_for: 'google-closure-library',
+        warning_level: 'VERBOSE',
+        compilation_level: 'ADVANCED_OPTIMIZATIONS',
+        language_in: 'ECMASCRIPT6_STRICT',
+        language_out: 'ECMASCRIPT5_STRICT',
+        output_wrapper: '(function(){%output%})();',
+        jscomp_warning: 'lintChecks',
+      },
+      distribution: {
         files: {
-          'dist/measure.js': 'src/measure.js',
+          'dist/measure.js': 'src/main.js',
+        },
+        options: {
+          create_source_map: 'dist/measure.js.map',
+        },
+      },
+      debug: {
+        files: {
+          'dist/measure-debug.js': 'src/main.js',
         },
         options: {
           js: [
@@ -38,6 +60,8 @@ module.exports = function(grunt) {
           language_out: 'ECMASCRIPT5_STRICT',
           output_wrapper: '(function(){%output%})();',
           jscomp_warning: 'lintChecks',
+          define: 'ML_DEBUG=true',
+          create_source_map: 'dist/measure-debug.js.map',
         },
       },
     },
