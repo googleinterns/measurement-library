@@ -15,18 +15,6 @@ function setupMeasure(dataLayer) {
    */
   const helper = new DataLayerHelper(dataLayer);
 
-  /**
-   * A map from user-registered names to instances of event processors.
-   * @private @const {!Object<string, !EventProcessor>}
-   */
-  const eventInstances = {};
-
-  /**
-   * A map from user-registered names to storage instances.
-   * @private @const {!Object<string, !StorageInterface>}
-   */
-  const storageInstances = {};
-
    // TODO: Use the variables declared above
 }
 

@@ -23,7 +23,7 @@ describe(`The behavior of the setup function of measurement library`, () => {
           runInBothOrders(
               /* config= */
               (measure) =>
-                  measure('config', eventProcessor, storageInterface),
+                  measure('config', eventProcessor, {}, storageInterface, {}),
               /* test=  */ () => {
                 expect(eventProcessor.persistTime).not.toHaveBeenCalled();
                 expect(eventProcessor.processEvent).not.toHaveBeenCalled();
@@ -36,7 +36,7 @@ describe(`The behavior of the setup function of measurement library`, () => {
           runInBothOrders(
               /* config= */
               (measure) =>
-                  measure('config', eventProcessor, storageInterface),
+                  measure('config', eventProcessor, {}, storageInterface, {}),
               /* test= */ () => {
                 expect(storageInterface.get).not.toHaveBeenCalled();
                 expect(storageInterface.set).not.toHaveBeenCalled();
@@ -49,7 +49,7 @@ describe(`The behavior of the setup function of measurement library`, () => {
           runInBothOrders(
               /* config= */
               (measure) =>
-                  measure('config', eventProcessor, storageInterface),
+                  measure('config', eventProcessor, {}, storageInterface, {}),
               /* test=  */ (dataLayer) => {
                 expect(dataLayer.length).toBe(1);
               }, reset);

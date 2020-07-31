@@ -3,6 +3,8 @@ goog.setTestOnly();
 
 const setupMeasure = goog.require('measurementLibrary.setup');
 
+const noop = () => {};
+
 /**
  * Run a test, once assuming that the measure snippet fired before the call
  * to setup, then again assuming that the measure snippet fired after the call
@@ -13,7 +15,7 @@ const setupMeasure = goog.require('measurementLibrary.setup');
  *     after both the code snippet and setupMeasure function have fired.
  * @param {function():undefined} reset A function to reset state between tests.
  */
-function runInBothOrders(config, test, reset) {
+function runInBothOrders(config, test, reset = noop) {
   // The code snippet that is run asynchronously.
   const snippet = (dataLayer) => {
     const measure = function() {
