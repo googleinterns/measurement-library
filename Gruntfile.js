@@ -50,6 +50,18 @@ module.exports = function(grunt) {
           'dist/measure-debug.js': 'src/main.js',
         },
         options: {
+          js: [
+            'node_modules/google-closure-library/closure/goog/base.js',
+            'src/**.js',
+            '!src/measure.js',
+          ],
+          hide_warnings_for: 'google-closure-library',
+          warning_level: 'VERBOSE',
+          compilation_level: 'ADVANCED_OPTIMIZATIONS',
+          language_in: 'ECMASCRIPT6_STRICT',
+          language_out: 'ECMASCRIPT5_STRICT',
+          output_wrapper: '(function(){%output%})();',
+          jscomp_warning: 'lintChecks',
           define: 'ML_DEBUG=true',
           create_source_map: 'dist/measure-debug.js.map',
         },

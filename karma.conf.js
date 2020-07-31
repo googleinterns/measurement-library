@@ -37,8 +37,8 @@ module.exports = function(config) {
       require('karma-googmodule-preprocessor'),
     ],
     reporters: ['spec', 'kjhtml'],
+    port: 9876,
     colors: true,
-    logLevel: config.LOG_DISABLE,
     // Run tests when a file changes.
     autoWatch: true,
     browsers: ['Chrome'],
