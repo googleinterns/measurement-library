@@ -17,6 +17,7 @@ module.exports = function(config) {
       // ------------------------ Source Files ---------------------------------
       {pattern: 'src/storage/**/*.js'},
       {pattern: 'src/eventProcessor/**/*.js'},
+      {pattern: 'src/logging.js'},
       {pattern: 'src/setup.js'},
       {pattern: 'src/main.js'},
       {pattern: 'src/**/*.js'},
