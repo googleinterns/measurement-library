@@ -12,9 +12,9 @@ describe(`The behavior of the setup function of measurement library`, () => {
   /** Reset all the global variables for a new test. */
   function reset() {
     storageInterface = jasmine.createSpyObj('storageInterface',
-        ['get', 'set', 'config']);
+        ['get', 'set']);
     eventProcessor = jasmine.createSpyObj('eventProcessor',
-        ['persistTime', 'processEvent', 'config']);
+        ['persistTime', 'processEvent']);
   }
 
   describe('the state immediately after calling config', () => {
@@ -27,8 +27,6 @@ describe(`The behavior of the setup function of measurement library`, () => {
               /* test=  */ () => {
                 expect(eventProcessor.persistTime).not.toHaveBeenCalled();
                 expect(eventProcessor.processEvent).not.toHaveBeenCalled();
-                expect(eventProcessor.config).not.toHaveBeenCalled();
-              }, reset);
         });
 
     it('does not call any storageInterface functions when initially configured',
@@ -40,8 +38,6 @@ describe(`The behavior of the setup function of measurement library`, () => {
               /* test= */ () => {
                 expect(storageInterface.get).not.toHaveBeenCalled();
                 expect(storageInterface.set).not.toHaveBeenCalled();
-                expect(storageInterface.config).not.toHaveBeenCalled();
-              }, reset);
         });
 
     it('calls the data layer once when initially configured',
