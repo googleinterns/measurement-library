@@ -38,4 +38,4 @@ function runInBothOrders(config, test, reset = noop) {
   test(dataLayer);
 }
 
-exports = runInBothOrders;
+exports = {runInBothOrders};

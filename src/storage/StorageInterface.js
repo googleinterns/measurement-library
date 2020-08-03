@@ -1,4 +1,4 @@
-/*
+/**
  * @fileoverview Functions a storage interface must implement.
  * @externs
  */

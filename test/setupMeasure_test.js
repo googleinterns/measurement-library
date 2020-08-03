@@ -1,7 +1,7 @@
 goog.module('measurementLibrary.measure.testing.setup');
 goog.setTestOnly();
 
-const runInBothOrders = goog.require(
+const {runInBothOrders} = goog.require(
     'measurementLibrary.measure.testing.utils');
 
 describe(`The behavior of the setup function of measurement library`, () => {
