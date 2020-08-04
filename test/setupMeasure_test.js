@@ -18,7 +18,11 @@ goog.setTestOnly();
 function executeSnippetBeforeAndAfterSetup(config, test) {
   let snippet;
   let dataLayer;
+  // Before each test, we reset the data layer state. We also create
+  // a snippet function that emulates a user-defined measurement library
+  // code snippet with options given by the code in the config variable.
   beforeEach(() => {
+    // Reset the data layer we are using.
     dataLayer = [];
     // The code snippet that is run asynchronously.
     snippet = (dataLayer) => {
@@ -28,53 +32,52 @@ function executeSnippetBeforeAndAfterSetup(config, test) {
       config(measure);
     };
   });
-  it('runs snippet first', () => {
+  it('assuming the measure snippet ran first', () => {
     snippet(dataLayer);
     setupMeasure(dataLayer);
     test(dataLayer);
   });
 
-  it('runs setup first', () => {
+  it('assuming the setupMeasure function ran first', () => {
     setupMeasure(dataLayer);
     snippet(dataLayer);
     test(dataLayer);
   });
 }
 
-describe(`The behavior of the setup function of measurement library`, () => {
-  let get;
-  let set;
-  let persistTime;
-  let processEvent;
+describe('After calling the setupMeasure function of setup', () => {
+  describe(`calling the config function of measurement library`, () => {
+    let load;
+    let save;
+    let persistTime;
+    let processEvent;
 
-  // Create a Mock Storage and Mock Processor object. Note that we cannot
-  // use jasmine.createSpyObject since it does not have a constructor.
-  // We need a class that will create an instance of itself that we can then
-  // access. Here this is done by making each method a spy.
-  class MockStorage {
-    constructor() {
-      this.get = get;
-      this.set = set;
+    // Create a Mock Storage and Mock Processor object. Note that we cannot
+    // use jasmine.createSpyObject since it does not have a constructor.
+    // We need a class that will create an instance of itself that we can then
+    // access. Here this is done by making each method a spy.
+    class MockStorage {
+      constructor() {
+        this.load = load;
+        this.save = save;
+      }
     }
-  }
 
-  class MockProcessor {
-    constructor() {
-      this.persistTime = persistTime;
-      this.processEvent = processEvent;
+    class MockProcessor {
+      constructor() {
+        this.persistTime = persistTime;
+        this.processEvent = processEvent;
+      }
     }
-  }
 
-  beforeEach(() => {
-    get = jasmine.createSpy('get');
-    set = jasmine.createSpy('set');
-    persistTime = jasmine.createSpy('persistTime');
-    processEvent = jasmine.createSpy('processEvent');
-  });
+    beforeEach(() => {
+      load = jasmine.createSpy('load');
+      save = jasmine.createSpy('save');
+      persistTime = jasmine.createSpy('persistTime');
+      processEvent = jasmine.createSpy('processEvent');
+    });
 
-  describe('the state immediately after calling config', () => {
-    describe('does not call any eventProcessor functions' +
-        ' when initially configured', () => {
+    describe('does not call any eventProcessor functions', () => {
       executeSnippetBeforeAndAfterSetup(
           /* config= */
           (measure) =>
@@ -85,19 +88,18 @@ describe(`The behavior of the setup function of measurement library`, () => {
           });
     });
 
-    describe('does not call any storageInterface functions when ' +
-        'initially configured', () => {
+    describe('does not call any storageInterface functions', () => {
       executeSnippetBeforeAndAfterSetup(
           /* config= */
           (measure) =>
               measure('config', MockProcessor, {}, MockStorage, {}),
           /* test= */ () => {
-            expect(get).not.toHaveBeenCalled();
-            expect(set).not.toHaveBeenCalled();
+            expect(load).not.toHaveBeenCalled();
+            expect(save).not.toHaveBeenCalled();
           });
     });
 
-    describe('calls the data layer once when initially configured', () => {
+    describe('makes one call to the data layer', () => {
       executeSnippetBeforeAndAfterSetup(
           /* config= */
           (measure) =>
