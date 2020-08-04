@@ -1,3 +1,8 @@
+/**
+ * @fileoverview This file is to be used as the entry point for measurement
+ * library from an html script tag. This file sets up the measurement library
+ * on the global dataLayer variable.
+ */
 goog.module('measurementLibrary.main');
 
 const setupMeasure = goog.require('measurementLibrary.setup');

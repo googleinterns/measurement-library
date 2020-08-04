@@ -1,3 +1,17 @@
+/**
+ * @fileoverview This file exports a function that augments
+ * an array, adding in the measurement library functionality. A commandAPI
+ * wrapped around the array will be able to register/respond to events and
+ * save/load data corresponding to the measurement library documentation.
+ *
+ * const dataLayer = [];
+ * const measure = function() {
+ *   dataLayer.push(arguments);
+ * };
+ * setupMeasure(dataLayer);
+ * measure('config', ...);
+ *
+ */
 goog.module('measurementLibrary.setup');
 
 const {DataLayerHelper} = goog.require('helper');
