@@ -15,7 +15,7 @@ goog.setTestOnly();
  * @param {function(!Array<*>):undefined} test The tests to run
  *     after both the code snippet and setupMeasure function have fired.
  */
-function executeSnippetBeforeAndAfterAndSetup(config, test) {
+function executeSnippetBeforeAndAfterSetup(config, test) {
   let snippet;
   let dataLayer;
   beforeEach(() => {
@@ -75,7 +75,7 @@ describe(`The behavior of the setup function of measurement library`, () => {
   describe('the state immediately after calling config', () => {
     describe('does not call any eventProcessor functions' +
         ' when initially configured', () => {
-      executeSnippetBeforeAndAfterAndSetup(
+      executeSnippetBeforeAndAfterSetup(
           /* config= */
           (measure) =>
               measure('config', MockProcessor, {}, MockStorage, {}),
@@ -87,7 +87,7 @@ describe(`The behavior of the setup function of measurement library`, () => {
 
     describe('does not call any storageInterface functions when ' +
         'initially configured', () => {
-      executeSnippetBeforeAndAfterAndSetup(
+      executeSnippetBeforeAndAfterSetup(
           /* config= */
           (measure) =>
               measure('config', MockProcessor, {}, MockStorage, {}),
@@ -98,7 +98,7 @@ describe(`The behavior of the setup function of measurement library`, () => {
     });
 
     describe('calls the data layer once when initially configured', () => {
-      executeSnippetBeforeAndAfterAndSetup(
+      executeSnippetBeforeAndAfterSetup(
           /* config= */
           (measure) =>
               measure('config', MockProcessor, {}, MockStorage,
