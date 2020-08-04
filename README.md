@@ -67,7 +67,7 @@ After setting up the script tags, you can begin to use the library. All commands
 are processed by passing arguments to the  `measure()` function. 
 
 ## Event command
-When you run the command `measure('event', eventName, eventArgs)`, all registered
+When you run the command `measure('event', eventName, eventOptions)`, all registered
 [event processors](#event-processors) will read the event and perform actions corresponding
 to their API.
 
@@ -84,11 +84,12 @@ of the cookies storage, run a `set` command in the script tag before calling
 `config`. 
 
 ```js
+// Set the default cookie parameters
 measure('set', 'cookies', {prefix: 'my_', expires: 11});
-// Configure the cookies storage with prefix 'my_' and expires 22.
-measure('config', 'eventProcessorName', {}, 'cookies', {expires: 22});
-// Configure another cookies storage with prefix 'my_' and expires 11.
+// Use the default cookie parameters: prefix 'my_' and expires 11.
 measure('config', 'eventProcessorName', {}, 'cookies', {});
+// Override a default cookie parameter: expires is 22 for this storage.
+measure('config', 'eventProcessorName', {}, 'cookies', {expires: 22});
 ```
 
 # Event Processors
@@ -107,7 +108,7 @@ in addition to a constructor that takes an options object as it's only parameter
     function measure(){dataLayer.push(arguments);}
     class MyProcessor {
       constructor({theNumber});
-      processEvent(storageInterface, modelInterface, eventName, eventArgs);
+      processEvent(storageInterface, modelInterface, eventName, eventOptions);
       persistTime(key, value);
     }
     // Call the class constructor  
@@ -143,7 +144,7 @@ in addition to a constructor that takes an options object as it's only parameter
     // Call the class constructor.
     measure(config, 'google_analytics', {}, MyStorage, {theNumber: 42});
     // Call the save command with secondsToLive determined by the persistTime
-   // function of the event processor.
+    // function of the event processor.
     measure('set', 'key', 'value');
 </script>
 ```
