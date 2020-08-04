@@ -22,7 +22,8 @@ class EventProcessor {
    * @param {{get:function(string):*, set:function(string, *)}} modelInterface
    *    An interface to load or save short term page data from the data layer.
    * @param {string} eventName The name of the event passed to the data layer.
-   * @param {!Object<string, *>=} eventOptions The events passed to the data layer.
+   * @param {!Object<string, *>=} eventOptions The event options
+   *    passed to the data layer.
    */
   processEvent(storageInterface, modelInterface, eventName, eventOptions) {};
 
