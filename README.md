@@ -18,15 +18,9 @@ Measurement library will provide an open source alternative for sites/apps to se
 - [Event Processors](#event-processors)
     - [Google Analytics](#google-analytics)
     - [Custom Event Processor](#custom-event-processor)
-        - [Event Processor API](#event-processor-api)
-            - [processEvent](#processevent)
-            - [persistTime](#persisttime)
 - [Storage Interfaces](#storage-interfaces)
     - [Cookies](#cookies)
     - [Custom Storage Interface](#custom-storage-interface)
-        - [Storage Interface API](#storage-interfaces)
-            - [save](#save)
-            - [load](#load)
 - [Local Setup](#local-setup)
     - [Creating the build](#creating-the-build)
     - [Running Tests Interactively](#running-tests-interactively)
@@ -34,7 +28,7 @@ Measurement library will provide an open source alternative for sites/apps to se
 # Overview
 Measurement Library is a utility to help developers send data collected from their website to
 other libraries for analytics. After specifying settings in a script tag, you can process any
-sent events send data using a variety of built in event processors (e.g. sending data to Google Analytics).
+sent events using a variety of built in event processors (e.g. sending data to Google Analytics).
 
 Data about the user is automatically saved to persist between visits using your choice of
 a variety of different storage options (e.g. cookies).
@@ -50,7 +44,7 @@ npm install measurement-library
 Next, choose [the event processor](#event-processors) and [the storage implementation](#storage-interfaces)
 that you want to use and include this code in your `<head>` tag.
 ```html
-<script async src="./node_modules/measurement-library/dist/measure"></script>
+<script async src="./node_modules/measurement-library/dist/measure"/>
 <script>
   window.dataLayer = window.dataLayer || [];
   function measure(){dataLayer.push(arguments);}
@@ -80,20 +74,21 @@ to their API.
 ## Set command
 To save parameters beyond the current page, you can call the command `measure('set', key, value)`.
 The registered event processor will determine if the value should be saved, how long the value should
-be saved for, and save ht. To overwrite this behavior, you can specify it as a third time-to-live parameter:
-`measure('set', key, value, secondsToLive)`
+be saved for, and save it. To overwrite this behavior, you can specify a third time-to-live parameter:
+`measure('set', key, value, secondsToLive)`. In particular, if `secondsToLive` is 0, no data will be saved
+to long term storage.
 
 The set command can also be used to set parameters related to a implementation of
-an event processor or storage interface. for example, to modify the default parameters
+an event processor or storage interface. For example, to modify the default parameters
 of the cookies storage, run a `set` command in the script tag before calling
-configure. 
+`config`. 
 
 ```js
 measure('set', 'cookies', {prefix: 'my_', expires: 11});
 // Configure the cookies storage with prefix 'my_' and expires 22.
 measure('config', 'eventProcessorName', {}, 'cookies', {expires: 22});
 // Configure another cookies storage with prefix 'my_' and expires 11.
-measure('config', 'anotherEventProcessorName', {}, 'cookies', {});
+measure('config', 'eventProcessorName', {}, 'cookies', {});
 ```
 
 # Event Processors
@@ -120,22 +115,11 @@ in addition to a constructor that takes an options object as it's only parameter
     // Calls the processEvent function with parameters 
     // (cookies storage, short term storage, 'jump', {height: 6}).
     measure('event', 'jump', {height: 6})
+    // Sets a value in the storage with secondsToLive determined by
+    // the persistTime function of the event processor.
+    measure('set', 'key', 'value');
 </script>
 ```
-### Event Processor API
-#### processEvent
-`storageInterface` (`StorageInterface`): An interface to an object to
-load or save persistent data with.
-
-`modelInterface` (`{set: function(), get: function()}`): A interface to the model
-storing short term page data.
-
-`eventName` (`string`): The name of the event passed to `measure`.
-
-`eventOptions` (`Object<string, string>`): The name of the event passed to `measure`.
-#### persistTime
-
-
 
 # Storage Interfaces
 ## Cookies
@@ -162,37 +146,6 @@ in addition to a constructor that takes an options object as it's only parameter
    // function of the event processor.
     measure('set', 'key', 'value');
 </script>
-```
-
-### Storage Interface API
-#### save
-##### Parameters
-`key` (`string`): key to save into storage. If a key contains  `.`, then it refers to a nested key in the model.
-
-`value` (`any`): The value to save into the storage.
-
-`secondsToLive` (`number`): The number of seconds until the saved data expires and can no longer be
-loaded from the model.
-
-```js
-// storage contains {}
-save('aaa.bbb.ccc', 10, 1);
-// model is {aaa: {bbb: {ccc: 10}}} for the next 1 second
-```
-
-#### load
-`key` (`string`): key to save into storage. If a key contains  `.`, then it refers to a nested key in the model.
-
-`defaultValue` (`any`): The value to return if the storage does not contain the key.
-
-```js
-// storage contains {a: {b: 1}}
-let x = load('a', 'empty');
-// x = {b: 1}
-x = load('a.b', 'empty');
-// x = 1
-x = load('c', 'empty');
-// x = 'empty'
 ```
 
 # Local Setup
