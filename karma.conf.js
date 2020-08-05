@@ -16,7 +16,8 @@ module.exports = function(config) {
       {pattern: 'src/eventProcessor/**/*.js'},
       {pattern: 'src/**/*.js'},
       // ------------------------- Test Files ----------------------------------
-      'test/*_test.js'
+      'test/*_test.js',
+      'test/**/*_test.js',
     ],
     preprocessors: {'**/*.js': ['googmodule']},
     plugins: [

@@ -1,7 +1,5 @@
 goog.module('measurementLibrary.eventProcessor.GoogleAnalyticsEventProcessor');
 
-const uuidv4 = goog.require('measurementLibrary.eventProcessor.uuidv4');
-
 /**
  * A class that processes events pushed to the data layer
  * by constructing and sending Google Analytics events via
@@ -42,7 +40,7 @@ class GoogleAnalyticsEventProcessor {
 
     /**
      * Parameters that are to be set at the top level of the JSON
-     * post body instead of as event parameters.
+     * POST body instead of as event parameters.
      * @private @const {!Object<string,boolean>}
      */
     this.topLevelParams_ = {
@@ -66,8 +64,7 @@ class GoogleAnalyticsEventProcessor {
      * the Google Analytics UI.
      * @private @const {string|undefined}
      */
-    this.measurementId_ =
-        measurementId ? measurementId.toUpperCase() : measurementId;
+    this.measurementId_ = measurementId;
 
     /**
      * URL to send network requests to. Defaults to the Google Analytics
@@ -79,13 +76,9 @@ class GoogleAnalyticsEventProcessor {
     /**
      * How long the client ID key should be stored in long term storage
      * measured in seconds. Defaults to positive infinity.
+     * @private @const {number}
      */
     this.clientIdExpires_ = clientIdExpires;
-
-    /**
-     * What method to use for UUID v4 generation.
-     */
-    this.uuidv4_ = uuidv4;
   }
 
   /**
@@ -99,8 +92,8 @@ class GoogleAnalyticsEventProcessor {
   }
 
   /**
-   * WIP
-   *
+   * Processes events pushed to the data layer by constructing and sending JSON
+   * POST requests to Google Analytics. Follows Measurement Protocol.
    * @param {!StorageInterface} storageInterface An interface to an object to
    *    load or save persistent data with.
    * @param {{get:function(string):*, set:function(string, *)}} modelInterface
@@ -114,8 +107,8 @@ class GoogleAnalyticsEventProcessor {
   }
 
   /**
-   * WIP
-   *
+   * Checks if the key being set by the user is client ID and if so returns
+   * the client ID expiry.
    * @param {string} key The location at which to store data in the model.
    *    Dot notation is used to access a nested value (i.e. 'employees.jim'
    *    is the key 'jim' in the nested 'employees' object).
