@@ -12,7 +12,7 @@ if (window.crypto) {
 /**
  * Generates an [RFC411 compliant UUID V4](https://www.ietf.org/rfc/rfc4122.txt).
  * Draws heavy inspiration from Jeff Ward's Stack Overflow answer [here](https://stackoverflow.com/a/21963136).
- * @param {boolean} useMathRandom Override the default beahvior to use
+ * @param {boolean=} useMathRandom Override the default beahvior to use
  *     Cryto API if available and instead use `Math.random()`
  * @return {string}
  */
