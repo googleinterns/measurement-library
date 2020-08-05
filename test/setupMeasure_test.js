@@ -18,9 +18,9 @@ goog.setTestOnly();
 function executeSnippetBeforeAndAfterSetup(config, test) {
   let snippet;
   let dataLayer;
-  // Before each test, we reset the data layer state. We also create
+  // Before each test, reset the data layer state, and create
   // a snippet function that emulates a user-defined measurement library
-  // code snippet with options given by the code in the config variable.
+  // code snippet with options given by the code in the `config` variable.
   beforeEach(() => {
     // Reset the data layer we are using.
     dataLayer = [];
@@ -46,35 +46,35 @@ function executeSnippetBeforeAndAfterSetup(config, test) {
 }
 
 describe('After calling the setupMeasure function of setup', () => {
-    let load;
-    let save;
-    let persistTime;
-    let processEvent;
+  let load;
+  let save;
+  let persistTime;
+  let processEvent;
 
-    // Create a Mock Storage and Mock Processor object. Note that we cannot
-    // use jasmine.createSpyObject since it does not have a constructor.
-    // We need a class that will create an instance of itself that we can then
-    // access. Here this is done by making each method a spy.
-    class MockStorage {
-      constructor() {
-        this.load = load;
-        this.save = save;
-      }
+  // Create a Mock Storage and Mock Processor object. Note that we cannot
+  // use jasmine.createSpyObject since it does not have a constructor.
+  // We need a class that will create an instance of itself that we can then
+  // access. Here this is done by making each method a spy.
+  class MockStorage {
+    constructor() {
+      this.load = load;
+      this.save = save;
     }
+  }
 
-    class MockProcessor {
-      constructor() {
-        this.persistTime = persistTime;
-        this.processEvent = processEvent;
-      }
+  class MockProcessor {
+    constructor() {
+      this.persistTime = persistTime;
+      this.processEvent = processEvent;
     }
+  }
 
-    beforeEach(() => {
-      load = jasmine.createSpy('load');
-      save = jasmine.createSpy('save');
-      persistTime = jasmine.createSpy('persistTime');
-      processEvent = jasmine.createSpy('processEvent');
-    });
+  beforeEach(() => {
+    load = jasmine.createSpy('load');
+    save = jasmine.createSpy('save');
+    persistTime = jasmine.createSpy('persistTime');
+    processEvent = jasmine.createSpy('processEvent');
+  });
 
   describe(`calling the config function of measurement library`, () => {
     describe('does not call any eventProcessor functions', () => {
