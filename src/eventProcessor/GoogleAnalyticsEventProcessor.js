@@ -113,8 +113,6 @@ class GoogleAnalyticsEventProcessor {
    *    Dot notation is used to access a nested value (i.e. 'employees.jim'
    *    is the key 'jim' in the nested 'employees' object).
    * @param {*} value The data to store.
-   * @param {{get:function(string):*, set:function(string, *)}} modelInterface
-   *    An interface to load or save short term page data from the data layer.
    * @return {number} How long the key should be stored in seconds.
    *     If -1, then the default value saved in storage will be used.
    *     If 0, the data is not saved to long term storage at all.
