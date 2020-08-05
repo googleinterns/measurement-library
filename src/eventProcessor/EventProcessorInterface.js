@@ -1,4 +1,4 @@
-/*
+/**
  * @fileoverview Functions a event processor must implement.
  * @externs
  */
