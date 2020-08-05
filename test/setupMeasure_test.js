@@ -46,7 +46,6 @@ function executeSnippetBeforeAndAfterSetup(config, test) {
 }
 
 describe('After calling the setupMeasure function of setup', () => {
-  describe(`calling the config function of measurement library`, () => {
     let load;
     let save;
     let persistTime;
@@ -77,6 +76,7 @@ describe('After calling the setupMeasure function of setup', () => {
       processEvent = jasmine.createSpy('processEvent');
     });
 
+  describe(`calling the config function of measurement library`, () => {
     describe('does not call any eventProcessor functions', () => {
       executeSnippetBeforeAndAfterSetup(
           /* config= */
