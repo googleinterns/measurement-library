@@ -27,9 +27,44 @@ function setupMeasure(dataLayer) {
    * The DataLayerHelper to use with this application.
    * @private @const {!DataLayerHelper}
    */
-  const helper = new DataLayerHelper(dataLayer);
+  const helper = new DataLayerHelper(dataLayer, {'processNow': false});
 
-   // TODO: Use the variables declared above
+  helper.registerProcessor('config', configProcessors);
+  helper.process();
+
+  // configProcessors has jsdoc and stuff added in PR #52
+  function configProcessors(eventProcessor, eventOptions,
+                            storageInterface, storageOptions) {
+    let processor = new eventProcessor(eventOptions);
+    let storage = new storageInterface(storageOptions);
+
+    /**
+     * Check if a given key/value pair should be persisted in storage, and
+     * if so, save it.
+     *
+     * @param {string} key The key whose value you want to set.
+     * @param {*} value The value to assign to the key.
+     * @param {number=} secondsToLive The time for saved data to live.
+     *     If not passed, the eventProcessor will decide.
+     *     If -1, the storageInterface will decide.
+     *     If 0, nothing will be stored.
+     */
+    function processSet(key, value, secondsToLive = undefined) {
+      if (secondsToLive === undefined) {
+        secondsToLive = processor.persistTime(key, value);
+      }
+      // Don't save if the time to live is 0.
+      if (secondsToLive) {
+        if (secondsToLive === -1) {
+          storage.save(key, value);
+        } else {
+          storage.save(key, value, secondsToLive);
+        }
+      }
+    }
+
+    helper.registerProcessor('set', processSet);
+  }
 }
 
 goog.exportSymbol('setupMeasure', setupMeasure);
