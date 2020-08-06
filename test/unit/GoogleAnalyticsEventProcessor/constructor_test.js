@@ -27,7 +27,7 @@ describe('The `constructor` of GoogleAnalyticsEventProcessor', () => {
     eventProcessor = new GoogleAnalyticsEventProcessor();
 
     expect(eventProcessor.measurementUrl_).toBe('https://www.google-analytics.com/mp/collect');
-    expect(eventProcessor.clientIdExpires_).toBe(63113904);
+    expect(eventProcessor.clientIdExpires_).toBe(2 * 365 * 24 * 60 * 60);
     expect(eventProcessor.automaticParams_).toEqual(defaultAutomaticParams);
   });
 
