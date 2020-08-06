@@ -51,7 +51,7 @@ class GoogleAnalyticsEventProcessor {
       'api_secret': apiSecret,
       'measurement_id': measurementId,
       'measurement_url': measurementUrl = DEFAULT_MEASUREMENT_URL,
-      'client_id_expires': clientIdExpires = 63113904,
+      'client_id_expires': clientIdExpires = 2 * 365 * 24 * 60 * 60,
       'automatic_params': userAutomaticParams = [],
     } = {}) {
     // TODO(kjgalvan):: log error if measurementUrl is default value and
