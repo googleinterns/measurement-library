@@ -10,6 +10,25 @@ goog.module('measurementLibrary.eventProcessor.GoogleAnalyticsEventProcessor');
  */
 class GoogleAnalyticsEventProcessor {
   /**
+   * Constructs a Google Analytics Event Processor using the following
+   * optional arguments within the options obejct:
+   *
+   * api_secret: Google Analytics API Secret. If provided, will be attached to
+   *     query parameter of the same name when sending events.
+   * measurement_id: Property to be measured Google Analytics Identifier. If
+   *     provided, will be attached to query parameter of the same name when
+   *     sending events.
+   * measurement_url: URL endpoint to send events to. Defaults to
+   *     Google Analytics collection endpoint.
+   * client_id_expires: Number of seconds to store the client ID in long term
+   *     storage. Defaults to positive infinity.
+   * automatic_params: Set of event parameters that will be searched for in
+   *     the global data model and pulled into all events if found.
+   *     The set is represented with a dict-style object.
+   *     To add a parameter, map its name to a truthy value.
+   *     To remove a default parameter, map its name to a falsy value.
+   *     Default parameters: page_path, page_location, page_title, user_id, and
+   *     client_id.
    * @param {{
    *     'api_secret': (string|undefined),
    *     'measurement_id': (string|undefined),
@@ -25,18 +44,30 @@ class GoogleAnalyticsEventProcessor {
       'client_id_expires': clientIdExpires = Number.POSITIVE_INFINITY,
       'automatic_params': userAutomaticParams = {},
     } = {}) {
-    /**
-     * Parameters that are important to all events and will be searched for
-     * globally in the data model.
-     * @private @const {!Object<string, boolean>}
-     */
-    this.automaticParams_ = Object.assign({
+    // TODO: log error if measurementUrl is default value and either apiSecret
+    // or measurementId are undefined.
+
+    const automaticParams = {
       'page_path': true,
       'page_location': true,
       'page_title': true,
       'user_id': true,
       'client_id': true,
-    }, userAutomaticParams);
+    };
+
+    // Shallowly merge default automatic params with user provided params
+    for (const key in userAutomaticParams) {
+      if (userAutomaticParams.hasOwnProperty(key)) {
+        automaticParams[key] = userAutomaticParams[key];
+      }
+    }
+
+    /**
+     * Parameters that are important to all events and will be searched for
+     * globally in the data model.
+     * @private @const {!Object<string, boolean>}
+     */
+    this.automaticParams_ = automaticParams;
 
     /**
      * Parameters that are to be set at the top level of the JSON
@@ -99,11 +130,12 @@ class GoogleAnalyticsEventProcessor {
    * @param {{get:function(string):*, set:function(string, *)}} modelInterface
    *    An interface to load or save short term page data from the data layer.
    * @param {string} eventName The name of the event passed to the data layer.
-   * @param {!Object<string, *>=} eventArgs The events passed to the data layer.
+   * @param {!Object<string, *>=} eventOptions The events passed to the data
+   *     layer.
    * @export
    */
-  processEvent(storageInterface, modelInterface, eventName, eventArgs) {
-    // constructs and sends JSON POST requests to GA
+  processEvent(storageInterface, modelInterface, eventName, eventOptions) {
+    // TODO: constructs and sends JSON POST requests to GA
   }
 
   /**
@@ -120,8 +152,8 @@ class GoogleAnalyticsEventProcessor {
    * @export
    */
   persistTime(key, value) {
-    // checks to see if key is client ID
-    // Returns client ID expires if true
+    // TODO: if key is client ID then returns client ID expires, otherwise
+    // return default value -1
     return -1;
   }
 }
