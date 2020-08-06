@@ -5,7 +5,7 @@ goog.module('measurementLibrary.eventProcessor.GoogleAnalyticsEventProcessor');
  * POST body instead of as event parameters.
  * @const {!Object<string,boolean>}
  */
-const topLevelParams_ = {
+const TOP_LEVEL_PARAMS = {
   'client_id': true,
   'user_id': true,
   'timestamp_micros': true,
@@ -13,10 +13,12 @@ const topLevelParams_ = {
   'non_personalized_ads': true,
 };
 
+const DEFAULT_MEASUREMENT_URL = 'https://www.google-analytics.com/mp/collect';
+
 /**
  * A class that processes events pushed to the data layer
  * by constructing and sending Google Analytics events via
- * Measurement Protocol.
+ * Measurement Protocol (App + Web).
  * For its Google Analytic events, it generates a unique client ID
  * and stores it in the long term storage model provided.
  * @implements {EventProcessor}
@@ -48,7 +50,7 @@ class GoogleAnalyticsEventProcessor {
   constructor({
       'api_secret': apiSecret,
       'measurement_id': measurementId,
-      'measurement_url': measurementUrl = 'https://www.google-analytics.com/mp/collect',
+      'measurement_url': measurementUrl = DEFAULT_MEASUREMENT_URL,
       'client_id_expires': clientIdExpires = 63113904,
       'automatic_params': userAutomaticParams = [],
     } = {}) {
@@ -115,7 +117,8 @@ class GoogleAnalyticsEventProcessor {
 
   /**
    * Processes events pushed to the data layer by constructing and sending JSON
-   * POST requests to Google Analytics. Follows Measurement Protocol.
+   * POST requests to Google Analytics.
+   * Follows Measurement Protocol (App + Web).
    * @param {!StorageInterface} storageInterface An interface to an object to
    *    load or save persistent data with.
    * @param {{get:function(string):*, set:function(string, *)}} modelInterface
