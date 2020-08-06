@@ -1,4 +1,4 @@
-goog.module('measurementLibrary.eventProcessor.testing.GoogleAnalyticsEventProcessor.processEvent');
+goog.module('measurementLibrary.eventProcessor.testing.GoogleAnalyticsEventProcessor.constructor');
 goog.setTestOnly();
 
 const GoogleAnalyticsEventProcessor = goog.require('measurementLibrary.eventProcessor.GoogleAnalyticsEventProcessor');
