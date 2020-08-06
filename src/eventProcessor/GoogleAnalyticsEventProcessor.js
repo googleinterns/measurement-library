@@ -52,8 +52,8 @@ class GoogleAnalyticsEventProcessor {
       'client_id_expires': clientIdExpires = 63113904,
       'automatic_params': userAutomaticParams = [],
     } = {}) {
-    // TODO: log error if measurementUrl is default value and either apiSecret
-    // or measurementId are undefined.
+    // TODO(kjgalvan):: log error if measurementUrl is default value and
+    // either apiSecret or measurementId are undefined.
 
     /**
      * Parameters that are important to all events and will be searched for
@@ -126,7 +126,7 @@ class GoogleAnalyticsEventProcessor {
    * @export
    */
   processEvent(storageInterface, modelInterface, eventName, eventOptions) {
-    // TODO: constructs and sends JSON POST requests to GA
+    // TODO(kjgalvan):: constructs and sends JSON POST requests to GA
   }
 
   /**
@@ -143,8 +143,8 @@ class GoogleAnalyticsEventProcessor {
    * @export
    */
   persistTime(key, value) {
-    // TODO: if key is client ID then returns client ID expires, otherwise
-    // return default value -1
+    // TODO(kjgalvan):: if key is client ID then returns client ID expires,
+    // otherwise return default value -1
     return -1;
   }
 }
