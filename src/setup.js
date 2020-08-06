@@ -50,7 +50,7 @@ function setupMeasure(dataLayer) {
    * The DataLayerHelper to use with this application.
    * @private @const {!DataLayerHelper}
    */
-  const helper = new DataLayerHelper(dataLayer, {processNow: false});
+  const helper = new DataLayerHelper(dataLayer, {'processNow': false});
 
   helper.registerProcessor('config', configProcessors);
   helper.process();
