@@ -1,6 +1,19 @@
 goog.module('measurementLibrary.eventProcessor.GoogleAnalyticsEventProcessor');
 
 /**
+ * Parameters that are to be set at the top level of the JSON
+ * POST body instead of as event parameters.
+ * @const {!Object<string,boolean>}
+ */
+const topLevelParams_ = {
+  'client_id': true,
+  'user_id': true,
+  'timestamp_micros': true,
+  'user_properties': true,
+  'non_personalized_ads': true,
+};
+
+/**
  * A class that processes events pushed to the data layer
  * by constructing and sending Google Analytics events via
  * Measurement Protocol.
@@ -21,33 +34,33 @@ class GoogleAnalyticsEventProcessor {
    * measurement_url: URL endpoint to send events to. Defaults to
    *     Google Analytics collection endpoint.
    * client_id_expires: Number of seconds to store the client ID in long term
-   *     storage. Defaults to positive infinity.
-   * automatic_params: Set of event parameters that will be searched for in
+   *     storage. Defaults to two years.
+   * automatic_params: Array of event parameters that will be searched for in
    *     the global data model and pulled into all events if found.
-   *     The set is represented with a dict-style object.
-   *     To add a parameter, map its name to a truthy value.
-   *     To remove a default parameter, map its name to a falsy value.
-   *     Default parameters: page_path, page_location, page_title, user_id, and
-   *     client_id.
    * @param {{
    *     'api_secret': (string|undefined),
    *     'measurement_id': (string|undefined),
    *     'measurement_url': string,
    *     'client_id_expires': number,
-   *     'automatic_params': !Object<string, boolean>,
+   *     'automatic_params': !Array<string>,
    * }=} optionsObject
    */
   constructor({
       'api_secret': apiSecret,
       'measurement_id': measurementId,
       'measurement_url': measurementUrl = 'https://www.google-analytics.com/mp/collect',
-      'client_id_expires': clientIdExpires = Number.POSITIVE_INFINITY,
-      'automatic_params': userAutomaticParams = {},
+      'client_id_expires': clientIdExpires = 63113904,
+      'automatic_params': userAutomaticParams = [],
     } = {}) {
     // TODO: log error if measurementUrl is default value and either apiSecret
     // or measurementId are undefined.
 
-    const automaticParams = {
+    /**
+     * Parameters that are important to all events and will be searched for
+     * globally in the data model.
+     * @private @const {!Object<string, boolean>}
+     */
+    this.automaticParams_ = {
       'page_path': true,
       'page_location': true,
       'page_title': true,
@@ -55,32 +68,10 @@ class GoogleAnalyticsEventProcessor {
       'client_id': true,
     };
 
-    // Shallowly merge default automatic params with user provided params
-    for (const key in userAutomaticParams) {
-      if (userAutomaticParams.hasOwnProperty(key)) {
-        automaticParams[key] = userAutomaticParams[key];
-      }
+    // Add user provided params to automatic param list
+    for (let i = 0; i < userAutomaticParams.length; ++i) {
+      this.automaticParams_[userAutomaticParams[i]] = true;
     }
-
-    /**
-     * Parameters that are important to all events and will be searched for
-     * globally in the data model.
-     * @private @const {!Object<string, boolean>}
-     */
-    this.automaticParams_ = automaticParams;
-
-    /**
-     * Parameters that are to be set at the top level of the JSON
-     * POST body instead of as event parameters.
-     * @private @const {!Object<string,boolean>}
-     */
-    this.topLevelParams_ = {
-      'client_id': true,
-      'user_id': true,
-      'timestamp_micros': true,
-      'user_properties': true,
-      'non_personalized_ads': true,
-    };
 
     /**
      * An API secret that can be generated via Google Analytics UI
@@ -106,7 +97,7 @@ class GoogleAnalyticsEventProcessor {
 
     /**
      * How long the client ID key should be stored in long term storage
-     * measured in seconds. Defaults to positive infinity.
+     * measured in seconds. Defaults to two years.
      * @private @const {number}
      */
     this.clientIdExpires_ = clientIdExpires;
