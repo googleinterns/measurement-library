@@ -120,9 +120,11 @@ class GoogleAnalyticsEventProcessor {
    * @export
    */
   persistTime(key, value) {
-    // checks to see if key is client ID
-    // Returns client ID expires if true
-    return -1;
+    if (key === 'client_id') {
+      return this.clientIdExpires_;
+    } else {
+      return -1;
+    }
   }
 }
 
