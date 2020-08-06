@@ -1,55 +1,79 @@
 goog.module('measurementLibrary.eventProcessor.GoogleAnalyticsEventProcessor');
 
 /**
+ * Parameters that are to be set at the top level of the JSON
+ * POST body instead of as event parameters.
+ * @const {!Object<string,boolean>}
+ */
+const TOP_LEVEL_PARAMS = {
+  'client_id': true,
+  'user_id': true,
+  'timestamp_micros': true,
+  'user_properties': true,
+  'non_personalized_ads': true,
+};
+
+const DEFAULT_MEASUREMENT_URL = 'https://www.google-analytics.com/mp/collect';
+
+/**
  * A class that processes events pushed to the data layer
  * by constructing and sending Google Analytics events via
- * Measurement Protocol.
+ * Measurement Protocol (App + Web).
  * For its Google Analytic events, it generates a unique client ID
  * and stores it in the long term storage model provided.
  * @implements {EventProcessor}
  */
 class GoogleAnalyticsEventProcessor {
   /**
+   * Constructs a Google Analytics Event Processor using the following
+   * optional arguments within the options obejct:
+   *
+   * api_secret: Google Analytics API Secret. If provided, will be attached to
+   *     query parameter of the same name when sending events.
+   * measurement_id: Property to be measured Google Analytics Identifier. If
+   *     provided, will be attached to query parameter of the same name when
+   *     sending events.
+   * measurement_url: URL endpoint to send events to. Defaults to
+   *     Google Analytics collection endpoint.
+   * client_id_expires: Number of seconds to store the client ID in long term
+   *     storage. Defaults to two years.
+   * automatic_params: Array of event parameters that will be searched for in
+   *     the global data model and pulled into all events if found.
    * @param {{
    *     'api_secret': (string|undefined),
    *     'measurement_id': (string|undefined),
    *     'measurement_url': string,
    *     'client_id_expires': number,
-   *     'automatic_params': !Object<string, boolean>,
+   *     'automatic_params': !Array<string>,
    * }=} optionsObject
    */
   constructor({
       'api_secret': apiSecret,
       'measurement_id': measurementId,
-      'measurement_url': measurementUrl = 'https://www.google-analytics.com/mp/collect',
-      'client_id_expires': clientIdExpires = Number.POSITIVE_INFINITY,
-      'automatic_params': userAutomaticParams = {},
+      'measurement_url': measurementUrl = DEFAULT_MEASUREMENT_URL,
+      'client_id_expires': clientIdExpires = 2 * 365 * 24 * 60 * 60,
+      'automatic_params': userAutomaticParams = [],
     } = {}) {
+    // TODO(kjgalvan):: log error if measurementUrl is default value and
+    // either apiSecret or measurementId are undefined.
+
     /**
      * Parameters that are important to all events and will be searched for
      * globally in the data model.
      * @private @const {!Object<string, boolean>}
      */
-    this.automaticParams_ = Object.assign({
+    this.automaticParams_ = {
       'page_path': true,
       'page_location': true,
       'page_title': true,
       'user_id': true,
       'client_id': true,
-    }, userAutomaticParams);
-
-    /**
-     * Parameters that are to be set at the top level of the JSON
-     * POST body instead of as event parameters.
-     * @private @const {!Object<string,boolean>}
-     */
-    this.topLevelParams_ = {
-      'client_id': true,
-      'user_id': true,
-      'timestamp_micros': true,
-      'user_properties': true,
-      'non_personalized_ads': true,
     };
+
+    // Add user provided params to automatic param list
+    for (let i = 0; i < userAutomaticParams.length; ++i) {
+      this.automaticParams_[userAutomaticParams[i]] = true;
+    }
 
     /**
      * An API secret that can be generated via Google Analytics UI
@@ -75,7 +99,7 @@ class GoogleAnalyticsEventProcessor {
 
     /**
      * How long the client ID key should be stored in long term storage
-     * measured in seconds. Defaults to positive infinity.
+     * measured in seconds. Defaults to two years.
      * @private @const {number}
      */
     this.clientIdExpires_ = clientIdExpires;
@@ -93,17 +117,19 @@ class GoogleAnalyticsEventProcessor {
 
   /**
    * Processes events pushed to the data layer by constructing and sending JSON
-   * POST requests to Google Analytics. Follows Measurement Protocol.
+   * POST requests to Google Analytics.
+   * Follows Measurement Protocol (App + Web).
    * @param {!StorageInterface} storageInterface An interface to an object to
    *    load or save persistent data with.
    * @param {{get:function(string):*, set:function(string, *)}} modelInterface
    *    An interface to load or save short term page data from the data layer.
    * @param {string} eventName The name of the event passed to the data layer.
-   * @param {!Object<string, *>=} eventArgs The events passed to the data layer.
+   * @param {!Object<string, *>=} eventOptions The events passed to the data
+   *     layer.
    * @export
    */
-  processEvent(storageInterface, modelInterface, eventName, eventArgs) {
-    // constructs and sends JSON POST requests to GA
+  processEvent(storageInterface, modelInterface, eventName, eventOptions) {
+    // TODO(kjgalvan):: constructs and sends JSON POST requests to GA
   }
 
   /**

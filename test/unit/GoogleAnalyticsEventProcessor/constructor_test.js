@@ -27,16 +27,8 @@ describe('The `constructor` of GoogleAnalyticsEventProcessor', () => {
     eventProcessor = new GoogleAnalyticsEventProcessor();
 
     expect(eventProcessor.measurementUrl_).toBe('https://www.google-analytics.com/mp/collect');
-    expect(eventProcessor.clientIdExpires_).toBePositiveInfinity();
-
-    for (const key in defaultAutomaticParams) {
-      expect(eventProcessor.automaticParams_.hasOwnProperty(key)).toBeTrue();
-
-      if (eventProcessor.automaticParams_.hasOwnProperty(key)) {
-        expect(eventProcessor.automaticParams_[key])
-            .toBe(defaultAutomaticParams[key]);
-      }
-    }
+    expect(eventProcessor.clientIdExpires_).toBe(63113904);
+    expect(eventProcessor.automaticParams_).toEqual(defaultAutomaticParams);
   });
 
   it('correctly sets `api_secret`', () => {
@@ -71,19 +63,12 @@ describe('The `constructor` of GoogleAnalyticsEventProcessor', () => {
     expect(eventProcessor.clientIdExpires_).toBe(0);
   });
 
-  it('correctly overrides `automatic_params`', () => {
+  it('correctly sets `automatic_params`', () => {
     eventProcessor = new GoogleAnalyticsEventProcessor({
-      'automatic_params': {
-        'client_id': false,
-        'custom_param': true,
-      },
+      'automatic_params': ['custom_param'],
     });
 
-    for (const key in defaultAutomaticParams) {
-      expect(eventProcessor.automaticParams_.hasOwnProperty(key)).toBeTrue();
-    }
-
-    expect(eventProcessor.automaticParams_['client_id']).toBeFalse();
+    expect(eventProcessor.automaticParams_['client_id']).toBeTrue();
     expect(eventProcessor.automaticParams_['custom_param']).toBeTrue();
   });
 });
