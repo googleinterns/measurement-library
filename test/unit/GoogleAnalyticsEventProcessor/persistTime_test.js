@@ -30,11 +30,10 @@ describe('The `persistTime` method ' +
   });
 
   describe('When key is client_id', () => {
-    it('returns positive infinity when ' +
-    'client_id_expires is not set', () => {
+    it('returns two years when client_id_expires is not set', () => {
       checkPersistTime(
         /** key */ 'client_id',
-        /** expected */ Number.POSITIVE_INFINITY
+        /** expected */ 2 * 365 * 24 * 60 * 60
       );
     });
 
