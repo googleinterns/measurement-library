@@ -8,6 +8,7 @@
  *
  * @interface
  */
+
 class StorageInterface {
   /**
    * Saves a key value pair into the storage interface for up to a
