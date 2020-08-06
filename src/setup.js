@@ -36,8 +36,8 @@ function setupMeasure(dataLayer) {
   // TODO: configProcessors jsdoc and better processor/storage init in PR 52
   function configProcessors(eventProcessor, eventOptions,
                             storageInterface, storageOptions) {
-    let processor = new eventProcessor(eventOptions);
-    let storage = new storageInterface(storageOptions);
+    const processor = new eventProcessor(eventOptions);
+    const storage = new storageInterface(storageOptions);
 
     /**
      * Process an event object by sending it to the registered event processor

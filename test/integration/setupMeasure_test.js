@@ -79,14 +79,14 @@ describe('The initial configuration with setupMeasure', () => {
       `with the right arguments after event is called`, () => {
     executeSnippetBeforeAndAfterSetup(/* config= */(measure) => {
       measure('config', MockProcessor, {}, MockStorage, {});
-      measure('event', 'name', 'extra arguments');
+      measure('event', 'name', {'1+2+...': '-1/12'});
     }, /* setup= */ () => {
       expect(processEvent).toHaveBeenCalledTimes(1);
       expect(processEvent).toHaveBeenCalledWith(
           jasmine.any(MockStorage), {
             get: jasmine.any(Function),
             set: jasmine.any(Function),
-          }, 'name', 'extra arguments');
+          }, 'name', {'1+2+...': '-1/12'});
     });
   });
 });
