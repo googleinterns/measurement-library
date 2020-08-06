@@ -92,6 +92,27 @@ class GoogleAnalyticsEventProcessor {
   }
 
   /**
+   * Builds the POST request URL using `measurement_id` and `api_secret`
+   * query parameters if available
+   * @return {string}
+   * @private
+   */
+  buildRequestUrl() {
+    const measurementIdQuery =
+        this.measurementId_ ? `measurement_id=${this.measurementId_}` : '';
+    const apiSecretQuery =
+        this.apiSecret_ ? `api_secret=${this.apiSecret_}` : '';
+
+    if (measurementIdQuery && apiSecretQuery) {
+      return `${this.measurementUrl_}?${measurementIdQuery}&${apiSecretQuery}`;
+    } else if (measurementIdQuery || apiSecretQuery) {
+      return `${this.measurementUrl_}?${measurementIdQuery}${apiSecretQuery}`;
+    } else {
+      return `${this.measurementUrl_}`;
+    }
+  }
+
+  /**
    * Processes events pushed to the data layer by constructing and sending JSON
    * POST requests to Google Analytics. Follows Measurement Protocol.
    * @param {!StorageInterface} storageInterface An interface to an object to
