@@ -12,11 +12,10 @@ if (window.crypto) {
 /**
  * Generates an [RFC411 compliant UUID V4](https://www.ietf.org/rfc/rfc4122.txt).
  * Draws heavy inspiration from Jeff Ward's Stack Overflow answer [here](https://stackoverflow.com/a/21963136).
- * @param {boolean=} useMathRandom Override the default beahvior to use
- *     Cryto API if available and instead use `Math.random()`
+ * @param {(function(!Uint8Array):!Uint8Array)=} randomValueGenerator
  * @return {string}
  */
-function uuidv4(useMathRandom = false) {
+function generateUniqueId(randomValueGenerator = getRandomValues) {
   let uuid = '';
   let timestamp = new Date().getTime();
   const template = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx';
@@ -27,7 +26,7 @@ function uuidv4(useMathRandom = false) {
     } else {
       // Generate a random number between [0-15]
       let random;
-      if (getRandomValues && !useMathRandom) {
+      if (randomValueGenerator) {
         random = getRandomValues(new Uint8Array(1))[0] & 15;
       } else {
         random = (timestamp + Math.random() * 16) & 15;
@@ -42,4 +41,6 @@ function uuidv4(useMathRandom = false) {
   return uuid;
 }
 
-exports = uuidv4;
+exports = {
+  generateUniqueId,
+};

@@ -1,7 +1,7 @@
 goog.module('measurementLibrary.eventProcessor.testing.uuidv4');
 goog.setTestOnly();
 
-const uuidv4 = goog.require('measurementLibrary.eventProcessor.uuidv4');
+const {generateUniqueId} = goog.require('measurementLibrary.eventProcessor.uuidv4');
 
 describe('The `uuidv4` method', () => {
   const validUUID =
@@ -9,7 +9,7 @@ describe('The `uuidv4` method', () => {
 
   it('generates valid UUID using Crypto API', () => {
     for (let i = 0; i < 10; ++i) {
-      const uuid = uuidv4();
+      const uuid = generateUniqueId();
       const match = validUUID.exec(uuid);
 
       expect(match[0]).toBe(uuid);
@@ -18,7 +18,7 @@ describe('The `uuidv4` method', () => {
 
   it('generates valid UUID using `Math.random` and `Date.getTime`', () => {
     for (let i = 0; i < 10; ++i) {
-      const uuid = uuidv4(true);
+      const uuid = generateUniqueId(null);
       const match = validUUID.exec(uuid);
 
       expect(match[0]).toBe(uuid);
