@@ -42,9 +42,9 @@ class GoogleAnalyticsEventProcessor {
    * @param {{
    *     'api_secret': (string|undefined),
    *     'measurement_id': (string|undefined),
-   *     'measurement_url': string,
-   *     'client_id_expires': number,
-   *     'automatic_params': !Array<string>,
+   *     'measurement_url': (string|undefined),
+   *     'client_id_expires': (number|undefined),
+   *     'automatic_params': (!Array<string>|undefined),
    * }=} optionsObject
    */
   constructor({
