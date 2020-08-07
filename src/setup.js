@@ -66,9 +66,8 @@ function setupMeasure(dataLayer) {
     const processor = new eventProcessor(eventOptions);
     const storage = new storageInterface(storageOptions);
 
-    helper.registerProcessor('set',
-        (key, value, secondsToLive) =>
-            processSet(processor, storage, key, value, secondsToLive));
+    helper.registerProcessor('set', (key, value, secondsToLive) =>
+        processSet(processor, storage, key, value, secondsToLive));
   }
 }
 
