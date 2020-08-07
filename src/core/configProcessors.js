@@ -1,6 +1,6 @@
 goog.module('measurementLibrary.core.configProcessors');
+const GoogleAnalyticsEventProcessor = goog.require('measurementLibrary.eventProcessor.GoogleAnalyticsEventProcessor');
 const {LogLevel, log} = goog.require('measurementLibrary.logging');
-
 /**
  * @typedef {function(new:StorageInterface, !Object<string, *>)}
  */
@@ -21,7 +21,7 @@ const DEFAULT_STORAGE_INTERFACES = {};
  * A map assigning names to all of the built in event processors.
  * @const {!Object<string, !ProcessorConstructor>}
  */
-const DEFAULT_EVENT_PROCESSORS = {};
+const DEFAULT_EVENT_PROCESSORS = {'google_analytics' : GoogleAnalyticsEventProcessor};
 
 /**
  * When called with an implementation of the eventProcessor and
