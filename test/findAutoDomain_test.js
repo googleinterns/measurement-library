@@ -3,7 +3,7 @@ goog.setTestOnly();
 
 const CookiesStorage = goog.require('measurementLibrary.storage.CookiesStorage');
 
-describe('the findAutoDomain method', () => {
+describe('The findAutoDomain method', () => {
   let testDocument;
   let setupDocument;
   const storage = new CookiesStorage({});
