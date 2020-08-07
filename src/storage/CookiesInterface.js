@@ -1,7 +1,7 @@
 goog.module('measurementLibrary.storage.CookiesStorage');
 
 /**
- * A fancier storage that does cool things.
+ * An implementation of StorageInterface that uses cookies for storage.
  * @implements {StorageInterface}
  */
 class CookiesStorage {
