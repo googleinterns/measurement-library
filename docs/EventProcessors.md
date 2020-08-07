@@ -4,7 +4,7 @@
 
 ## Custom Event Processor
 If none of the built-in processors fit your needs, you can create your own event processor.
-An event processor is a class with the 2 methods described in [eventProcessorInterface.js](/src/eventProcessor/EventProcessorInterface.js)
+An event processor is a class with the 2 methods described in [eventProcessorInterface.js](https://github.com/googleinterns/measurement-library/blob/master/src/eventProcessor/EventProcessorInterface.js)
 in addition to a constructor that takes an options object as it's only parameter.
 
 ```html

@@ -4,7 +4,7 @@
 
 ## Custom Storage Interface
 If none of the built-in storage systems fit your needs, you can create your own storage interface.
-A storage interface is a class with the 2 methods described in [storageInterface.js](/src/storage/StorageInterface.js)
+A storage interface is a class with the 2 methods described in [storageInterface.js](https://github.com/googleinterns/measurement-library/blob/master/src/storage/StorageInterface.js)
 in addition to a constructor that takes an options object as it's only parameter.
 
 ```html
