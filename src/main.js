@@ -5,7 +5,7 @@
  */
 goog.module('measurementLibrary.main');
 
-const setupMeasure = goog.require('measurementLibrary.setup');
+const setupMeasure = goog.require('measurementLibrary.core.setup');
 
 /**
  * @global @const {!Array} The data layer of the application, storing a record

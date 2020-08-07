@@ -18,7 +18,8 @@ module.exports = function(config) {
       {pattern: 'src/storage/**/*.js'},
       {pattern: 'src/eventProcessor/**/*.js'},
       {pattern: 'src/logging.js'},
-      {pattern: 'src/setup.js'},
+      {pattern: 'src/core/configProcessors.js'},
+      {pattern: 'src/core/setup.js'},
       {pattern: 'src/main.js'},
       {pattern: 'src/**/*.js'},
       // ------------------------- Test Files ----------------------------------

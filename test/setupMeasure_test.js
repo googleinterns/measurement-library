@@ -1,4 +1,4 @@
-goog.module('measurementLibrary.measure.testing.setup');
+goog.module('measurementLibrary.measure.testing.core.setup');
 goog.setTestOnly();
 
 /**
@@ -111,11 +111,24 @@ describe('After calling the setupMeasure function of setup', () => {
             expect(dataLayer.length).toBe(1);
           });
     });
+
     describe('Does not crash when unsupported strings are passed in', () => {
       executeSnippetBeforeAndAfterSetup(
           /* config= */
           (measure) =>
               measure('config', 'unusedProcessorName', {}, 'unusedStorageName',
+                  {}),
+          /* test=  */ (dataLayer) => {
+            expect(dataLayer.length).toBe(1);
+          });
+    });
+
+    describe('Does not crash when non string non constructable' +
+        'object is passed', () => {
+      executeSnippetBeforeAndAfterSetup(
+          /* config= */
+          (measure) =>
+              measure('config', new Date(), {}, [1, 2, 3],
                   {}),
           /* test=  */ (dataLayer) => {
             expect(dataLayer.length).toBe(1);
