@@ -20,9 +20,9 @@ const {DataLayerHelper} = goog.require('helper');
  * Check if a given key/value pair should be persisted in storage, and
  * if so, save it.
  *
- * @param {EventProcessor} processor The processor used to determine the default
- *     time to live.
- * @param {StorageInterface} storage Location to save the key
+ * @param {!EventProcessor} processor The processor used to determine the
+ *     default time to live.
+ * @param {!StorageInterface} storage Location to save the key
  * @param {string} key The key whose value you want to set.
  * @param {*} value The value to assign to the key.
  * @param {number=} secondsToLive The time for saved data to live.
@@ -67,7 +67,9 @@ function setupMeasure(dataLayer) {
     const storage = new storageInterface(storageOptions);
 
     helper.registerProcessor('set', (key, value, secondsToLive) =>
-        processSet(processor, storage, key, value, secondsToLive));
+        processSet(processor, storage,
+            /** @type {string} */ (key), /** @type {*} */ (value),
+            /** @type {number|undefined} */ (secondsToLive)));
   }
 }
 
