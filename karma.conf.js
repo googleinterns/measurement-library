@@ -23,7 +23,7 @@ module.exports = function(config) {
       {pattern: 'src/main.js'},
       {pattern: 'src/**/*.js'},
       // ------------------------- Test Files ----------------------------------
-      'test/*_test.js',
+      'test/unit/**/*_test.js',
     ],
     preprocessors: {'**/*.js': ['googmodule']},
     plugins: [
