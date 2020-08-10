@@ -1,4 +1,4 @@
-goog.module('measurementLibrary.measure.testing.core.setup');
+goog.module('measurementLibrary.measure.testing.config.setup');
 goog.setTestOnly();
 
 /**

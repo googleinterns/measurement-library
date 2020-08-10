@@ -12,8 +12,8 @@
  * measure('config', ...);
  *
  */
-goog.module('measurementLibrary.core.setup');
-const configProcessors = goog.require('measurementLibrary.core.configProcessors');
+goog.module('measurementLibrary.config.setup');
+const configProcessors = goog.require('measurementLibrary.config.configProcessors');
 
 const {DataLayerHelper} = goog.require('helper');
 /**
