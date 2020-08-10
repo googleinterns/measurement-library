@@ -23,7 +23,7 @@ class CookiesStorage {
     if (!this.settings_['domain']) {
       this.settings_['domain'] = this.findAutoDomain_(document);
     }
-    if (!this.settings_['expires']) {
+    if (this.settings_['expires'] == undefined) {
       // 28 days in seconds, default expiry time.
       const defaultTime = 28 * 24 * 60 * 60;
       this.settings_['expires'] = defaultTime;
