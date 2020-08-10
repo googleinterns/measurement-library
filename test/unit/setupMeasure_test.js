@@ -135,5 +135,4 @@ describe('After calling the setupMeasure function of setup', () => {
           });
     });
   });
-})
-;
+});

@@ -1,4 +1,4 @@
-goog.module('measurementLibrary.core.configProcessors');
+goog.module('measurementLibrary.config.configProcessors');
 const GoogleAnalyticsEventProcessor = goog.require(
     'measurementLibrary.eventProcessor.GoogleAnalyticsEventProcessor');
 const {LogLevel, log} = goog.require('measurementLibrary.logging');
