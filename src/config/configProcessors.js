@@ -1,8 +1,7 @@
 goog.module('measurementLibrary.config.configProcessors');
-const GoogleAnalyticsEventProcessor = goog.require(
-    'measurementLibrary.eventProcessor.GoogleAnalyticsEventProcessor');
+const GoogleAnalyticsEventProcessor = goog.require('measurementLibrary.eventProcessor.GoogleAnalyticsEventProcessor');
 const {LogLevel, log} = goog.require('measurementLibrary.logging');
-const {merge} = goog.require('dataLayerHelper.helper.utils');
+
 /**
  * @typedef {function(new:StorageInterface, !Object<string, *>)}
  */
@@ -23,7 +22,7 @@ const DEFAULT_STORAGE_INTERFACES = {};
  * A map assigning names to all of the built in event processors.
  * @const {!Object<string, !ProcessorConstructor>}
  */
-const DEFAULT_EVENT_PROCESSORS = {'google_analytics': GoogleAnalyticsEventProcessor};
+const DEFAULT_EVENT_PROCESSORS = {'google_analytics' : GoogleAnalyticsEventProcessor};
 
 /**
  * When called with an implementation of the eventProcessor and
@@ -43,19 +42,9 @@ const DEFAULT_EVENT_PROCESSORS = {'google_analytics': GoogleAnalyticsEventProces
  */
 function configProcessors(eventProcessor, eventOptions,
                           storageInterface, storageOptions) {
-  const helper = this;
-  // TODO: Read in data set from the model as extra options
+  // TODO: Read in data from the model as extra options
   let EventProcessorConstrucutor;
   let StorageInterfaceConstructor;
-  const getOptions = (object) => {
-    let name;
-    try {
-      name = object.getName();
-    } catch (ok) {
-      // getName not implemented, no options are stored in the data layer.
-    }
-    return name ? helper.get(name) : {};
-  };
   if (typeof eventProcessor === 'string') {
     if (!(eventProcessor in DEFAULT_EVENT_PROCESSORS)) {
       log(`No event processor with name ${eventProcessor} found.`,
@@ -76,8 +65,6 @@ function configProcessors(eventProcessor, eventOptions,
   } else {
     StorageInterfaceConstructor = storageInterface;
   }
-  eventOptions = merge(getOptions(eventProcessor), eventOptions);
-  storageOptions = merge(getOptions(storageInterface), storageOptions);
   let storage;
   let processor;
   try {
