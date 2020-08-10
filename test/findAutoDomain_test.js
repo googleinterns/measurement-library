@@ -3,6 +3,10 @@ goog.setTestOnly();
 
 const CookiesStorage = goog.require('measurementLibrary.storage.CookiesStorage');
 
+// These tests replicate the meaningful examples from this
+// table: https://url.spec.whatwg.org/#host-registrable-domain
+// Some examples in the table are not able to be tested because
+// these tests do not use a real javascript document object.
 describe('The findAutoDomain method', () => {
   let testDocument;
   let setupDocument;
@@ -42,11 +46,15 @@ describe('The findAutoDomain method', () => {
   });
 
   it('returns registrableDomain when domain is a valid subdomain', () => {
-    setupDocument('subdomain.example.com', 'example.com');
+    setupDocument('example.com', 'example.com');
+
+    expect(storage.findAutoDomain_(testDocument)).toBe('example.com');
+    
+    setupDocument('www.example.com', 'example.com');
 
     expect(storage.findAutoDomain_(testDocument)).toBe('example.com');
 
-    setupDocument('www.subdomain.example.com', 'example.com');
+    setupDocument('sub.www.example.com', 'example.com');
 
     expect(storage.findAutoDomain_(testDocument)).toBe('example.com');
   });
