@@ -100,15 +100,32 @@ function configProcessors(helper, eventProcessor, eventOptions,
       getConstructor_(eventProcessor, true);
   const StorageInterfaceConstructor =
       getConstructor_(storageInterface, true);
-  const storage = construct_(EventProcessorConstrucutor, eventOptions);
-  const processor = construct_(StorageInterfaceConstructor, storageOptions);
-  if (!storage || !processor) {
+  const processor = /** @type {!StorageInterface} */
+      (construct_(EventProcessorConstrucutor, eventOptions));
+  const storage = /** @type {!EventProcessor} */
+      (construct_(StorageInterfaceConstructor, storageOptions));
+  if (!processor || !storage) {
     // A failure occurred, return now to prevent the page from crashing.
     return;
   }
-  /* TODO add event/set processing
+
+  /**
+   * Process an event object by sending it to the registered event processor
+   * along with interfaces to the storage and data layer helper.
+   *
+   * @param {string} name The name of the event to process.
+   * @param {!Object<string, *>=} options The options object describing
+   *     the event.
+   */
+  function processEvent(name, options = undefined) {
+    const model = this;
+    if (!options) options = {};
+    processor.processEvent(storage, model, name, options);
+  }
+
   helper.registerProcessor('event', processEvent);
-  helper.registerProcessor('set', processSet); */
+  // TODO(wolfblue@): add set processing.
+  // helper.registerProcessor('set', processSet);
 }
 
 exports = {configProcessors, getConstructor_, construct_};
