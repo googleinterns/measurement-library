@@ -13,7 +13,7 @@
  *
  */
 goog.module('measurementLibrary.config.setup');
-const configProcessors = goog.require('measurementLibrary.config.configProcessors');
+const {configProcessors} = goog.require('measurementLibrary.config.configProcessors');
 const DataLayerHelper = goog.require('dataLayerHelper.helper.DataLayerHelper');
 
 /**
@@ -29,7 +29,11 @@ function setupMeasure(dataLayer) {
    */
   const helper = new DataLayerHelper(dataLayer, {'processNow': false});
 
-  helper.registerProcessor('config', configProcessors);
+  helper.registerProcessor('config',
+      (eventProcessor, eventOptions, storageProcessor, storageOptions) => {
+        configProcessors(helper, eventProcessor, eventOptions,
+            storageProcessor, storageOptions);
+      });
   helper.process();
 }
 

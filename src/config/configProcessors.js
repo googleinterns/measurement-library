@@ -1,6 +1,7 @@
 goog.module('measurementLibrary.config.configProcessors');
 const GoogleAnalyticsEventProcessor = goog.require('measurementLibrary.eventProcessor.GoogleAnalyticsEventProcessor');
 const {LogLevel, log} = goog.require('measurementLibrary.logging');
+const DataLayerHelper = goog.require('dataLayerHelper.helper.DataLayerHelper');
 
 /**
  * @typedef {function(new:StorageInterface, !Object<string, *>)}
@@ -22,13 +23,65 @@ const DEFAULT_STORAGE_INTERFACES = {};
  * A map assigning names to all of the built in event processors.
  * @const {!Object<string, !ProcessorConstructor>}
  */
-const DEFAULT_EVENT_PROCESSORS = {'google_analytics' : GoogleAnalyticsEventProcessor};
+const DEFAULT_EVENT_PROCESSORS =
+    {'googleAnalytics': GoogleAnalyticsEventProcessor};
+
+/**
+ * Given a string, return the constructor saved in
+ * DEFAULT_EVENT_PROCESSORS or DEFAULT_STORAGE_INTERFACES, depending on
+ * isEventProcessor. Constructor objects are passed through without
+ * modification.
+ *
+ * @param {!ProcessorConstructor|!StorageConstructor|string} obj
+ * @param {boolean} isEventProcessor True if obj represents an event processor,
+ *     false if obj represents storage
+ * @return {!ProcessorConstructor|!StorageConstructor}
+ */
+function getConstructor_(obj, isEventProcessor) {
+  if (typeof obj === 'string') {
+    if (isEventProcessor) {
+      if (!(obj in DEFAULT_EVENT_PROCESSORS)) {
+        log(`No event processor with name ${obj} found.`,
+            LogLevel.ERROR);
+      }
+      return DEFAULT_EVENT_PROCESSORS[obj];
+    } else {
+      if (!(obj in DEFAULT_STORAGE_INTERFACES)) {
+        log(`No storage interface with name ${obj} found.`,
+            LogLevel.ERROR);
+      }
+      return DEFAULT_STORAGE_INTERFACES[obj];
+    }
+  }
+  return obj;
+}
+
+/**
+ * Construct the correct object.
+ *
+ * @private
+ * @param {!ProcessorConstructor|!StorageConstructor} constructor
+ * @param {!Object<string, *>} params
+ * @return {!EventProcessor|!StorageInterface|boolean}
+ */
+function construct_(constructor, params) {
+  try {
+    return new constructor(params);
+  } catch (err) {
+    log(`Could not construct a new object of the class ` +
+        `${typeof constructor} with parameter`, LogLevel.ERROR);
+    log(params, LogLevel.ERROR);
+    log(err, LogLevel.ERROR);
+    return false;
+  }
+}
 
 /**
  * When called with an implementation of the eventProcessor and
  * storageInterface API, this function registers processors to react to the
  * 'set' and 'event' commands.
  *
+ * @param {!DataLayerHelper} helper The data layer helper object we reference
  * @param {!ProcessorConstructor|string} eventProcessor The event processor to
  *     use when responding to event commands and deciding how keys should be
  *     stored, or a string representing an object of this type.
@@ -40,49 +93,17 @@ const DEFAULT_EVENT_PROCESSORS = {'google_analytics' : GoogleAnalyticsEventProce
  * @param {!Object<string, *>} storageOptions Options objects to pass to the
  *    storage interface.
  */
-function configProcessors(eventProcessor, eventOptions,
+function configProcessors(helper, eventProcessor, eventOptions,
                           storageInterface, storageOptions) {
   // TODO: Read in data from the model as extra options
-  let EventProcessorConstrucutor;
-  let StorageInterfaceConstructor;
-  if (typeof eventProcessor === 'string') {
-    if (!(eventProcessor in DEFAULT_EVENT_PROCESSORS)) {
-      log(`No event processor with name ${eventProcessor} found.`,
-          LogLevel.ERROR);
-      return;
-    }
-    EventProcessorConstrucutor = DEFAULT_EVENT_PROCESSORS[eventProcessor];
-  } else {
-    EventProcessorConstrucutor = eventProcessor;
-  }
-  if (typeof storageInterface === 'string') {
-    if (!(storageInterface in DEFAULT_STORAGE_INTERFACES)) {
-      log(`No storage interface with name ${storageInterface} found.`,
-          LogLevel.ERROR);
-      return;
-    }
-    StorageInterfaceConstructor = DEFAULT_STORAGE_INTERFACES[storageInterface];
-  } else {
-    StorageInterfaceConstructor = storageInterface;
-  }
-  let storage;
-  let processor;
-  try {
-    processor = new EventProcessorConstrucutor(eventOptions);
-  } catch (err) {
-    log(`Could not construct a new object of the class ` +
-        `${typeof EventProcessorConstrucutor} with parameter`, LogLevel.ERROR);
-    log(storageOptions, LogLevel.ERROR);
-    log(err, LogLevel.ERROR);
-    return;
-  }
-  try {
-    storage = new StorageInterfaceConstructor(storageOptions);
-  } catch (err) {
-    log(`Could not construct a new object of the class ` +
-        `${typeof StorageInterfaceConstructor} with parameter`, LogLevel.ERROR);
-    log(storageOptions, LogLevel.ERROR);
-    log(err, LogLevel.ERROR);
+  const EventProcessorConstrucutor =
+      getConstructor_(eventProcessor, true);
+  const StorageInterfaceConstructor =
+      getConstructor_(storageInterface, true);
+  const storage = construct_(EventProcessorConstrucutor, eventOptions);
+  const processor = construct_(StorageInterfaceConstructor, storageOptions);
+  if (!storage || !processor) {
+    // A failure occurred, return now to prevent the page from crashing.
     return;
   }
   /* TODO add event/set processing
@@ -90,4 +111,4 @@ function configProcessors(eventProcessor, eventOptions,
   helper.registerProcessor('set', processSet); */
 }
 
-exports = configProcessors;
+exports = {configProcessors, getConstructor_, construct_};
