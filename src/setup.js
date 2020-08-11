@@ -32,7 +32,8 @@ function setupMeasure(dataLayer) {
   helper.registerProcessor('config', configProcessors);
   helper.process();
 
-  // TODO: configProcessors jsdoc and better processor/storage init in PR 52
+  // TODO(wolfblue@): configProcessors jsdoc and better processor/storage init
+  //  (in PR 52)
   function configProcessors(eventProcessor, eventOptions,
                             storageInterface, storageOptions) {
     const processor = new eventProcessor(eventOptions);
@@ -53,7 +54,7 @@ function setupMeasure(dataLayer) {
     }
 
     helper.registerProcessor('event', processEvent);
-  }
+  }         
 }
 
 goog.exportSymbol('setupMeasure', setupMeasure);
