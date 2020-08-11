@@ -100,9 +100,9 @@ function configProcessors(helper, eventProcessor, eventOptions,
       getConstructor_(eventProcessor, true);
   const StorageInterfaceConstructor =
       getConstructor_(storageInterface, true);
-  const processor = /** @type {!StorageInterface} */
+  const processor = /** @type {!EventProcessor} */
       (construct_(EventProcessorConstrucutor, eventOptions));
-  const storage = /** @type {!EventProcessor} */
+  const storage = /** @type {!StorageInterface} */
       (construct_(StorageInterfaceConstructor, storageOptions));
   if (!processor || !storage) {
     // A failure occurred, return now to prevent the page from crashing.
