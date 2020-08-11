@@ -14,7 +14,7 @@
  */
 goog.module('measurementLibrary.setup');
 
-const {DataLayerHelper} = goog.require('helper');
+const DataLayerHelper = goog.require('dataLayerHelper.helper.DataLayerHelper');
 
 /**
  * Listen to events passed to the given dataLayer (or a new one
