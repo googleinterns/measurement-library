@@ -15,12 +15,13 @@ module.exports = function(config) {
       {pattern: 'data-layer-helper/src/plain/is_plain_object.js'},
       {pattern: 'data-layer-helper/src/helper/helper.js'},
       // ------------------------ Source Files ---------------------------------
-      {pattern: 'src/storage/**/*.js'},
-      {pattern: 'src/eventProcessor/**/*.js'},
+      {pattern: 'src/storage/**.js'},
+      {pattern: 'src/eventProcessor/EventProcessorInterface.js'},
+      {pattern: 'src/eventProcessor/generateUniqueId.js'},
+      {pattern: 'src/eventProcessor/GoogleAnalyticsEventProcessor.js'},
       {pattern: 'src/logging.js'},
       {pattern: 'src/setup.js'},
       {pattern: 'src/main.js'},
-      {pattern: 'src/**/*.js'},
       // ------------------------- Test Files ----------------------------------
       'test/unit/**/*_test.js',
     ],
