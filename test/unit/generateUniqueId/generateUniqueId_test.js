@@ -1,9 +1,9 @@
-goog.module('measurementLibrary.eventProcessor.testing.uuidv4');
+goog.module('measurementLibrary.testing.eventProcessor.generateUniqueId');
 goog.setTestOnly();
 
-const {generateUniqueId} = goog.require('measurementLibrary.eventProcessor.uuidv4');
+const {generateUniqueId} = goog.require('measurementLibrary.eventProcessor.generateUniqueId');
 
-describe('The `uuidv4` method', () => {
+describe('The `generateUniqueId` method', () => {
   const validUUID =
       /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
 

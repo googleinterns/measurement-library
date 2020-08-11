@@ -1,4 +1,4 @@
-goog.module('measurementLibrary.eventProcessor.uuidv4');
+goog.module('measurementLibrary.eventProcessor.generateUniqueId');
 
 // Check to see if Crypto API can be used
 let getRandomValues;
