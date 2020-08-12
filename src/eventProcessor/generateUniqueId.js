@@ -1,12 +1,19 @@
 goog.module('measurementLibrary.eventProcessor.generateUniqueId');
 
-// Check to see if Crypto API can be used
-let getRandomValues;
-if (window.crypto) {
-  getRandomValues = window.crypto.getRandomValues.bind(crypto);
-} else if (window.msCrypto) {
-  getRandomValues = window.msCrypto.getRandomValues
-      .bind(window.msCrypto); // IE11
+/**
+ * Returns a cryptographically secure random number generator if
+ * available.
+ * @return {function(!Uint32Array):!Uint32Array|undefined}
+ */
+function useCryptoRandomValues() {
+  let getRandomValues;
+  if (window.crypto) {
+    getRandomValues = window.crypto.getRandomValues.bind(crypto);
+  } else if (window.msCrypto) {
+    getRandomValues = window.msCrypto.getRandomValues
+        .bind(window.msCrypto); // IE11
+  }
+  return getRandomValues;
 }
 
 /**
@@ -14,10 +21,10 @@ if (window.crypto) {
  * @param {(function(!Uint32Array):!Uint32Array|null)=} randomNumberGenerator
  * @return {string}
  */
-function generateUniqueId(randomNumberGenerator = getRandomValues) {
+function generateUniqueId(randomNumberGenerator = useCryptoRandomValues()) {
   let uint32;
   if (randomNumberGenerator) {
-    uint32 = getRandomValues(new Uint32Array(1))[0];
+    uint32 = randomNumberGenerator(new Uint32Array(1))[0];
   } else {
     uint32 = (Math.random() * (0xFFFFFFFF)) >>> 0;
   }

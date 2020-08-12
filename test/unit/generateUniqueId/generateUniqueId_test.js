@@ -11,25 +11,49 @@ describe('The `generateUniqueId` method', () => {
   });
 
   const uniqueIdFormat =
-      /^\d{1,10}.1234567890$/;
+      new RegExp(`^\\d{1,10}.${secondsSinceEpoch}$`);
 
   it('generates unique ID in correct format using Crypto API', () => {
-    for (let i = 0; i < 10; ++i) {
-      const uid = generateUniqueId();
-      const match = uniqueIdFormat.exec(uid);
+    spyOn(window.crypto, 'getRandomValues').and.callThrough();
+    spyOn(Math, 'random').and.callThrough();
 
-      expect(match).toBeTruthy();
-    }
+    const uid = generateUniqueId();
+    const match = uniqueIdFormat.exec(uid);
+
+    expect(match).toBeTruthy();
+    expect(window.crypto.getRandomValues).toHaveBeenCalledTimes(1);
+    expect(Math.random).toHaveBeenCalledTimes(0);
   });
 
   it('generates unique ID in correct format using ' +
       '`Math.random` and `Date.getTime`', () => {
-    for (let i = 0; i < 10; ++i) {
-      const uid = generateUniqueId(null);
-      const match = uniqueIdFormat.exec(uid);
+    spyOn(window.crypto, 'getRandomValues').and.callThrough();
+    spyOn(Math, 'random').and.callThrough();
 
-      expect(match).toBeTruthy();
-    }
+    const uid = generateUniqueId(null);
+    const match = uniqueIdFormat.exec(uid);
+
+    expect(match).toBeTruthy();
+    expect(window.crypto.getRandomValues).toHaveBeenCalledTimes(0);
+    expect(Math.random).toHaveBeenCalledTimes(1);
+  });
+
+  it('generates unique ID in correct format using ' +
+  'a custom number generator', () => {
+    spyOn(window.crypto, 'getRandomValues').and.callThrough();
+    spyOn(Math, 'random').and.callThrough();
+
+    const mockRandomNumber = 987654321;
+    const spyRng = jasmine.createSpy('spyRng', (uint32array) => {
+      uint32array[0] = mockRandomNumber;
+      return uint32array;
+    }).and.callThrough();
+
+    const uid = generateUniqueId(spyRng);
+
+    expect(uid).toBe(`${mockRandomNumber}.${secondsSinceEpoch}`);
+    expect(window.crypto.getRandomValues).toHaveBeenCalledTimes(0);
+    expect(Math.random).toHaveBeenCalledTimes(0);
   });
 
   afterAll(() => {
