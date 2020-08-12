@@ -22,7 +22,6 @@ module.exports = function(config) {
       {pattern: 'src/logging.js'},
       {pattern: 'src/setup.js'},
       {pattern: 'src/main.js'},
-      {pattern: 'src/**/*.js'},
       // ------------------------- Test Files ----------------------------------
       'test/unit/**/*_test.js',
     ],

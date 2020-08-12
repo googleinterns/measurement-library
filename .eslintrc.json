@@ -29,6 +29,10 @@
     "indent": "off",
     // Contradicts closure/indent.
     // We use the hasOwn function to validate object properties.
-    "guard-for-in": "off"
+    "guard-for-in": "off",
+    // Disable the following two so the expectation object can be returned
+    // from custom expect functions
+    "jasmine/expect-matcher": "off",
+    "jasmine/new-line-before-expect": "off"
   }
 }
