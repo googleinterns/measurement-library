@@ -89,7 +89,7 @@ describe('The `getClientId_` method ' +
    * @param {string|undefined} modelClientId
    * @return {!Expectation}
    */
-  function checkClientId(
+  function expectClientId(
     storedClientId,
     modelClientId) {
     mockStorage = new MockStorage({'client_id': storedClientId});
@@ -101,7 +101,7 @@ describe('The `getClientId_` method ' +
 
   it('generates a client id when no id is present in model or storage ' +
       'and adds it to the current model and storage', () => {
-    checkClientId(
+    expectClientId(
       /* storedClientId */ undefined,
       /* modelClientId */ undefined
     ).toBe(mockGeneratedId);
@@ -112,7 +112,7 @@ describe('The `getClientId_` method ' +
 
   it('loads client id from storage when no id is present in model ' +
       'and adds it to the current model', () => {
-    checkClientId(
+    expectClientId(
       /* storedClientId */ mockStoredId,
       /* modelClientId */ undefined
       ).toBe(mockStoredId);
@@ -122,7 +122,7 @@ describe('The `getClientId_` method ' +
   });
 
   it('loads client id from model if present', () => {
-    checkClientId(
+    expectClientId(
       /* storedClientId */ undefined,
       /* modelClientId */ mockModelId
     ).toBe(mockModelId);
@@ -130,7 +130,7 @@ describe('The `getClientId_` method ' +
 
   it('loads client id from model even if there is a ' +
       'different client id in storage', () => {
-    checkClientId(
+    expectClientId(
       /* storedClientId */ mockStoredId,
       /* modelClientId */ mockModelId
       ).toBe(mockModelId);
