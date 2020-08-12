@@ -121,19 +121,23 @@ class GoogleAnalyticsEventProcessor {
    * @return {string}
    * @private
    */
-  buildRequestUrl() {
-    const measurementIdQuery =
-        this.measurementId_ ? `measurement_id=${this.measurementId_}` : '';
-    const apiSecretQuery =
-        this.apiSecret_ ? `api_secret=${this.apiSecret_}` : '';
-
-    if (measurementIdQuery && apiSecretQuery) {
-      return `${this.measurementUrl_}?${measurementIdQuery}&${apiSecretQuery}`;
-    } else if (measurementIdQuery || apiSecretQuery) {
-      return `${this.measurementUrl_}?${measurementIdQuery}${apiSecretQuery}`;
-    } else {
-      return `${this.measurementUrl_}`;
+  buildRequestUrl_() {
+    const paramsArray = [];
+    if (this.measurementId_) {
+      paramsArray.push(
+        `measurement_id=${encodeURIComponent(this.measurementId_)}`
+      );
     }
+    if (this.apiSecret_) {
+      paramsArray.push(
+        `api_secret=${encodeURIComponent(this.apiSecret_)}`
+      );
+    }
+    if (paramsArray.length > 0) {
+      const params = paramsArray.join('&');
+      return `${this.measurementUrl_}?${params}`;
+    }
+    return this.measurementUrl_;
   }
 
   /**
