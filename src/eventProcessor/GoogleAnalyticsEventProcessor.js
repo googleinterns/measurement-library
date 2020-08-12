@@ -126,7 +126,7 @@ class GoogleAnalyticsEventProcessor {
    * @return {*} value
    * @private
    */
-  getFromGlobalScope(key, modelInterface) {
+  getFromGlobalScope_(key, modelInterface) {
     if (this.automaticParams_[key]) {
       return modelInterface.get(key);
     }
@@ -143,9 +143,10 @@ class GoogleAnalyticsEventProcessor {
    * @param {{get:function(string):*, set:function(string, *)}} modelInterface
    *    An interface to load or save short term page data from the data layer.
    * @return {string}
+   * @private
    */
-  getClientId(storageInterface, modelInterface) {
-    let clientId = this.getFromGlobalScope('client_id', modelInterface);
+  getClientId_(storageInterface, modelInterface) {
+    let clientId = this.getFromGlobalScope_('client_id', modelInterface);
     if (!clientId || typeof clientId !== 'string') {
       clientId = storageInterface.load('client_id');
       if (!clientId || typeof clientId !== 'string') {
