@@ -12,8 +12,10 @@ module.exports = function(config) {
       // the googmodule preprocessor to function properly.
       {pattern: 'node_modules/google-closure-library/closure/goog/base.js'},
       // Listing the files explicitly so they are processed in the right order.
-      {pattern: 'data-layer-helper/src/plain/is_plain_object.js'},
-      {pattern: 'data-layer-helper/src/helper/helper.js'},
+      {pattern: 'data-layer-helper/src/logging.js'},
+      {pattern: 'data-layer-helper/src/plain/plain.js'},
+      {pattern: 'data-layer-helper/src/helper/utils.js'},
+      {pattern: 'data-layer-helper/src/helper/data-layer-helper.js'},
       // ------------------------ Source Files ---------------------------------
       {pattern: 'src/storage/**.js'},
       {pattern: 'src/eventProcessor/EventProcessorInterface.js'},
