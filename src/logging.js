@@ -21,7 +21,7 @@ const LogLevel = {
 /**
  * Log an error to the console if the debug distribution is in use.
  *
- * @param {string} toLog The error to log to the console in debug mode.
+ * @param {*} toLog The error to log to the console in debug mode.
  * @param {!LogLevel} logLevel The error to log to the console in debug mode.
  */
 function log(toLog, logLevel) {

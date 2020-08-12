@@ -1,4 +1,4 @@
-goog.module('measurementLibrary.measure.testing.setup');
+goog.module('measurementLibrary.testing.config.setup');
 goog.setTestOnly();
 
 /**
@@ -16,15 +16,16 @@ goog.setTestOnly();
  *     after both the code snippet and setupMeasure function have fired.
  */
 function executeSnippetBeforeAndAfterSetup(config, test) {
-  let snippet;
   let dataLayer;
+  // The code snippet that is run asynchronously.
+  let snippet;
+
   // Before each test, reset the data layer state, and create
   // a snippet function that emulates a user-defined measurement library
   // code snippet with options given by the code in the `config` variable.
   beforeEach(() => {
     // Reset the data layer we are using.
     dataLayer = [];
-    // The code snippet that is run asynchronously.
     snippet = (dataLayer) => {
       const measure = function() {
         dataLayer.push(arguments);
@@ -32,6 +33,7 @@ function executeSnippetBeforeAndAfterSetup(config, test) {
       config(measure);
     };
   });
+
   it('assuming the measure snippet ran first', () => {
     snippet(dataLayer);
     setupMeasure(dataLayer);
@@ -109,22 +111,32 @@ describe('After calling the setupMeasure function of setup', () => {
             expect(dataLayer.length).toBe(1);
           });
     });
+
+    describe('Does not crash when unsupported strings are passed in', () => {
+      executeSnippetBeforeAndAfterSetup(
+          /* config= */
+          (measure) =>
+              measure('config', 'unusedProcessorName', {}, 'unusedStorageName',
+                  {}),
+          /* test=  */ (dataLayer) => {
+            expect(dataLayer.length).toBe(1);
+          });
+    });
+
+    describe('Does not crash when non string non constructable' +
+        'object is passed', () => {
+      executeSnippetBeforeAndAfterSetup(
+          /* config= */
+          (measure) =>
+              measure('config', new Date(), {}, [1, 2, 3],
+                  {}),
+          /* test=  */ (dataLayer) => {
+            expect(dataLayer.length).toBe(1);
+          });
+    });
   });
 
-  describe('the behavior after a call to save', () => {
-    describe(
-        'calls persistTime once with parameters key, value', () => {
-          executeSnippetBeforeAndAfterSetup(
-              /* config= */ (measure) => {
-                measure('config', MockProcessor, {}, MockStorage, {});
-                measure('set', 'a key', 3);
-              },
-              /* test= */ () => {
-                expect(persistTime).toHaveBeenCalledTimes(1);
-                expect(persistTime).toHaveBeenCalledWith('a key', 3);
-              });
-        });
-
+  describe('the behavior after a call to set', () => {
     describe('calls save on the storage interface if persistTime returns' +
         'a positive integer',
         () => {
@@ -139,78 +151,8 @@ describe('After calling the setupMeasure function of setup', () => {
                 expect(save).toHaveBeenCalledWith('key', 'value', 1337);
               });
         });
+  });
 
-    describe('calls save on the storage interface if persistTime returns ' +
-        'infinity.',
-        () => {
-          executeSnippetBeforeAndAfterSetup(
-              /* config= */ (measure) => {
-                persistTime.and.returnValue(
-                    Number.POSITIVE_INFINITY);
-                measure('config', MockProcessor, {}, MockStorage, {});
-                measure('set', 'key', 'value');
-              },
-              /* test= */ () => {
-                expect(save).toHaveBeenCalledTimes(1);
-                expect(save).toHaveBeenCalledWith(
-                    'key', 'value', Number.POSITIVE_INFINITY);
-              });
-        });
-
-    describe('calls save on the storage interface if persistTime returns -1',
-        () => {
-          executeSnippetBeforeAndAfterSetup(
-              /* config= */ (measure) => {
-                persistTime.and.returnValue(-1);
-                measure('config', MockProcessor, {}, MockStorage, {});
-                measure('set', 'a', 'a');
-              },
-              /* test= */ () => {
-                expect(save).toHaveBeenCalledTimes(1);
-                expect(save).toHaveBeenCalledWith('a', 'a');
-              });
-        });
-
-    describe('does not call save on the storage interface if persistTime ' +
-        'returns 0', () => {
-      executeSnippetBeforeAndAfterSetup(
-          /* config= */ (measure) => {
-            persistTime.and.returnValue(0);
-            measure('config', MockProcessor, {}, MockStorage, {});
-            measure('set', 'key', {value: 'ok'});
-          },
-          /* test= */ () => {
-            expect(save).not.toHaveBeenCalled();
-          });
-    });
-
-    describe('calls save on the storage interface even if persistTime ' +
-        'returns 0 when a positive integer is passed to set', () => {
-      executeSnippetBeforeAndAfterSetup(
-          /* config= */ (measure) => {
-            persistTime.and.returnValue(0);
-            measure('config', MockProcessor, {}, MockStorage, {});
-            measure('set', 'key', [1, 2], 213);
-          },
-          /* test= */ () => {
-            expect(save).toHaveBeenCalledTimes(1);
-            expect(save).toHaveBeenCalledWith('key', [1, 2], 213);
-          });
-    });
-
-    describe('does not call save on the storage interface even if ' +
-        'persistTime returns -1 when 0 is passed to set', () => {
-        executeSnippetBeforeAndAfterSetup(
-            /* config= */ (measure) => {
-                persistTime.and.returnValue(-1);
-                measure('config', MockProcessor, {}, MockStorage, {});
-                measure('set', 'productive_function', () => {
-                }, 0);
-            },
-            /* test= */ () => {
-                expect(save).not.toHaveBeenCalled();
-            });
-    }
   describe('the behavior after a call to event', () => {
     describe('calls the processEvent function once after an event is pushed',
         () => {
