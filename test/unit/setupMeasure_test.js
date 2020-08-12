@@ -200,15 +200,60 @@ describe('After calling the setupMeasure function of setup', () => {
 
     describe('does not call save on the storage interface even if ' +
         'persistTime returns -1 when 0 is passed to set', () => {
+        executeSnippetBeforeAndAfterSetup(
+            /* config= */ (measure) => {
+                persistTime.and.returnValue(-1);
+                measure('config', MockProcessor, {}, MockStorage, {});
+                measure('set', 'productive_function', () => {
+                }, 0);
+            },
+            /* test= */ () => {
+                expect(save).not.toHaveBeenCalled();
+            });
+    }
+  describe('the behavior after a call to event', () => {
+    describe('calls the processEvent function once after an event is pushed',
+        () => {
+          executeSnippetBeforeAndAfterSetup(
+              /* config= */ (measure) => {
+                measure('config', MockProcessor, {}, MockStorage, {});
+                measure('event', 'name');
+              },
+              /* test= */ () => {
+                expect(processEvent).toHaveBeenCalledTimes(1);
+              });
+        });
+
+    describe('calls the processEvent function with parameters ' +
+        'storageInterface, a helper interface, name, and {} by default',
+        () => {
+          executeSnippetBeforeAndAfterSetup(
+              /* config= */ (measure) => {
+                measure('config', MockProcessor, {}, MockStorage, {});
+                measure('event', 'name');
+              },
+              /* test= */ () => {
+                expect(processEvent).toHaveBeenCalledWith(
+                    jasmine.any(MockStorage), {
+                      get: jasmine.any(Function),
+                      set: jasmine.any(Function),
+                    }, 'name', {});
+              });
+        });
+
+    describe('passes nested options parameter to processEvent', () => {
       executeSnippetBeforeAndAfterSetup(
           /* config= */ (measure) => {
-            persistTime.and.returnValue(-1);
             measure('config', MockProcessor, {}, MockStorage, {});
-            measure('set', 'productive_function', () => {
-            }, 0);
+            measure('event', 'EVENTNAME',
+                {'hi': 'hello', 'what': {'is': 'up'}});
           },
           /* test= */ () => {
-            expect(save).not.toHaveBeenCalled();
+            expect(processEvent).toHaveBeenCalledWith(
+                jasmine.any(MockStorage), {
+                  get: jasmine.any(Function),
+                  set: jasmine.any(Function),
+                }, 'EVENTNAME', {'hi': 'hello', 'what': {'is': 'up'}});
           });
     });
   });

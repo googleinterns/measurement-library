@@ -32,12 +32,10 @@ function setupMeasure(dataLayer) {
   helper.registerProcessor('config', configProcessors);
   helper.process();
 
-  // TODO: configProcessors has jsdoc and stuff added in PR #52.
   function configProcessors(eventProcessor, eventOptions,
                             storageInterface, storageOptions) {
     const processor = new eventProcessor(eventOptions);
     const storage = new storageInterface(storageOptions);
-
 
     /**
      * Check if a given key/value pair should be persisted in storage, and
@@ -64,8 +62,23 @@ function setupMeasure(dataLayer) {
       }
     }
 
+    /**
+     * Process an event object by sending it to the registered event processor
+     * along with interfaces to the storage and data layer helper.
+     *
+     * @param {string} name The name of the event to process.
+     * @param {!Object<string, *>=} options The options object describing
+     *     the event.
+     */
+    function processEvent(name, options = undefined) {
+      const model = this;
+      if (!options) options = {};
+      processor.processEvent(storage, model, name, options);
+    }
+
     helper.registerProcessor('set', processSet);
-  }
+    helper.registerProcessor('event', processEvent);
+  }         
 }
 
 goog.exportSymbol('setupMeasure', setupMeasure);
