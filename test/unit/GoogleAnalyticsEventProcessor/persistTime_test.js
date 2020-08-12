@@ -7,7 +7,7 @@ describe('The `persistTime` method ' +
     'of GoogleAnalyticsEventProcessor', () => {
   /**
    * Builds expectation object for the `persistTime` function by passing
-   * in a key to check along with the expected value. Also accepts a client ID
+   * in a key to make function call with. Also accepts a client ID
    * expiration override.
    * @param {string} key
    * @param {(number|undefined)=} clientIdExpires
