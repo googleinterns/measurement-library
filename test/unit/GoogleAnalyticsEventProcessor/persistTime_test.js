@@ -13,7 +13,7 @@ describe('The `persistTime` method ' +
    * @param {(number|undefined)=} clientIdExpires
    * @return {!Expectation}
    */
-  function checkPersistTime(key, clientIdExpires = undefined) {
+  function expectPersistTime(key, clientIdExpires = undefined) {
     const eventProcessor = new GoogleAnalyticsEventProcessor({
       'client_id_expires': clientIdExpires,
     });
@@ -22,16 +22,16 @@ describe('The `persistTime` method ' +
   }
 
   it('returns default when key is not client_id', () => {
-    checkPersistTime('test').toBe(-1);
+    expectPersistTime('test').toBe(-1);
   });
 
   describe('When key is client_id', () => {
     it('returns two years when client_id_expires is not set', () => {
-      checkPersistTime('client_id').toBe(2 * 365 * 24 * 60 * 60);
+      expectPersistTime('client_id').toBe(2 * 365 * 24 * 60 * 60);
     });
 
     it('returns overridden number when client_id_expires is set', () => {
-      checkPersistTime('client_id', /* clientIdExpires */ 0).toBe(0);
+      expectPersistTime('client_id', /* clientIdExpires */ 0).toBe(0);
     });
   });
 });
