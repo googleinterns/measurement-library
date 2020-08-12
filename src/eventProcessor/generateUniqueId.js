@@ -11,12 +11,12 @@ if (window.crypto) {
 
 /**
  * Generates a unique ID in the format [uint32].[timestamp]
- * @param {(function(!Uint32Array):!Uint32Array)=} randomValueGenerator
+ * @param {(function(!Uint32Array):!Uint32Array|null)=} randomNumberGenerator
  * @return {string}
  */
-function generateUniqueId(randomValueGenerator = getRandomValues) {
+function generateUniqueId(randomNumberGenerator = getRandomValues) {
   let uint32;
-  if (randomValueGenerator) {
+  if (randomNumberGenerator) {
     uint32 = getRandomValues(new Uint32Array(1))[0];
   } else {
     uint32 = (Math.random() * (0xFFFFFFFF)) >>> 0;
