@@ -1,7 +1,7 @@
 goog.module('measurementLibrary.testing.eventProcessor.GoogleAnalyticsEventProcessor.getClientId');
 goog.setTestOnly();
 
-const {DataLayerHelper} = goog.require('helper');
+const DataLayerHelper = goog.require('dataLayerHelper.helper.DataLayerHelper');
 const uniqueId = goog.require('measurementLibrary.eventProcessor.generateUniqueId');
 const GoogleAnalyticsEventProcessor = goog.require('measurementLibrary.eventProcessor.GoogleAnalyticsEventProcessor');
 
