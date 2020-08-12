@@ -10,35 +10,19 @@ if (window.crypto) {
 }
 
 /**
- * Generates an [RFC411 compliant UUID V4](https://www.ietf.org/rfc/rfc4122.txt).
- * Draws heavy inspiration from Jeff Ward's Stack Overflow answer [here](https://stackoverflow.com/a/21963136).
- * @param {(function(!Uint8Array):!Uint8Array)=} randomValueGenerator
+ * Generates a unique ID in the format [uint32].[timestamp]
+ * @param {(function(!Uint32Array):!Uint32Array)=} randomValueGenerator
  * @return {string}
  */
 function generateUniqueId(randomValueGenerator = getRandomValues) {
-  let uuid = '';
-  let timestamp = new Date().getTime();
-  const template = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx';
-  for (let i = 0; i < 36; ++i) {
-    const current = template[i];
-    if (current === '-' || current === '4') {
-      uuid += current;
-    } else {
-      // Generate a random number between [0-15]
-      let random;
-      if (randomValueGenerator) {
-        random = getRandomValues(new Uint8Array(1))[0] & 15;
-      } else {
-        random = (timestamp + Math.random() * 16) & 15;
-        timestamp = timestamp / 2;
-      }
-      // Ensure 'y' is replaced with [8,9,a,b] hex char as per the spec
-      if (current === 'y') random = random & 0x3 | 0x8;
-      // Convert random number to hex digit and add to UUID
-      uuid += random.toString(16);
-    }
+  let uint32;
+  if (randomValueGenerator) {
+    uint32 = getRandomValues(new Uint32Array(1))[0];
+  } else {
+    uint32 = (Math.random() * (0xFFFFFFFF)) >>> 0;
   }
-  return uuid;
+  const timestamp = Math.floor(new Date().getTime() / 1000);
+  return `${uint32}.${timestamp}`;
 }
 
 exports = {
