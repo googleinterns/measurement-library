@@ -5,8 +5,9 @@ goog.module('measurementLibrary.storage.CookiesStorage');
  * @implements {StorageInterface}
  */
 class CookiesStorage {
-  /** @param {!Object.<string, string|number|boolean>} settings an object
-   *      holding the settings to be set on this instance of CookiesStorage.
+  /** 
+   * @param {!Object.<string, string|number|boolean>} settings an object
+   *     holding the settings to be set on this instance of CookiesStorage.
    */
   constructor(settings) {
     /** @private @const {!Object.<string, string|number|boolean>}*/
