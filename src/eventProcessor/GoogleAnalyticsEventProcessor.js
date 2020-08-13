@@ -16,6 +16,12 @@ const TOP_LEVEL_PARAMS = {
 };
 
 /**
+ * Default client ID expires value.
+ * @const {number}
+ */
+const DEFAULT_CLIENT_ID_EXPIRES = 2 * 365 * 24 * 60 * 60;
+
+/**
  * Returns the default Google Analytics measurement URL
  * depending on if debug mode has been enabled.
  * When in debug mode, events get sent to the debug Google Analytics
@@ -103,11 +109,11 @@ class GoogleAnalyticsEventProcessor {
       if (clientIdExpires !== undefined) {
         logging.log(
           'Provided Client ID Expires is not a valid number. ' +
-              'Using default of two years instead.',
+              'Using default value instead.',
           logging.LogLevel.ERROR
         );
       }
-      clientIdExpires = 2 * 365 * 24 * 60 * 60;
+      clientIdExpires = DEFAULT_CLIENT_ID_EXPIRES;
     } else {
       clientIdExpires = Number(clientIdExpires);
     }
