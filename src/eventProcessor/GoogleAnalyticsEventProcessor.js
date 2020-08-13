@@ -171,9 +171,11 @@ class GoogleAnalyticsEventProcessor {
    * @export
    */
   persistTime(key, value) {
-    // TODO(kjgalvan):: if key is client ID then returns client ID expires,
-    // otherwise return default value -1
-    return -1;
+    if (key === 'client_id') {
+      return this.clientIdExpires_;
+    } else {
+      return -1;
+    }
   }
 }
 
