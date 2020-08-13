@@ -66,7 +66,7 @@ class GoogleAnalyticsEventProcessor {
       'measurement_id': measurementId,
       'measurement_url': measurementUrl,
       'client_id_expires': clientIdExpires,
-      'automatic_params': userAutomaticParams = [],
+      'automatic_params': userAutomaticParams,
     } = {}) {
     if (apiSecret !== undefined && typeof apiSecret !== 'string') {
       logging.log(
