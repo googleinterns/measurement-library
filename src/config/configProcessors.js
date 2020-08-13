@@ -110,20 +110,14 @@ function configProcessors(helper, eventProcessor, eventOptions,
     return;
   }
 
-  /**
-   * Process an event object by sending it to the registered event processor
-   * along with interfaces to the storage and data layer helper.
-   *
-   * @param {string} name The name of the event to process.
-   * @param {!Object<string, *>=} options The options object describing
-   *     the event.
-   */
-  function processEvent(name, options = undefined) {
+  // Process an event object by sending it to the registered event processor
+  // along with interfaces to the storage and data layer helper.
+  const processEvent = (name, options = undefined) => {
     const model = this;
     if (!options) options = {};
     processor.processEvent(/** @type {!StorageInterface} */(storage),
       model, name, options);
-  }
+  };
 
   helper.registerProcessor('event', processEvent);
   // TODO(wolfblue@): add set processing.
