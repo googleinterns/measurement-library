@@ -1,5 +1,7 @@
 goog.module('measurementLibrary.eventProcessor.GoogleAnalyticsEventProcessor');
 
+const logging = goog.require('measurementLibrary.logging');
+
 /**
  * Parameters that are to be set at the top level of the JSON
  * POST body instead of as event parameters.
@@ -13,7 +15,19 @@ const TOP_LEVEL_PARAMS = {
   'non_personalized_ads': true,
 };
 
-const DEFAULT_MEASUREMENT_URL = 'https://www.google-analytics.com/mp/collect';
+/**
+ * Returns the default Google Analytics measurement URL
+ * depending on if debug mode has been enabled.
+ * When in debug mode, events get sent to the debug Google Analytics
+ * server which returns descriptive error messages if an event
+ * is incorrectly formatted.
+ * @return {string}
+ */
+function getDefaultMeasurementUrl() {
+  return logging.DEBUG ?
+  'https://www.google-analytics.com/debug/mp/collect' :
+  'https://www.google-analytics.com/mp/collect';
+}
 
 /**
  * A class that processes events pushed to the data layer
@@ -50,12 +64,57 @@ class GoogleAnalyticsEventProcessor {
   constructor({
       'api_secret': apiSecret,
       'measurement_id': measurementId,
-      'measurement_url': measurementUrl = DEFAULT_MEASUREMENT_URL,
-      'client_id_expires': clientIdExpires = 2 * 365 * 24 * 60 * 60,
+      'measurement_url': measurementUrl,
+      'client_id_expires': clientIdExpires,
       'automatic_params': userAutomaticParams = [],
     } = {}) {
-    // TODO(kjgalvan):: log error if measurementUrl is default value and
-    // either apiSecret or measurementId are undefined.
+    if (apiSecret !== undefined && typeof apiSecret !== 'string') {
+      logging.log(
+        'Provided API Secret is not a valid string.',
+        logging.LogLevel.ERROR
+      );
+      apiSecret = undefined;
+    }
+    if (measurementId !== undefined && typeof measurementId !== 'string') {
+      logging.log(
+        'Provided Measurement ID is not a valid string.',
+        logging.LogLevel.ERROR
+      );
+      measurementId = undefined;
+    }
+    if (typeof measurementUrl !== 'string') {
+      if (measurementUrl !== undefined) {
+        logging.log(
+          'Provided Measurement URL is not a valid string. ' +
+              'Using default URL instead.',
+          logging.LogLevel.ERROR
+        );
+      }
+      measurementUrl = getDefaultMeasurementUrl();
+    }
+    if (clientIdExpires === undefined || isNaN(Number(clientIdExpires))) {
+      if (clientIdExpires !== undefined) {
+        logging.log(
+          'Provided Client ID Expires is not a valid number. ' +
+              'Using default of two years instead.',
+          logging.LogLevel.ERROR
+        );
+      }
+      clientIdExpires = 2 * 365 * 24 * 60 * 60;
+    } else {
+      clientIdExpires = Number(clientIdExpires);
+    }
+    if (Object.prototype.toString.call(userAutomaticParams) !==
+        '[object Array]') {
+      if (userAutomaticParams !== undefined) {
+        logging.log(
+          'Provided Automatic Parameters are not contained within an array ' +
+              'Discarding provided value.',
+          logging.LogLevel.ERROR
+        );
+      }
+      userAutomaticParams = [];
+    }
 
     /**
      * Parameters that are important to all events and will be searched for
