@@ -87,49 +87,65 @@ describe('The `constructor` of GoogleAnalyticsEventProcessor', () => {
       expect(eventProcessor.measurementUrl_).toBe('https://www.google-analytics.com/debug/mp/collect');
     });
 
-    it('only logs error to console if `api secret` is not valid string', () => {
+    it('logs an error if either `measurement_id` or `api_secret` ' +
+        'are undefined while events are being sent to analytics', () => {
+      spyOn(logging, 'log');
+      eventProcessor = new GoogleAnalyticsEventProcessor();
+
+      expect(logging.log).toHaveBeenCalledTimes(1);
+    });
+
+    it('logs error to console if `api secret` is not valid string', () => {
       spyOn(logging, 'log');
       eventProcessor = new GoogleAnalyticsEventProcessor({
         api_secret: 'valid_string',
-      });
-
-      expect(logging.log).toHaveBeenCalledTimes(0);
-
-      eventProcessor = new GoogleAnalyticsEventProcessor({
-        api_secret: {},
-      });
-
-      expect(logging.log).toHaveBeenCalledTimes(1);
-      expect(eventProcessor.apiSecret_).toBeUndefined();
-    });
-
-    it('only logs error to console if `measurement_id` is not ' +
-        'valid string', () => {
-      spyOn(logging, 'log');
-      eventProcessor = new GoogleAnalyticsEventProcessor({
         measurement_id: 'valid_string',
       });
 
       expect(logging.log).toHaveBeenCalledTimes(0);
 
       eventProcessor = new GoogleAnalyticsEventProcessor({
-        measurement_id: 123456,
+        api_secret: {},
+        measurement_id: 'valid_string',
       });
 
-      expect(logging.log).toHaveBeenCalledTimes(1);
-      expect(eventProcessor.measurementId_).toBeUndefined();
+      expect(logging.log).toHaveBeenCalledTimes(2);
+      expect(eventProcessor.apiSecret_).toBeUndefined();
     });
 
-    it('only logs error to console if `measurement_url` is not ' +
+    it('logs error to console if `measurement_id` is not ' +
         'valid string', () => {
       spyOn(logging, 'log');
       eventProcessor = new GoogleAnalyticsEventProcessor({
+        api_secret: 'valid_string',
+        measurement_id: 'valid_string',
+      });
+
+      expect(logging.log).toHaveBeenCalledTimes(0);
+
+      eventProcessor = new GoogleAnalyticsEventProcessor({
+        api_secret: 'valid_string',
+        measurement_id: 123456,
+      });
+
+      expect(logging.log).toHaveBeenCalledTimes(2);
+      expect(eventProcessor.measurementId_).toBeUndefined();
+    });
+
+    it('logs error to console if `measurement_url` is not ' +
+        'valid string', () => {
+      spyOn(logging, 'log');
+      eventProcessor = new GoogleAnalyticsEventProcessor({
+        api_secret: 'valid_string',
+        measurement_id: 'valid_string',
         measurement_url: 'valid_string',
       });
 
       expect(logging.log).toHaveBeenCalledTimes(0);
 
       eventProcessor = new GoogleAnalyticsEventProcessor({
+        api_secret: 'valid_string',
+        measurement_id: 'valid_string',
         measurement_url: [],
       });
 
@@ -138,23 +154,29 @@ describe('The `constructor` of GoogleAnalyticsEventProcessor', () => {
           .toBe('https://www.google-analytics.com/debug/mp/collect');
     });
 
-    it('only logs error to console if `client_id_expires` is not ' +
+    it('logs error to console if `client_id_expires` is not ' +
         'able to be cast as a number', () => {
       spyOn(logging, 'log');
       eventProcessor = new GoogleAnalyticsEventProcessor({
         client_id_expires: '1', // casts to one
+        api_secret: 'valid_string',
+        measurement_url: 'valid_string',
       });
 
       expect(eventProcessor.clientIdExpires_).toBe(1);
 
       eventProcessor = new GoogleAnalyticsEventProcessor({
         client_id_expires: [], // casts to zero
+        api_secret: 'valid_string',
+        measurement_url: 'valid_string',
       });
 
       expect(eventProcessor.clientIdExpires_).toBe(0);
 
       eventProcessor = new GoogleAnalyticsEventProcessor({
         client_id_expires: undefined, // uses default instead of casting to zero
+        api_secret: 'valid_string',
+        measurement_url: 'valid_string',
       });
 
       expect(eventProcessor.clientIdExpires_).toBe(2 * 365 * 24 * 60 * 60);
@@ -163,25 +185,33 @@ describe('The `constructor` of GoogleAnalyticsEventProcessor', () => {
 
       eventProcessor = new GoogleAnalyticsEventProcessor({
         client_id_expires: {},
+        api_secret: 'valid_string',
+        measurement_url: 'valid_string',
       });
       eventProcessor = new GoogleAnalyticsEventProcessor({
         client_id_expires: 'invalid_number',
+        api_secret: 'valid_string',
+        measurement_url: 'valid_string',
       });
 
       expect(logging.log).toHaveBeenCalledTimes(2);
     });
 
-    it('only logs error to console if `automatic_params` is not ' +
+    it('logs error to console if `automatic_params` is not ' +
         'an array', () => {
       spyOn(logging, 'log');
       eventProcessor = new GoogleAnalyticsEventProcessor({
         automatic_params: ['test'],
+        api_secret: 'valid_string',
+        measurement_url: 'valid_string',
       });
 
       expect(logging.log).toHaveBeenCalledTimes(0);
 
       eventProcessor = new GoogleAnalyticsEventProcessor({
         automatic_params: {test: 1},
+        api_secret: 'valid_string',
+        measurement_url: 'valid_string',
       });
 
       expect(logging.log).toHaveBeenCalledTimes(1);

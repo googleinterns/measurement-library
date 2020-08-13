@@ -91,6 +91,13 @@ class GoogleAnalyticsEventProcessor {
         );
       }
       measurementUrl = getDefaultMeasurementUrl();
+      if (measurementId === undefined || apiSecret === undefined) {
+        logging.log(
+          'Sending events to Google Analytics without measurement ID or ' +
+              'API secret will lead to events being dropped.',
+          logging.LogLevel.ERROR
+        );
+      }
     }
     if (clientIdExpires === undefined || isNaN(Number(clientIdExpires))) {
       if (clientIdExpires !== undefined) {
