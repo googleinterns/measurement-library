@@ -1,4 +1,4 @@
-goog.module('measurementLibrary.measure.testing.setup');
+goog.module('measurementLibrary.testing.config.setup');
 goog.setTestOnly();
 
 /**
@@ -16,15 +16,16 @@ goog.setTestOnly();
  *     after both the code snippet and setupMeasure function have fired.
  */
 function executeSnippetBeforeAndAfterSetup(config, test) {
-  let snippet;
   let dataLayer;
+  // The code snippet that is run asynchronously.
+  let snippet;
+
   // Before each test, reset the data layer state, and create
   // a snippet function that emulates a user-defined measurement library
   // code snippet with options given by the code in the `config` variable.
   beforeEach(() => {
     // Reset the data layer we are using.
     dataLayer = [];
-    // The code snippet that is run asynchronously.
     snippet = (dataLayer) => {
       const measure = function() {
         dataLayer.push(arguments);
@@ -32,6 +33,7 @@ function executeSnippetBeforeAndAfterSetup(config, test) {
       config(measure);
     };
   });
+
   it('assuming the measure snippet ran first', () => {
     snippet(dataLayer);
     setupMeasure(dataLayer);
