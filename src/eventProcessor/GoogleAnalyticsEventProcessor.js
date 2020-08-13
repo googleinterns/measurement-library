@@ -1,6 +1,7 @@
 goog.module('measurementLibrary.eventProcessor.GoogleAnalyticsEventProcessor');
 
 const uniqueId = goog.require('measurementLibrary.eventProcessor.generateUniqueId');
+const logging = goog.require('measurementLibrary.logging');
 
 /**
  * Parameters that are to be set at the top level of the JSON
@@ -15,7 +16,25 @@ const TOP_LEVEL_PARAMS = {
   'non_personalized_ads': true,
 };
 
-const DEFAULT_MEASUREMENT_URL = 'https://www.google-analytics.com/mp/collect';
+/**
+ * Default client ID expires value.
+ * @const {number}
+ */
+const DEFAULT_CLIENT_ID_EXPIRES = 2 * 365 * 24 * 60 * 60;
+
+/**
+ * Returns the default Google Analytics measurement URL
+ * depending on if debug mode has been enabled.
+ * When in debug mode, events get sent to the debug Google Analytics
+ * server which returns descriptive error messages if an event
+ * is incorrectly formatted.
+ * @return {string}
+ */
+function getDefaultMeasurementUrl() {
+  return logging.DEBUG ?
+  'https://www.google-analytics.com/debug/mp/collect' :
+  'https://www.google-analytics.com/mp/collect';
+}
 
 /**
  * A class that processes events pushed to the data layer
@@ -52,12 +71,64 @@ class GoogleAnalyticsEventProcessor {
   constructor({
       'api_secret': apiSecret,
       'measurement_id': measurementId,
-      'measurement_url': measurementUrl = DEFAULT_MEASUREMENT_URL,
-      'client_id_expires': clientIdExpires = 2 * 365 * 24 * 60 * 60,
-      'automatic_params': userAutomaticParams = [],
+      'measurement_url': measurementUrl,
+      'client_id_expires': clientIdExpires,
+      'automatic_params': userAutomaticParams,
     } = {}) {
-    // TODO(kjgalvan):: log error if measurementUrl is default value and
-    // either apiSecret or measurementId are undefined.
+    if (apiSecret !== undefined && typeof apiSecret !== 'string') {
+      logging.log(
+        'Provided API Secret is not a valid string.',
+        logging.LogLevel.ERROR
+      );
+      apiSecret = undefined;
+    }
+    if (measurementId !== undefined && typeof measurementId !== 'string') {
+      logging.log(
+        'Provided Measurement ID is not a valid string.',
+        logging.LogLevel.ERROR
+      );
+      measurementId = undefined;
+    }
+    if (typeof measurementUrl !== 'string') {
+      if (measurementUrl !== undefined) {
+        logging.log(
+          'Provided Measurement URL is not a valid string. ' +
+              'Using default URL instead.',
+          logging.LogLevel.ERROR
+        );
+      }
+      measurementUrl = getDefaultMeasurementUrl();
+      if (measurementId === undefined || apiSecret === undefined) {
+        logging.log(
+          'Sending events to Google Analytics without measurement ID or ' +
+              'API secret will lead to events being dropped.',
+          logging.LogLevel.ERROR
+        );
+      }
+    }
+    if (isNaN(Number(clientIdExpires))) {
+      if (clientIdExpires !== undefined) {
+        logging.log(
+          'Provided Client ID Expires is not a valid number. ' +
+              'Using default value instead.',
+          logging.LogLevel.ERROR
+        );
+      }
+      clientIdExpires = DEFAULT_CLIENT_ID_EXPIRES;
+    } else {
+      clientIdExpires = Number(clientIdExpires);
+    }
+    if (Object.prototype.toString.call(userAutomaticParams) !==
+        '[object Array]') {
+      if (userAutomaticParams !== undefined) {
+        logging.log(
+          'Provided Automatic Parameters are not contained within an array ' +
+              'Discarding provided value.',
+          logging.LogLevel.ERROR
+        );
+      }
+      userAutomaticParams = [];
+    }
 
     /**
      * Parameters that are important to all events and will be searched for
@@ -184,6 +255,27 @@ class GoogleAnalyticsEventProcessor {
   }
 
   /**
+   * Adds a key value pair to JSON POST request if value is defined.
+   * If the key is a top level parameter, the pair will be added at the topmost
+   * level of the JSON.
+   * If not, the pair is interpreted as an event parameter and added to the
+   * params object within the JSON.
+   * @param {!Object<string, *>} json
+   * @param {string} key
+   * @param {*} value
+   * @private
+   */
+  addKeyValuePairToJson_(json, key, value) {
+    if (value !== undefined) {
+      if (TOP_LEVEL_PARAMS[key]) {
+        json[key] = value;
+      } else if (!TOP_LEVEL_PARAMS[key]) {
+        json.events[0].params[key] = value;
+      }
+    }
+  }
+
+  /**
    * Processes events pushed to the data layer by constructing and sending JSON
    * POST requests to Google Analytics.
    * Follows Measurement Protocol (App + Web).
@@ -197,7 +289,34 @@ class GoogleAnalyticsEventProcessor {
    * @export
    */
   processEvent(storageInterface, modelInterface, eventName, eventOptions) {
-    // TODO(kjgalvan):: constructs and sends JSON POST requests to GA
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', this.buildRequestUrl_());
+
+    const json = {
+      events: [{'name': eventName, 'params': {}}],
+    };
+
+    for (const key in this.automaticParams_) {
+      let value;
+      if (key === 'client_id') {
+        value = this.getClientId_(storageInterface, modelInterface);
+      } else {
+        value = this.getFromGlobalScope_(key, modelInterface);
+      }
+      this.addKeyValuePairToJson_(json, key, value);
+    }
+
+    for (const key in eventOptions) {
+      this.addKeyValuePairToJson_(json, key, eventOptions[key]);
+    }
+
+    if (logging.DEBUG) {
+      xhr.onload = () => {
+        logging.log(xhr.responseText, logging.LogLevel.INFO);
+      };
+    }
+
+    xhr.send(JSON.stringify(json));
   }
 
   /**
@@ -214,9 +333,11 @@ class GoogleAnalyticsEventProcessor {
    * @export
    */
   persistTime(key, value) {
-    // TODO(kjgalvan):: if key is client ID then returns client ID expires,
-    // otherwise return default value -1
-    return -1;
+    if (key === 'client_id') {
+      return this.clientIdExpires_;
+    } else {
+      return -1;
+    }
   }
 }
 
