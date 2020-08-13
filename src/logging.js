@@ -42,6 +42,7 @@ function log(toLog, logLevel) {
 }
 
 exports = {
+  DEBUG,
   LogLevel,
   log,
 };

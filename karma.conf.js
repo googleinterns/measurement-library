@@ -17,11 +17,11 @@ module.exports = function(config) {
       {pattern: 'data-layer-helper/src/helper/utils.js'},
       {pattern: 'data-layer-helper/src/helper/data-layer-helper.js'},
       // ------------------------ Source Files ---------------------------------
+      {pattern: 'src/logging.js'},
       {pattern: 'src/storage/**.js'},
       {pattern: 'src/eventProcessor/EventProcessorInterface.js'},
       {pattern: 'src/eventProcessor/generateUniqueId.js'},
       {pattern: 'src/eventProcessor/GoogleAnalyticsEventProcessor.js'},
-      {pattern: 'src/logging.js'},
       {pattern: 'src/setup.js'},
       {pattern: 'src/main.js'},
       // ------------------------- Test Files ----------------------------------
