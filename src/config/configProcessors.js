@@ -46,8 +46,8 @@ function buildStorage_(constructor, params) {
   try {
     return new constructor(params);
   } catch (err) {
-    log(`Could not construct a new object of the class ` +
-        `${typeof constructor} with parameter`, LogLevel.ERROR);
+    log(`Could not construct a new instance of the class ` +
+        `${constructor} with parameter`, LogLevel.ERROR);
     log(params, LogLevel.ERROR);
     log(err, LogLevel.ERROR);
     return null;
@@ -75,8 +75,8 @@ function buildProcessor_(constructor, params) {
   try {
     return new constructor(params);
   } catch (err) {
-    log(`Could not construct a new object of the class ` +
-        `${typeof constructor} with parameter`, LogLevel.ERROR);
+    log(`Could not construct a new instance of the class ` +
+        `${constructor} with parameter`, LogLevel.ERROR);
     log(params, LogLevel.ERROR);
     log(err, LogLevel.ERROR);
     return null;
