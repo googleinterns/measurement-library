@@ -105,7 +105,7 @@ class GoogleAnalyticsEventProcessor {
         );
       }
     }
-    if (clientIdExpires === undefined || isNaN(Number(clientIdExpires))) {
+    if (isNaN(Number(clientIdExpires))) {
       if (clientIdExpires !== undefined) {
         logging.log(
           'Provided Client ID Expires is not a valid number. ' +
