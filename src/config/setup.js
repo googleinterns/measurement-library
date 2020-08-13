@@ -30,10 +30,9 @@ function setupMeasure(dataLayer) {
   const helper = new DataLayerHelper(dataLayer, {'processNow': false});
 
   helper.registerProcessor('config',
-      (eventProcessor, eventOptions, storageProcessor, storageOptions) => {
+      (eventProcessor, eventOptions, storageProcessor, storageOptions) =>
         configProcessors(helper, eventProcessor, eventOptions,
-            storageProcessor, storageOptions);
-      });
+            storageProcessor, storageOptions));
   helper.process();
 }
 
