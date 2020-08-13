@@ -85,6 +85,28 @@ class CookiesStorage {
     document.cookie = newCookie;
   }
 
+  /**
+   * Finds the registrable domain of current URL and sets it as the default
+   *    domain for cookies
+   * @param {!string} cookie the cookie to add settings to.
+   * @param {?number} secondsToLive number of seconds cookie will be in storage.
+   * @return {!string} the cookie with all added settings.
+   * @private
+   */
+  addSettings(cookie, secondsToLive) {
+    cookie = `${cookie}; domain=${this.settings_['domain']}`;
+
+    const expiry = new Date();
+    expiry.setMilliseconds(expiry.getMilliseconds() + (secondsToLive + 1) *
+      1000);
+
+    cookie = `${cookie}; expires=${expiry.toUTCString()}`;
+
+    cookie = `${cookie}; ${this.settings_['flags']}`;
+
+    return cookie;
+  }
+
   /** @override */
   load(key, defaultValue) {}
 }
