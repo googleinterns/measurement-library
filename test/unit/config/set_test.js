@@ -18,7 +18,7 @@ describe('the behavior after a call to save', () => {
     processor = jasmine.createSpyObj('processor',
         ['persistTime', 'processEvent']);
     storage = jasmine.createSpyObj('storage', ['load', 'save']);
-    registerEventAndSet_(helper, processor, storage);
+    registerEventAndSet_(helper, processor, {}, storage);
   });
 
   it('calls persistTime once with parameters key, value', () => {

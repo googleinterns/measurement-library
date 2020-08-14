@@ -27,52 +27,59 @@ const DEFAULT_EVENT_PROCESSORS =
     {'googleAnalytics': GoogleAnalyticsEventProcessor};
 
 /**
- * Given a string, return the constructor saved in
- * DEFAULT_EVENT_PROCESSORS or DEFAULT_STORAGE_INTERFACES, depending on
- * isEventProcessor. Constructor objects are passed through without
- * modification.
- *
- * @param {!ProcessorConstructor|!StorageConstructor|string} obj
- * @param {boolean} isEventProcessor True if obj represents an event processor,
- *     false if obj represents storage
- * @return {!ProcessorConstructor|!StorageConstructor}
- */
-function getConstructor_(obj, isEventProcessor) {
-  if (typeof obj === 'string') {
-    if (isEventProcessor) {
-      if (!(obj in DEFAULT_EVENT_PROCESSORS)) {
-        log(`No event processor with name ${obj} found.`,
-            LogLevel.ERROR);
-      }
-      return DEFAULT_EVENT_PROCESSORS[obj];
-    } else {
-      if (!(obj in DEFAULT_STORAGE_INTERFACES)) {
-        log(`No storage interface with name ${obj} found.`,
-            LogLevel.ERROR);
-      }
-      return DEFAULT_STORAGE_INTERFACES[obj];
-    }
-  }
-  return obj;
-}
-
-/**
- * Construct the correct object.
+ * Construct an event processor from a representative string or constructor,
+ * with the given parameters.
  *
  * @private
- * @param {!ProcessorConstructor|!StorageConstructor} constructor
+ * @param {!StorageConstructor|string} constructor
  * @param {!Object<string, *>} params
- * @return {!EventProcessor|!StorageInterface|boolean}
+ * @return {?StorageInterface}
  */
-function construct_(constructor, params) {
+function buildStorage_(constructor, params) {
+  if (typeof constructor === 'string') {
+    if (!(constructor in DEFAULT_STORAGE_INTERFACES)) {
+      log(`No storage interface with name ${constructor} found.`,
+          LogLevel.ERROR);
+    }
+    constructor = DEFAULT_STORAGE_INTERFACES[constructor];
+  }
   try {
     return new constructor(params);
   } catch (err) {
-    log(`Could not construct a new object of the class ` +
-        `${typeof constructor} with parameter`, LogLevel.ERROR);
+    log(`Could not construct a new instance of the class ` +
+        `${constructor} with parameter`, LogLevel.ERROR);
     log(params, LogLevel.ERROR);
     log(err, LogLevel.ERROR);
-    return false;
+    return null;
+  }
+}
+
+
+/**
+ * Construct an event processor from a representative string or constructor,
+ * with the given parameters.
+ *
+ * @private
+ * @param {!ProcessorConstructor|string} constructor
+ * @param {!Object<string, *>} params
+ * @return {?EventProcessor}
+ */
+function buildProcessor_(constructor, params) {
+  if (typeof constructor === 'string') {
+    if (!(constructor in DEFAULT_EVENT_PROCESSORS)) {
+      log(`No event processor with name ${constructor} found.`,
+          LogLevel.ERROR);
+    }
+    constructor = DEFAULT_EVENT_PROCESSORS[constructor];
+  }
+  try {
+    return new constructor(params);
+  } catch (err) {
+    log(`Could not construct a new instance of the class ` +
+        `${constructor} with parameter`, LogLevel.ERROR);
+    log(params, LogLevel.ERROR);
+    log(err, LogLevel.ERROR);
+    return null;
   }
 }
 
@@ -82,7 +89,7 @@ function construct_(constructor, params) {
  * 'set' and 'event' commands.
  *
  * @param {!DataLayerHelper} helper The data layer helper object we reference
- * @param {!ProcessorConstructor|string} eventProcessor The event processor to
+ * @param {!StorageConstructor|string} eventProcessor The event processor to
  *     use when responding to event commands and deciding how keys should be
  *     stored, or a string representing an object of this type.
  * @param {!Object<string, *>} eventOptions Options objects to pass to the
@@ -96,19 +103,13 @@ function construct_(constructor, params) {
 function configProcessors(helper, eventProcessor, eventOptions,
                           storageInterface, storageOptions) {
   // TODO: Read in data from the model as extra options
-  const EventProcessorConstrucutor =
-      getConstructor_(eventProcessor, true);
-  const StorageInterfaceConstructor =
-      getConstructor_(storageInterface, true);
-  const processor = /** @type {!EventProcessor} */
-      (construct_(EventProcessorConstrucutor, eventOptions));
-  const storage = /** @type {!StorageInterface} */
-      (construct_(StorageInterfaceConstructor, storageOptions));
+  const processor = buildProcessor_(eventProcessor, eventOptions);
+  const storage = buildStorage_(storageInterface, storageOptions);
   if (!processor || !storage) {
     // A failure occurred, return now to prevent the page from crashing.
     return;
   }
-  registerEventAndSet_(helper, processor, storage);
+  registerEventAndSet_(helper, processor, eventOptions, storage);
 }
 
 /**
@@ -118,20 +119,12 @@ function configProcessors(helper, eventProcessor, eventOptions,
  * @private
  * @param {!DataLayerHelper} helper
  * @param {!EventProcessor} processor
+ * @param {!Object<string, *>} eventOptions This will be used in a future PR
  * @param {!StorageInterface} storage
  */
-function registerEventAndSet_(helper, processor, storage) {
-  /**
-   * Check if a given key/value pair should be persisted in storage, and
-   * if so, save it.
-   *
-   * @param {string} key The key whose value you want to set.
-   * @param {*} value The value to assign to the key.
-   * @param {number=} secondsToLive The time for saved data to live.
-   *     If not passed, the eventProcessor will decide.
-   *     If -1, the storageInterface will decide.
-   *     If 0, nothing will be stored.
-   */
+function registerEventAndSet_(helper, processor, eventOptions, storage) {
+  // Check if a given key/value pair should be persisted in storage, and
+  // if so, save it.
   function processSet(key, value, secondsToLive = undefined) {
     if (secondsToLive === undefined) {
       secondsToLive = processor.persistTime(key, value);
@@ -145,22 +138,18 @@ function registerEventAndSet_(helper, processor, storage) {
       }
     }
   }
-  /**
-   * Process an event object by sending it to the registered event processor
-   * along with interfaces to the storage and data layer helper.
-   *
-   * @param {string} name The name of the event to process.
-   * @param {!Object<string, *>=} options The options object describing
-   *     the event.
-   */
+  // Process an event object by sending it to the registered event processor
+  // along with interfaces to the storage and data layer helper.
   function processEvent(name, options = undefined) {
     const model = this;
     if (!options) options = {};
-    processor.processEvent(storage, model, name, options);
+    processor.processEvent(/** @type {!StorageInterface} */(storage),
+      model, name, options);
   }
 
   helper.registerProcessor('event', processEvent);
   helper.registerProcessor('set', processSet);
 }
 
-exports = {configProcessors, getConstructor_, construct_, registerEventAndSet_};
+exports =
+  {configProcessors, buildProcessor_, buildStorage_, registerEventAndSet_};
