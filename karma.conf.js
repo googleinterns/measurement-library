@@ -19,7 +19,9 @@ module.exports = function(config) {
       // ------------------------ Source Files ---------------------------------
       {pattern: 'src/logging.js'},
       {pattern: 'src/storage/**.js'},
-      {pattern: 'src/eventProcessor/**.js'},
+      {pattern: 'src/eventProcessor/EventProcessorInterface.js'},
+      {pattern: 'src/eventProcessor/generateUniqueId.js'},
+      {pattern: 'src/eventProcessor/GoogleAnalyticsEventProcessor.js'},
       {pattern: 'src/config/configProcessors.js'},
       {pattern: 'src/config/setup.js'},
       {pattern: 'src/main.js'},
