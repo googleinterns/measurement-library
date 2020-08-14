@@ -8,9 +8,9 @@ const {MockStorage, MockModelInterface} = goog.require('measurementLibrary.testi
 
 describe('The `getClientId_` method ' +
     'of GoogleAnalyticsEventProcessor', () => {
-  const mockStoredId = 'stored_client_id';
-  const mockModelId = 'model_client_id';
-  const mockGeneratedId = 'generated_client_id';
+  const mockStoredId = 'stored_clientId';
+  const mockModelId = 'model_clientId';
+  const mockGeneratedId = 'generated_clientId';
   const eventProcessor = new GoogleAnalyticsEventProcessor();
   let mockStorage;
   let mockModelInterface;
@@ -24,59 +24,46 @@ describe('The `getClientId_` method ' +
     };
   });
 
-  /**
-   * Builds expectation object for the `getClientId` function by passing
-   * in (if any) the client IDs stored in long term storage and the global
-   * data model.
-   * @param {string|undefined} storedClientId
-   * @param {string|undefined} modelClientId
-   * @return {!Expectation}
-   */
-  function expectClientId(
-    storedClientId,
-    modelClientId) {
-    mockStorage = new MockStorage({'clientId': storedClientId});
-    mockModelInterface =
-        new MockModelInterface({'clientId': modelClientId});
-
-    return expect(eventProcessor.getClientId_(mockStorage, mockModelInterface));
-  }
-
   it('generates a client id when no id is present in model or storage ' +
       'and adds it to the current model and storage', () => {
-    expectClientId(
-      /* storedClientId */ undefined,
-      /* modelClientId */ undefined
-    ).toBe(mockGeneratedId);
+    mockStorage = new MockStorage({'clientId': undefined});
+    mockModelInterface =
+        new MockModelInterface({'clientId': undefined});
 
+    expect(eventProcessor.getClientId_(mockStorage, mockModelInterface))
+        .toBe(mockGeneratedId);
     expect(mockModelInterface.get('clientId')).toBe(mockGeneratedId);
     expect(mockStorage.load('clientId')).toBe(mockGeneratedId);
   });
 
   it('loads client id from storage when no id is present in model ' +
       'and adds it to the current model', () => {
-    expectClientId(
-      /* storedClientId */ mockStoredId,
-      /* modelClientId */ undefined
-      ).toBe(mockStoredId);
+    mockStorage = new MockStorage({'clientId': mockStoredId});
+    mockModelInterface =
+        new MockModelInterface({'clientId': undefined});
 
-
-    expect(mockModelInterface.get('clientId')).toBe('stored_client_id');
+    expect(eventProcessor.getClientId_(mockStorage, mockModelInterface))
+        .toBe(mockStoredId);
+    expect(mockModelInterface.get('clientId')).toBe('stored_clientId');
   });
 
   it('loads client id from model if present', () => {
-    expectClientId(
-      /* storedClientId */ undefined,
-      /* modelClientId */ mockModelId
-    ).toBe(mockModelId);
+    mockStorage = new MockStorage({'clientId': undefined});
+    mockModelInterface =
+        new MockModelInterface({'clientId': mockModelId});
+
+    expect(eventProcessor.getClientId_(mockStorage, mockModelInterface))
+        .toBe(mockModelId);
   });
 
   it('loads client id from model even if there is a ' +
       'different client id in storage', () => {
-    expectClientId(
-      /* storedClientId */ mockStoredId,
-      /* modelClientId */ mockModelId
-      ).toBe(mockModelId);
+    mockStorage = new MockStorage({'clientId': mockStoredId});
+    mockModelInterface =
+        new MockModelInterface({'clientId': mockModelId});
+
+    expect(eventProcessor.getClientId_(mockStorage, mockModelInterface))
+        .toBe(mockModelId);
   });
 
   afterAll(() => {

@@ -222,8 +222,8 @@ class GoogleAnalyticsEventProcessor {
       clientId = storageInterface.load('clientId');
       if (!clientId || typeof clientId !== 'string') {
         clientId = uniqueId.generateUniqueId();
+        storageInterface.save('clientId', clientId, this.clientIdExpires_);
       }
-      storageInterface.save('clientId', clientId, this.clientIdExpires_);
       modelInterface.set('clientId', clientId);
     }
     return clientId;
