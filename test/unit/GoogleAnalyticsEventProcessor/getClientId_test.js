@@ -35,9 +35,9 @@ describe('The `getClientId_` method ' +
   function expectClientId(
     storedClientId,
     modelClientId) {
-    mockStorage = new MockStorage({'client_id': storedClientId});
+    mockStorage = new MockStorage({'clientId': storedClientId});
     mockModelInterface =
-        new MockModelInterface({'client_id': modelClientId});
+        new MockModelInterface({'clientId': modelClientId});
 
     return expect(eventProcessor.getClientId_(mockStorage, mockModelInterface));
   }
@@ -49,8 +49,8 @@ describe('The `getClientId_` method ' +
       /* modelClientId */ undefined
     ).toBe(mockGeneratedId);
 
-    expect(mockModelInterface.get('client_id')).toBe(mockGeneratedId);
-    expect(mockStorage.load('client_id')).toBe(mockGeneratedId);
+    expect(mockModelInterface.get('clientId')).toBe(mockGeneratedId);
+    expect(mockStorage.load('clientId')).toBe(mockGeneratedId);
   });
 
   it('loads client id from storage when no id is present in model ' +
@@ -61,7 +61,7 @@ describe('The `getClientId_` method ' +
       ).toBe(mockStoredId);
 
 
-    expect(mockModelInterface.get('client_id')).toBe('stored_client_id');
+    expect(mockModelInterface.get('clientId')).toBe('stored_client_id');
   });
 
   it('loads client id from model if present', () => {

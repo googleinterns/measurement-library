@@ -9,11 +9,11 @@ const logging = goog.require('measurementLibrary.logging');
  * @const {!Object<string,boolean>}
  */
 const TOP_LEVEL_PARAMS = {
-  'client_id': true,
-  'user_id': true,
-  'timestamp_micros': true,
-  'user_properties': true,
-  'non_personalized_ads': true,
+  'clientId': true,
+  'userId': true,
+  'timestampMicros': true,
+  'userProperties': true,
+  'nonPersonalizedAds': true,
 };
 
 /**
@@ -139,8 +139,8 @@ class GoogleAnalyticsEventProcessor {
       'page_path': true,
       'page_location': true,
       'page_title': true,
-      'user_id': true,
-      'client_id': true,
+      'userId': true,
+      'clientId': true,
     };
 
     // Add user provided params to automatic param list
@@ -207,7 +207,7 @@ class GoogleAnalyticsEventProcessor {
   /**
    * Gets the ID associated with the current client.
    * First queries the global model followed by long term storage if not yet
-   * found for `client_id`. If no previous ID exists, a new one is generated
+   * found for `clientId`. If no previous ID exists, a new one is generated
    * and stored for future use in both the global model and long term storage.
    * @param {!StorageInterface} storageInterface An interface to an object to
    *    load or save persistent data with.
@@ -217,14 +217,14 @@ class GoogleAnalyticsEventProcessor {
    * @private
    */
   getClientId_(storageInterface, modelInterface) {
-    let clientId = this.getFromGlobalScope_('client_id', modelInterface);
+    let clientId = this.getFromGlobalScope_('clientId', modelInterface);
     if (!clientId || typeof clientId !== 'string') {
-      clientId = storageInterface.load('client_id');
+      clientId = storageInterface.load('clientId');
       if (!clientId || typeof clientId !== 'string') {
         clientId = uniqueId.generateUniqueId();
       }
-      storageInterface.save('client_id', clientId, this.clientIdExpires_);
-      modelInterface.set('client_id', clientId);
+      storageInterface.save('clientId', clientId, this.clientIdExpires_);
+      modelInterface.set('clientId', clientId);
     }
     return clientId;
   }
@@ -298,7 +298,7 @@ class GoogleAnalyticsEventProcessor {
 
     for (const key in this.automaticParams_) {
       let value;
-      if (key === 'client_id') {
+      if (key === 'clientId') {
         value = this.getClientId_(storageInterface, modelInterface);
       } else {
         value = this.getFromGlobalScope_(key, modelInterface);
@@ -333,7 +333,7 @@ class GoogleAnalyticsEventProcessor {
    * @export
    */
   persistTime(key, value) {
-    if (key === 'client_id') {
+    if (key === 'clientId') {
       return this.clientIdExpires_;
     } else {
       return -1;

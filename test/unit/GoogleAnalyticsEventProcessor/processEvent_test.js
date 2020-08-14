@@ -48,7 +48,7 @@ describe('The `processEvent` method ' +
   describe('the XMLHttpRequest request', () => {
     beforeEach(() => {
       eventProcessor = new GoogleAnalyticsEventProcessor({
-        automatic_params: ['added_param', 'non_personalized_ads'],
+        automatic_params: ['added_param', 'nonPersonalizedAds'],
       });
       eventProcessor.buildRequestUrl_ = () => 'mock_request_url';
       eventProcessor.getClientId_ = () => 'mock_client_id';
@@ -89,7 +89,7 @@ describe('The `processEvent` method ' +
         'test',
         {});
 
-      expect(jasmine.Ajax.requests.mostRecent().data().client_id)
+      expect(jasmine.Ajax.requests.mostRecent().data().clientId)
           .toBe('mock_client_id');
     });
 
@@ -185,12 +185,12 @@ describe('The `processEvent` method ' +
       eventProcessor.processEvent(
         emptyStorage,
         new MockModelInterface({
-          user_id: 'model_user_id',
+          userId: 'model_user_id',
         }),
         'test',
         {});
 
-      expect(jasmine.Ajax.requests.mostRecent().data().user_id)
+      expect(jasmine.Ajax.requests.mostRecent().data().userId)
           .toBe('model_user_id');
     });
 
@@ -199,12 +199,12 @@ describe('The `processEvent` method ' +
       eventProcessor.processEvent(
         emptyStorage,
         new MockModelInterface({
-          non_personalized_ads: 'model_non_personalized_ads',
+          nonPersonalizedAds: 'model_non_personalized_ads',
         }),
         'test',
         {});
 
-      expect(jasmine.Ajax.requests.mostRecent().data().non_personalized_ads)
+      expect(jasmine.Ajax.requests.mostRecent().data().nonPersonalizedAds)
           .toBe('model_non_personalized_ads');
     });
 
@@ -249,42 +249,42 @@ describe('The `processEvent` method ' +
     it('overrides top level global values when key is defined ' +
         'in eventOptions', () => {
       const eventOptions = {
-        user_id: 'overriden_user_id',
+        userId: 'overriden_user_id',
       };
 
       eventProcessor.processEvent(
         emptyStorage,
         new MockModelInterface({
-          user_id: 'model_user_id',
+          userId: 'model_user_id',
         }),
         'test',
         eventOptions);
 
-      expect(jasmine.Ajax.requests.mostRecent().data().user_id)
+      expect(jasmine.Ajax.requests.mostRecent().data().userId)
           .toBe('overriden_user_id');
     });
 
     it('does not override top level global value if key is undefined ' +
         'in eventOptions', () => {
       const eventOptions = {
-        user_id: undefined,
+        userId: undefined,
       };
 
       eventProcessor.processEvent(
         emptyStorage,
         new MockModelInterface({
-          user_id: 'model_user_id',
+          userId: 'model_user_id',
         }),
         'test',
         eventOptions);
 
-      expect(jasmine.Ajax.requests.mostRecent().data().user_id)
+      expect(jasmine.Ajax.requests.mostRecent().data().userId)
           .toBe('model_user_id');
     });
 
     it('overrides client ID when defined in eventOptions', () => {
       const eventOptions = {
-        client_id: 'overriden_client_id',
+        clientId: 'overriden_client_id',
       };
 
       eventProcessor.processEvent(
@@ -293,13 +293,13 @@ describe('The `processEvent` method ' +
         'test',
         eventOptions);
 
-      expect(jasmine.Ajax.requests.mostRecent().data().client_id)
+      expect(jasmine.Ajax.requests.mostRecent().data().clientId)
           .toBe('overriden_client_id');
     });
 
     it('does not override client ID when undefined in eventOptions', () => {
       const eventOptions = {
-        client_id: undefined,
+        clientId: undefined,
       };
 
       eventProcessor.processEvent(
@@ -308,7 +308,7 @@ describe('The `processEvent` method ' +
         'test',
         eventOptions);
 
-      expect(jasmine.Ajax.requests.mostRecent().data().client_id)
+      expect(jasmine.Ajax.requests.mostRecent().data().clientId)
           .toBe('mock_client_id');
     });
 
