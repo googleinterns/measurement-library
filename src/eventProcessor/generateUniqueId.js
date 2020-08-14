@@ -5,7 +5,7 @@ goog.module('measurementLibrary.eventProcessor.generateUniqueId');
  * available.
  * @return {function(!Uint32Array):!Uint32Array|undefined}
  */
-function useCryptoRandomValues() {
+function getCryptoRandomValues() {
   let getRandomValues;
   if (window.crypto) {
     getRandomValues = window.crypto.getRandomValues.bind(crypto);
@@ -21,7 +21,7 @@ function useCryptoRandomValues() {
  * @param {(function(!Uint32Array):!Uint32Array|null)=} randomNumberGenerator
  * @return {string}
  */
-function generateUniqueId(randomNumberGenerator = useCryptoRandomValues()) {
+function generateUniqueId(randomNumberGenerator = getCryptoRandomValues()) {
   let uint32;
   if (randomNumberGenerator) {
     uint32 = randomNumberGenerator(new Uint32Array(1))[0];

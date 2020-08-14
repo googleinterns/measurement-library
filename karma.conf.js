@@ -22,7 +22,8 @@ module.exports = function(config) {
       {pattern: 'src/eventProcessor/EventProcessorInterface.js'},
       {pattern: 'src/eventProcessor/generateUniqueId.js'},
       {pattern: 'src/eventProcessor/GoogleAnalyticsEventProcessor.js'},
-      {pattern: 'src/setup.js'},
+      {pattern: 'src/config/configProcessors.js'},
+      {pattern: 'src/config/setup.js'},
       {pattern: 'src/main.js'},
       // ------------------------- Test Files ----------------------------------
       'test/unit/**/*_test.js',
