@@ -104,7 +104,7 @@ Events are processed with event options arguments. These can
 To configure the Google Analytics event processor, constructor arguments can be passed in via the [code snippet](#installation).
 
 The supported constructor arguments are:
-* api_secret: The Google Analytics API Secret. The API secret can be generated via Google Analytics UI. Required when using the default measurement URL.
+* api_secret: The Google Analytics API Secret. The API secret can be generated via Google Analytics UI. Required when using the default measurement URL. If included, it will be added as a query parameter.
 * measurement_id: The property to be measured's Google Analytics measurement ID. Can be found via Google Analytics UI. Required when using the default measurement URL.
 * measurement_url: URL endpoint to send events to. Defaults to Google Analytics collection endpoint. Optional. If overriden, the user will need to ensure the URL forwards events to Google Analytics.
 * client_id_expires: Time in seconds to store the client ID in long term storage. Defaults to two years. Optional.
