@@ -35,7 +35,7 @@ export function HomeCarousel() {
   // Send view_promotion event when the carousel loads for the first time.
   useEffect(() => {
     event('view_promotion', viewPromotionParameters);
-  }, []);
+  });
 
   const carouselCodeModal =
       <CodeModal
@@ -108,6 +108,10 @@ export function HomeCarousel() {
     );
   }
 
+  // Using multiple Carousel items causes an warning: findDOMNode is deprecated
+  // in StrictMode. findDOMNode was passed an instance of Transition ...
+  // This is bootstrap's fault it should be fixed eventually.
+  // https://github.com/react-bootstrap/react-bootstrap/issues/5075
   return (
     <Carousel>
       <Carousel.Item>
@@ -142,7 +146,7 @@ export function HomeCarousel() {
         <Image
           className="d-block w-100"
           src={slideTwo}
-          alt="Third slide"
+          alt="Second slide"
         />
         <Carousel.Caption>
           <div className="header-with-modal carousel-header">
@@ -155,14 +159,14 @@ export function HomeCarousel() {
             <p>{`Get this classic 50% off. `}
               <Link
                 onClick={() => {
-                  onSlideClick('hjdf7', 25);
+                  onSlideClick('hjdf7', 50);
                 }}
                 to="/product/hjdf7"
               >
                 {`View Deal`}
               </Link>
             </p>
-            {getSelectPromotionCodeModal('hjdf7', 25)}
+            {getSelectPromotionCodeModal('hjdf7', 50)}
           </div>
         </Carousel.Caption>
       </Carousel.Item>

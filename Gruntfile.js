@@ -23,6 +23,8 @@ module.exports = function(grunt) {
 
     'closure-compiler': {
       options: {
+        // All files must be listed explicitly in the right order or
+        // strange errors will occur in the demo site.
         js: [
           'node_modules/google-closure-library/closure/goog/base.js',
           'data-layer-helper/src/logging.js',
@@ -36,7 +38,6 @@ module.exports = function(grunt) {
           'src/eventProcessor/GoogleAnalyticsEventProcessor.js',
           'src/config/configProcessors.js',
           'src/config/setup.js',
-          '!src/main.js',
           '!src/eventProcessor/EventProcessorInterface.js',
           '!src/storage/StorageInterface.js',
         ],
@@ -64,11 +65,18 @@ module.exports = function(grunt) {
       debug: {
         files: {
           'dist/measure-debug.js': 'src/main.js',
-          'demo/public/measure.js': 'src/main.js',
         },
         options: {
           define: 'ML_DEBUG=true, DLH_DEBUG=true',
           create_source_map: 'dist/measure-debug.js.map',
+        },
+      },
+      site: {
+        files: {
+          'demo/public/measure-no-config.js': 'src/mainNoConfig.js',
+        },
+        options: {
+          define: 'ML_DEBUG=true, DLH_DEBUG=true',
         },
       },
     },

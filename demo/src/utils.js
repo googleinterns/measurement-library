@@ -24,7 +24,7 @@ export function deepCopy(data) {
 export function getEventCodeSnippet(event, parameters, library = "gtag") {
   return `${library}("event", "${event}", ` +
       `${JSON.stringify(parameters, undefined, 2)})`;
-};
+}
 
 /**
  * Computes the price of purchasing the given quantity
