@@ -20,12 +20,22 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     'pkg': grunt.file.readJSON('package.json'),
+
     'closure-compiler': {
       options: {
         js: [
           'node_modules/google-closure-library/closure/goog/base.js',
-          'data-layer-helper/src/**.js',
-          'src/**.js',
+          'data-layer-helper/src/logging.js',
+          'data-layer-helper/src/plain/plain.js',
+          'data-layer-helper/src/helper/utils.js',
+          'data-layer-helper/src/helper/data-layer-helper.js',
+          'src/logging.js',
+          'src/storage/**.js',
+          'src/eventProcessor/EventProcessorInterface.js',
+          'src/eventProcessor/generateUniqueId.js',
+          'src/eventProcessor/GoogleAnalyticsEventProcessor.js',
+          'src/config/configProcessors.js',
+          'src/config/setup.js',
           '!src/main.js',
           '!src/eventProcessor/EventProcessorInterface.js',
           '!src/storage/StorageInterface.js',
@@ -41,6 +51,7 @@ module.exports = function(grunt) {
         language_out: 'ECMASCRIPT5_STRICT',
         output_wrapper: '(function(){%output%})();',
         jscomp_warning: 'lintChecks',
+        generate_exports: true,
       },
       distribution: {
         files: {
@@ -53,9 +64,10 @@ module.exports = function(grunt) {
       debug: {
         files: {
           'dist/measure-debug.js': 'src/main.js',
+          'demo/public/measure.js': 'src/main.js',
         },
         options: {
-          define: 'ML_DEBUG=true',
+          define: 'ML_DEBUG=true, DLH_DEBUG=true',
           create_source_map: 'dist/measure-debug.js.map',
         },
       },

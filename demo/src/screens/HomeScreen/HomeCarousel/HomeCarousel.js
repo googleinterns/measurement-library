@@ -4,9 +4,9 @@ import {Link} from 'react-router-dom';
 import slideOne from '../../../images/slide_one.jpg';
 import slideTwo from '../../../images/slide_two.jpg';
 import slideThree from '../../../images/slide_three.jpg';
-import {event} from '../../../lib/gtag.js';
+import {event} from '../../../lib/measure.js';
 import {CodeModal} from '../../../components/CodeModal/CodeModal.js';
-import {getItemParameters, getEventCodeSnippet, getMeasureCodeSnippet} from '../../../utils.js';
+import {getItemParameters, getEventCodeSnippet} from '../../../utils.js';
 import './HomeCarousel.css';
 
 /**
@@ -43,7 +43,9 @@ export function HomeCarousel() {
         gtagCode={
           getEventCodeSnippet('view_promotion', viewPromotionParameters)
         }
-        measureCode={getMeasureCodeSnippet()}
+        measureCode={
+          getEventCodeSnippet('view_promotion', viewPromotionParameters, 'measure')
+        }
       />;
 
   /**
@@ -95,7 +97,13 @@ export function HomeCarousel() {
               getSelectPromotionParameters(itemId, discount),
           )
         }
-        measureCode={getMeasureCodeSnippet()}
+        measureCode={
+          getEventCodeSnippet(
+              'select_promotion',
+              getSelectPromotionParameters(itemId, discount),
+              'measure'
+          )
+        }
       />
     );
   }

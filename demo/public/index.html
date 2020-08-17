@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=%REACT_APP_GA_TRACKING_ID%"></script>
+    <script async src="./measure.js"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+      function measure(){dataLayer.push(arguments);}
+      measure("config", "googleAnalytics", {
+            "measurement_id": "%REACT_APP_GA_TRACKING_ID%",
+            "api_secret": "%REACT_APP_GA_API_SECRET%"
+          }, "cookies", {});
     </script>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />

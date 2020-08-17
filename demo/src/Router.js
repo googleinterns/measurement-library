@@ -11,7 +11,7 @@ import {CheckoutScreen} from './screens/CheckoutScreen/CheckoutScreen.js';
 import {HomeScreen} from './screens/HomeScreen/HomeScreen.js';
 import {ProductScreen} from './screens/ProductScreen/ProductScreen.js';
 import {ThankScreen} from './screens/ThankScreen/ThankScreen.js';
-import {pageview} from './lib/gtag.js';
+import {pageview} from './lib/measure.js';
 
 /**
  * Creates component that switches which page is displayed based on the URL.

@@ -15,22 +15,15 @@ export function deepCopy(data) {
 }
 
 /**
- * Creates a code snippet for a gtag event.
+ * Creates a code snippet for an event.
  * @param {string} event
  * @param {!Object<string, *>} parameters
+ * @param {string=} library
  * @return {string} Code snippet of the event.
  */
-export const getEventCodeSnippet = (event, parameters) => {
-  return `gtag("event", "${event}", ` +
+export function getEventCodeSnippet(event, parameters, library = "gtag") {
+  return `${library}("event", "${event}", ` +
       `${JSON.stringify(parameters, undefined, 2)})`;
-};
-
-/**
- * Creates a code snippet for a measure event.
- * @return {string} Code snippet of the event.
- */
-export const getMeasureCodeSnippet = () => {
-  return `measure("event", "something cool")`;
 };
 
 /**
