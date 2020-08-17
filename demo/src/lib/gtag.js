@@ -4,7 +4,7 @@ const GA_TRACKING_ID = process.env.REACT_APP_GA_TRACKING_ID;
  * Sends a page_view event to Google Analytics via gtag.
  * @param {string} pagePath
  */
-export const pageview = (pagePath) => {
+export const pageView = (pagePath) => {
   window.gtag('config', GA_TRACKING_ID, {
     page_path: pagePath,
   });

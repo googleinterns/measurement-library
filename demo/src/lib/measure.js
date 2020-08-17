@@ -2,7 +2,7 @@
  * Sends a page_view event to Google Analytics via measure.
  * @param {string} pagePath
  */
-export const pageview = (pagePath) => {
+export const pageView = (pagePath) => {
   window.measure('event','page_view', {
     page_title: 'Prints of Poe',
     page_path: pagePath,

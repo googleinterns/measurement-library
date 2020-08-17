@@ -1,6 +1,12 @@
 import {v4} from 'uuid';
-import {event} from './measure.js';
+import {event as gtagEvent} from './measure.js';
+import {event as measureEvent} from './measure.js';
 import {getItemsParameterFromSingleItem, getItemsAndValueParametersFromCart} from '../utils.js';
+
+const event = (event, parameters) => {
+  gtagEvent(event, parameters);
+  measureEvent(event, parameters);
+}
 
 /**
  * Sends a select_item event to Google Analytics.

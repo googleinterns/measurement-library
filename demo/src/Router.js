@@ -11,7 +11,8 @@ import {CheckoutScreen} from './screens/CheckoutScreen/CheckoutScreen.js';
 import {HomeScreen} from './screens/HomeScreen/HomeScreen.js';
 import {ProductScreen} from './screens/ProductScreen/ProductScreen.js';
 import {ThankScreen} from './screens/ThankScreen/ThankScreen.js';
-import {pageview} from './lib/measure.js';
+import {pageView as measurePageView} from './lib/measure.js';
+import {pageView as gtagPageView} from './lib/gtag.js';
 
 /**
  * Creates component that switches which page is displayed based on the URL.
@@ -28,7 +29,8 @@ function RouterBase({history}) {
   }, [history]);
 
   const sendPageView = (location) => {
-    pageview(location.pathname);
+    measurePageView(location.pathname);
+    gtagPageView(location.pathname);
   };
 
   return (
