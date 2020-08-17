@@ -79,7 +79,7 @@ class CookiesStorage {
 
   /** @override */
   save(key, value, secondsToLive =
-    /** @type {?number} */ (this.settings_['expires'])) {
+    /** @type {number} */ (this.settings_['expires'])) {
     const valString = JSON.stringify(value);
     let newCookie = `${this.settings_['prefix']}${key}=${valString}`;
     newCookie = this.addSettings(newCookie, secondsToLive);
