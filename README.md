@@ -98,17 +98,22 @@ measure('config', 'eventProcessorName', {}, 'cookies', {expires: 22});
 ```
 
 # Event Processors
-Events are processed with event options arguments. These can
+When `measure('event', 'eventName', eventOptions)` is called, every configured event processor will be given a
+chance to react to that event with the given options. They can also interact with the storage by overriding the
+default time to live for specific keys.
+
+Event processors may perform actions such as sending a network request based on the event data, interacting with
+the storage interface to commit and retrieve values from long-term storage, or reading values from the abstract model.
 
 ## Google Analytics
 To configure the Google Analytics event processor, constructor arguments can be passed in via the [code snippet](#installation).
 
 The supported constructor arguments are:
-* api_secret: The Google Analytics API Secret. The API secret can be generated via Google Analytics UI. Required when using the default measurement URL. If included, it will be added as a query parameter.
-* measurement_id: The property to be measured's Google Analytics measurement ID. Can be found via Google Analytics UI. Required when using the default measurement URL.
-* measurement_url: URL endpoint to send events to. Defaults to Google Analytics collection endpoint. Optional. If overriden, the user will need to ensure the URL forwards events to Google Analytics.
-* client_id_expires: Time in seconds to store the client ID in long term storage. Defaults to two years. Optional.
-* automatic_params: Array of event parameters that will be searched for in the global data model and pulled into all events if found. Optional.
+* `api_secret`: The Google Analytics API Secret. The API secret can be generated via Google Analytics UI. Required when using the default measurement URL. If included, it will be added as a query parameter.
+* `measurement_id`: The property to be measured's Google Analytics measurement ID. Can be found via Google Analytics UI. Required when using the default measurement URL.
+* `measurement_url`: URL endpoint to send events to. Defaults to Google Analytics collection endpoint. Optional. If overriden, the user will need to ensure the URL forwards events to Google Analytics.
+* `client_id_expires`: Time in seconds to store the client ID in long term storage. Defaults to two years. Optional.
+* `automatic_params`: Array of event parameters that will be searched for in the global data model and pulled into all events if found. Optional.
 
 A basic example:
 
@@ -126,6 +131,8 @@ measure(
 ```
 
 Events are processed and sent to Google Analytics using the [event command](#event-command).
+A complete description of events that can be sent is described in the [gtag documentation.](https://developers.google.com/analytics/devguides/collection/gtagjs/pages) 
+You will need to replace the call `gtag('event', ...)` with `measure('event', ...)`.
 
 For a simple page view event with some supporting data, the user could call:
 
@@ -136,11 +143,11 @@ measure('event', 'page_view', {
 });
 ```
 
-This will send a page_view event to Google Analytics with the event parameters provided. In addition
+This will send a `page_view` event to Google Analytics with the event parameters provided. In addition
 to the event level parameters provided, the user can set event parameters using the [set command](#set-command) that will
 then be included in the event sent to Google Analytics even if not explicitly provided in the event command.
 
-To do this for all Google Analytics event processors, an example would be:
+For example, to set the currency to USD for  all Google Analytics event processors:
 
 ```js
 measure('set', 'googleAnalytics', {
@@ -154,7 +161,7 @@ to CAD instead of the previously set USD.
 
 ```js
 measure('event', 'purchase', {
-  'value' 99,
+  'value': 99,
   'currency': 'CAD',
 });
 ```
