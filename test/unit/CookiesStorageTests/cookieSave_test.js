@@ -12,23 +12,6 @@ describe('The save method for cookiesStorage', () => {
       `ml_${key}=;expires=${pastDate}`;
   };
 
-  const testSaveTime = (key, val, time) => {
-    let date = new Date();
-    const start = date.getTime();
-    storage.save(key, val, 1);
-
-    expect(document.cookie.includes(`ml_${key}="${val}"`)).toBe(true);
-
-    while (document.cookie.includes(`ml_${key}="${val}"`)) {
-      continue;
-    }
-
-    date = new Date();
-    const end = date.getTime();
-
-    expect(end - start).toBeGreaterThan(time * 1000);
-  };
-
   it('Saves cookies with string values', () => {
     storage.save('Hello', 'World');
 
@@ -65,9 +48,5 @@ describe('The save method for cookiesStorage', () => {
     expect(document.cookie.includes(`ml_bool=${objString}`)).toBe(true);
 
     removeCookie('bool');
-  });
-
-  it('saves cookies for a short period of time', () => {
-    testSaveTime('one', 'second', 1);
   });
 });

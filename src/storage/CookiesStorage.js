@@ -6,11 +6,11 @@ goog.module('measurementLibrary.storage.CookiesStorage');
  */
 class CookiesStorage {
   /**
-   * @param {!Object.<string, string|number|boolean>} settings an object
+   * @param {!Object.<string, (null|string|number|boolean)>} settings an object
    *     holding the settings to be set on this instance of CookiesStorage.
    */
   constructor(settings) {
-    /** @private @const {!Object.<string, string|number|boolean>}*/
+    /** @private @const {!Object.<string, (null|string|number|boolean)>}*/
     this.settings_ = settings;
 
     this.setDefaults_();
@@ -47,7 +47,7 @@ class CookiesStorage {
   /**
    * Finds the registrable domain of current URL and sets it as the default
    *    domain for cookies
-   * @param {!document} document the document whose cookies are to be set.
+   * @param {!Object} document the document whose cookies are to be set.
    * @return {?string} the registrable domain of docDomain
    * @private
    */
@@ -78,7 +78,8 @@ class CookiesStorage {
   }
 
   /** @override */
-  save(key, value, secondsToLive = this.settings_['expires']) {
+  save(key, value, secondsToLive =
+    /** @type {?number} */ (this.settings_['expires'])) {
     const valString = JSON.stringify(value);
     let newCookie = `${this.settings_['prefix']}${key}=${valString}`;
     newCookie = this.addSettings(newCookie, secondsToLive);
@@ -88,9 +89,9 @@ class CookiesStorage {
   /**
    * Finds the registrable domain of current URL and sets it as the default
    *    domain for cookies
-   * @param {!string} cookie the cookie to add settings to.
+   * @param {string} cookie the cookie to add settings to.
    * @param {?number} secondsToLive number of seconds cookie will be in storage.
-   * @return {!string} the cookie with all added settings.
+   * @return {string} the cookie with all added settings.
    * @private
    */
   addSettings(cookie, secondsToLive) {
