@@ -183,7 +183,7 @@ class GoogleAnalyticsEventProcessor {
    * @return {string}
    * @export
    */
-  getName() {
+  static getName() {
     return 'googleAnalytics';
   }
 

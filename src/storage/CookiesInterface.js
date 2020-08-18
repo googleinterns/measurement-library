@@ -5,7 +5,7 @@ goog.module('measurementLibrary.storage.CookiesStorage');
  * @implements {StorageInterface}
  */
 class CookiesStorage {
-  /** 
+  /**
    * @param {!Object.<string, string|number|boolean>} settings an object
    *     holding the settings to be set on this instance of CookiesStorage.
    */
@@ -67,11 +67,11 @@ class CookiesStorage {
     if (document.cookie === oldCookies) {
       return null;
     }
-    
+
     // Since the cookie was updated with a dummy value, remove it by setting
     // expiry to a date in the past.
     const pastDate = "Thu, 01 Jan 1970 00:00:00 GMT";
-    document.cookie = 
+    document.cookie =
       `registrable_domain=;domain=${domain};expires=${pastDate}`;
 
     return domain;
@@ -82,6 +82,15 @@ class CookiesStorage {
 
   /** @override */
   load(key, defaultValue) {}
+
+  /**
+   * Name of the storage.
+   * @return {string}
+   * @export
+   */
+  static getName() {
+    return 'cookies';
+  }
 }
 
 exports = CookiesStorage;
