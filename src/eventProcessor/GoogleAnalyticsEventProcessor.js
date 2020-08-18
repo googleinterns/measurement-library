@@ -1,5 +1,6 @@
 goog.module('measurementLibrary.eventProcessor.GoogleAnalyticsEventProcessor');
 
+const uniqueId = goog.require('measurementLibrary.eventProcessor.generateUniqueId');
 const logging = goog.require('measurementLibrary.logging');
 
 /**
@@ -185,6 +186,47 @@ class GoogleAnalyticsEventProcessor {
    */
   getName() {
     return 'googleAnalytics';
+  }
+
+  /**
+   * Gets value stored in the global model under a given key.
+   * Only accesses the globel model if the given key is an automatic parameter.
+   * @param {string} key
+   * @param {{get:function(string):*, set:function(string, *)}} modelInterface
+   *    An interface to load or save short term page data from the data layer.
+   * @return {*} value
+   * @private
+   */
+  getFromGlobalScope_(key, modelInterface) {
+    if (this.automaticParams_[key]) {
+      return modelInterface.get(key);
+    }
+    return undefined;
+  }
+
+  /**
+   * Gets the ID associated with the current client.
+   * First queries the global model followed by long term storage if not yet
+   * found for `client_id`. If no previous ID exists, a new one is generated
+   * and stored for future use in both the global model and long term storage.
+   * @param {!StorageInterface} storageInterface An interface to an object to
+   *    load or save persistent data with.
+   * @param {{get:function(string):*, set:function(string, *)}} modelInterface
+   *    An interface to load or save short term page data from the data layer.
+   * @return {string}
+   * @private
+   */
+  getClientId_(storageInterface, modelInterface) {
+    let clientId = this.getFromGlobalScope_('client_id', modelInterface);
+    if (!clientId || typeof clientId !== 'string') {
+      clientId = storageInterface.load('client_id');
+      if (!clientId || typeof clientId !== 'string') {
+        clientId = uniqueId.generateUniqueId();
+        storageInterface.save('client_id', clientId, this.clientIdExpires_);
+      }
+      modelInterface.set('client_id', clientId);
+    }
+    return clientId;
   }
 
   /**
