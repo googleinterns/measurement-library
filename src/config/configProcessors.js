@@ -134,10 +134,8 @@ function registerEventAndSet_(helper, processor, eventOptions, storage) {
    *     If -1, the storageInterface will decide. If 0, nothing will be stored
    *     Otherwise, it is a positive number or Number.POSITIVE_INFINITY.
    */
-  function processSet(key, value, secondsToLive = undefined) {
-    if (secondsToLive === undefined) {
-      secondsToLive = processor.persistTime(key, value);
-    }
+  function processSet(key, value,
+    secondsToLive = processor.persistTime(key, value)) {
     // Don't save if the time to live is 0.
     if (secondsToLive) {
       if (secondsToLive === -1) {
