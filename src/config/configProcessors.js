@@ -123,8 +123,17 @@ function configProcessors(helper, eventProcessor, eventOptions,
  * @param {!StorageInterface} storage
  */
 function registerEventAndSet_(helper, processor, eventOptions, storage) {
-  // Check if a given key/value pair should be persisted in storage, and
-  // if so, save it.
+  /**
+   * Check if a given key/value pair should be persisted in storage, and
+   * if so, save it.
+   *
+   * @param {string} key The key whose value you want to set.
+   * @param {*} value The value to assign to the key.
+   * @param {number=} secondsToLive The time for saved data to live.
+   *     If not passed, the eventProcessor will decide.
+   *     If -1, the storageInterface will decide. If 0, nothing will be stored
+   *     Otherwise, it is a positive number or Number.POSITIVE_INFINITY.
+   */
   function processSet(key, value, secondsToLive = undefined) {
     if (secondsToLive === undefined) {
       secondsToLive = processor.persistTime(key, value);
@@ -134,6 +143,7 @@ function registerEventAndSet_(helper, processor, eventOptions, storage) {
       if (secondsToLive === -1) {
         storage.save(key, value);
       } else {
+        // secondsToLive is surely positive!
         storage.save(key, value, secondsToLive);
       }
     }
