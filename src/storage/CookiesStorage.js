@@ -105,7 +105,7 @@ class CookiesStorage {
       expiry.setMilliseconds(expiry.getMilliseconds() + (tenYears) *
       1000);
     } else {
-      expiry.setMilliseconds(expiry.getMilliseconds() + (secondsToLive + 1) *
+      expiry.setMilliseconds(expiry.getMilliseconds() + (secondsToLive) *
       1000);
     }
 
