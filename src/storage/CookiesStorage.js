@@ -6,7 +6,7 @@ goog.module('measurementLibrary.storage.CookiesStorage');
  */
 class CookiesStorage {
   /**
-   * @param {!Object.<string, (null|string|number|boolean)>} settings an object
+   * @param {!Object.<string, (null|string|number|boolean)>} settings An object
    *     holding the settings to be set on this instance of CookiesStorage.
    */
   constructor(settings) {
@@ -46,9 +46,9 @@ class CookiesStorage {
 
   /**
    * Finds the registrable domain of current URL and sets it as the default
-   *    domain for cookies
-   * @param {!Object} document the document whose cookies are to be set.
-   * @return {?string} the registrable domain of docDomain
+   *    domain for cookies.
+   * @param {!Object} document The document whose cookies are to be set.
+   * @return {?string} The registrable domain of docDomain.
    * @private
    */
   findAutoDomain_(document) {
@@ -88,10 +88,10 @@ class CookiesStorage {
 
   /**
    * Finds the registrable domain of current URL and sets it as the default
-   *    domain for cookies
-   * @param {string} cookie the cookie to add settings to.
-   * @param {?number} secondsToLive number of seconds cookie will be in storage.
-   * @return {string} the cookie with all added settings.
+   *    domain for cookies.
+   * @param {string} cookie The cookie to add settings to.
+   * @param {?number} secondsToLive The number of seconds cookie will be in storage.
+   * @return {string} The cookie with all added settings.
    * @private
    */
   addSettings(cookie, secondsToLive) {
