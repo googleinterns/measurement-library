@@ -109,43 +109,7 @@ function configProcessors(helper, eventProcessor, eventOptions,
     // A failure occurred, return now to prevent the page from crashing.
     return;
   }
-  registerEventAndSet_(helper, processor, eventOptions, storage);
-}
 
-/**
- * Register the set and event commands on the helper with the given
- * processor/storage pair.
- *
- * @private
- * @param {!DataLayerHelper} helper
- * @param {!EventProcessor} processor
- * @param {!Object<string, *>} eventOptions This will be used in a future PR
- * @param {!StorageInterface} storage
- */
-function registerEventAndSet_(helper, processor, eventOptions, storage) {
-  /**
-   * Check if a given key/value pair should be persisted in storage, and
-   * if so, save it.
-   *
-   * @param {string} key The key whose value you want to set.
-   * @param {*} value The value to assign to the key.
-   * @param {number=} secondsToLive The time for saved data to live.
-   *     If not passed, the eventProcessor will decide.
-   *     If -1, the storageInterface will decide. If 0, nothing will be stored
-   *     Otherwise, it is a positive number or Number.POSITIVE_INFINITY.
-   */
-  function processSet(key, value,
-    secondsToLive = processor.persistTime(key, value)) {
-    // Don't save if the time to live is 0.
-    if (secondsToLive) {
-      if (secondsToLive === -1) {
-        storage.save(key, value);
-      } else {
-        // secondsToLive is surely positive!
-        storage.save(key, value, secondsToLive);
-      }
-    }
-  }
   // Process an event object by sending it to the registered event processor
   // along with interfaces to the storage and data layer helper.
   function processEvent(name, options = undefined) {
@@ -156,8 +120,8 @@ function registerEventAndSet_(helper, processor, eventOptions, storage) {
   }
 
   helper.registerProcessor('event', processEvent);
-  helper.registerProcessor('set', processSet);
+  // TODO(wolfblue@): add set processing.
+  // helper.registerProcessor('set', processSet);
 }
 
-exports =
-  {configProcessors, buildProcessor_, buildStorage_, registerEventAndSet_};
+exports = {configProcessors, buildProcessor_, buildStorage_};

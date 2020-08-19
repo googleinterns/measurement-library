@@ -15,9 +15,6 @@ Measurement library will provide an open source alternative for sites/apps to se
 - [Usage](#usage)
     - [Event Command](#event-command)
     - [Set Command](#set-command)
-- [Local Setup](#local-setup)
-    - [Creating the build](#creating-the-build)
-    - [Running Tests Interactively](#running-tests-interactively)
 
 # Overview
 Measurement Library is a utility to help developers send data collected from their website to
@@ -45,14 +42,13 @@ in order to catch users who leave immediately after loading the page, then immed
 <script>
   window.dataLayer = window.dataLayer || [];
   function measure(){dataLayer.push(arguments);}
-  // One or more config commands. To send data to google analytics while
+  // One or more config commands. To send data to google analytics while 
   // using cookies for storage:
-  measure('config', 'googleAnalytics', {
-    'measurement_id': YOUR_MEASUREMENT_ID,
-    'api_secret': YOUR_API_SECRET,
-  }, 'cookies', {});
+  measure('config', 'googleAnalytics', {}, 'cookies', {});
 </script>
 ```
+
+[//]: # (TODO kj: Make the config command use the right settings for google analytics)
 
 As an alternative, you can use the development version when testing your page. The dev version has a bigger file size,
 but reports possible errors to the console.
@@ -63,8 +59,9 @@ but reports possible errors to the console.
 ```
 
 # Usage
-After setting up the script tags, you can begin to use the library. All commands
-are processed by passing arguments to the  `measure()` function. 
+After setting up the script tag using the `config` command, you can begin to use the library. All commands
+are processed by passing arguments to the `measure()` function. 
+
 
 ## Event command
 When you run the command `measure('event', eventName, eventOptions)`, all registered
@@ -74,57 +71,6 @@ to their API.
 ## Set command
 To save parameters beyond the current page, you can call the command `measure('set', key, value)`.
 The registered event processor will determine if the value should be saved, how long the value should
-be saved for, and save it. To overwrite this behavior, you can specify a third time-to-live parameter:
-`measure('set', key, value, secondsToLive)`. In particular, if `secondsToLive` is 0, no data will be saved
-to long term storage.
-
-The set command can also be used to set parameters related to a implementation of
-an event processor or storage interface. For example, to modify the default parameters
-of the cookies storage, run a `set` command in the script tag before calling
-`config`. 
-
-```js
-// Set the default cookie parameters
-measure('set', 'cookies', {prefix: 'my_', expires: 11});
-// Use the default cookie parameters: prefix 'my_' and expires 11.
-measure('config', 'eventProcessorName', {}, 'cookies', {});
-// Override a default cookie parameter: expires is 22 for this storage.
-measure('config', 'eventProcessorName', {}, 'cookies', {expires: 22});
-```
-# Local Setup
-## Creating The Build
-You will need to have either [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
-or [yarn](https://classic.yarnpkg.com/en/docs/install/#debian-stable) installed.
-
-First, install dependencies with yarn or npm
-```shell script
-yarn install
-# or
-npm install
-```
-
-Next, run the tests using yarn or npm:
-
-```shell script
-yarn test
-# or
-npm run test
-```
-
-## Running Tests Interactively
-You can also run the tests "interactively" via Karma directly.
-
-```shell script
-yarn unit
-# or
-npm run unit
-```
-
-To run the integration tests instead of the unit tests,
-
-```shell script
-yarn integration
-# or
-npm run integration
-```
-
+be saved for, and save it in the corresponding [storage](https://googleinterns.github.io/measurement-library/#StorageInterfaces).
+To overwrite this behavior, you can specify a third time-to-live parameter:
+`measure('set', key, value, secondsToLive)`. In particular, if `secondsToLive` is 0, no data will be saved to long term storage.
