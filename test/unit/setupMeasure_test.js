@@ -113,6 +113,23 @@ describe('After calling the setupMeasure function of setup', () => {
     });
   });
 
+  describe('the behavior after a call to set', () => {
+    describe('calls save on the storage interface if persistTime returns' +
+        'a positive integer',
+        () => {
+          executeSnippetBeforeAndAfterSetup(
+              /* config= */ (measure) => {
+                persistTime.and.returnValue(1337);
+                measure('config', MockProcessor, {}, MockStorage, {});
+                measure('set', 'key', 'value');
+              },
+              /* test= */ () => {
+                expect(save).toHaveBeenCalledTimes(1);
+                expect(save).toHaveBeenCalledWith('key', 'value', 1337);
+              });
+        });
+  });
+
   describe('the behavior after a call to event', () => {
     describe('calls the processEvent function once after an event is pushed',
         () => {
