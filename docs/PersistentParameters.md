@@ -54,11 +54,3 @@ measure('set', 'googleAnalytics', {options: {a: 1}});
 // The default parameters are {options: {b: 2}}, not {options: {a: 1, b: 2}}
 measure('set', 'googleAnalytics', {options: {b:'2'}});
 ```
-
-Passing in a key with the value undefined is interpreted as trying to remove the key, rather than as setting the key to undefined.
-
-```js
-measure('set', 'cookies', {type: 'chocolate chip'})
-// Consturct a cookies instance with the parameter {}, NOT {type: undefined}.
-measure('config', 'googleAnalytics', {}, 'cookies', {type: undefined});
-```
