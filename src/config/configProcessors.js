@@ -97,9 +97,7 @@ const merge = function(args) {
     const toMerge = arguments[i];
     for (const prop in toMerge) {
       if (toMerge.hasOwnProperty(prop)) {
-        if (toMerge[prop] !== undefined) {
-          result[prop] = toMerge[prop];
-        }
+        result[prop] = toMerge[prop];
       }
     }
   }
