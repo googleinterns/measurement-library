@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- Include gtag... data layer commands conflict with measure though -->
+    <!-- Include gtag on the default data layer -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=%REACT_APP_GTAG_TRACKING_ID%"></script>
     <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     </script>
-    <!-- Include measurement library. Normally we can't run this and gtag on
-         the same site, because both use the same dataLayer object and send
-         conflicting events. As a workaround, we do not run async and include
+    <!-- Include measurement library. We could run this on the default data
+         layer, but it would send duplicate events with gtag. Though the
+         two libraries are fairly compatible, to be safe, this snippet
+         constructs measurement library using a different dataLayer.
+         To do this, we do not load the library asynchronously and include
          a measure-setup compiled file that does not run commands on load,
          then call it in the setup script. -->
     <script src="./measure-no-config.js"></script>
