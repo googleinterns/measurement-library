@@ -7,9 +7,8 @@ import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {addOneToCart} from '../../store/StoreHelpers.js';
 import {CodeModal} from '../../components/CodeModal/CodeModal.js';
-import {sendAddToCartEvent, sendViewItemEvent} from '../../lib/gtagEvents';
-import {getAddToCartCodeSnippet, getViewItemCodeSnippet} from '../../lib/gtagSnippets.js';
-import {getMeasureCodeSnippet} from '../../utils';
+import {sendAddToCartEvent, sendViewItemEvent} from '../../lib/events';
+import {getAddToCartCodeSnippet, getViewItemCodeSnippet} from '../../lib/snippets.js';
 import './ProductScreen.css';
 
 /**
@@ -37,7 +36,7 @@ const ProductScreenBase = ({items, addToCart}) => {
     if (!currProduct.inCart) {
       return (<CodeModal popupId={'addToCart'}
         gtagCode={getAddToCartCodeSnippet(id)}
-        measureCode={getMeasureCodeSnippet(id)}/>);
+        measureCode={getAddToCartCodeSnippet(id, 'measure')}/>);
     }
     return;
   };
@@ -60,7 +59,7 @@ const ProductScreenBase = ({items, addToCart}) => {
           {currProduct.name}
           <CodeModal popupId={'ViewItem'}
             gtagCode={getViewItemCodeSnippet(id)}
-            measureCode={getMeasureCodeSnippet(id)}/>
+            measureCode={getViewItemCodeSnippet(id, 'measure')}/>
         </h1>
         <ModalImage
           className="product-image"
@@ -84,11 +83,13 @@ const ProductScreenBase = ({items, addToCart}) => {
               {buttonText}
             </Button>
             {displayModal()}
-            <Button variant="secondary" onClick={buyOnClick}
-              as={Link} to='/cart'>Buy Now</Button>
-            <CodeModal popupId={'addToCart'}
-              gtagCode={getAddToCartCodeSnippet(id)}
-              measureCode={getMeasureCodeSnippet(id)}/>
+            <div style={{marginLeft: 'auto'}}>
+              <Button variant="secondary" onClick={buyOnClick}
+                as={Link} to='/cart'>Buy Now</Button>
+              <CodeModal popupId={'addToCart'}
+                gtagCode={getAddToCartCodeSnippet(id)}
+                measureCode={getAddToCartCodeSnippet(id, 'measure')}/>
+            </div>
           </div>
         </div>
       </div>

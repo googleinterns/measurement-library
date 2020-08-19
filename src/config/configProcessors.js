@@ -1,5 +1,7 @@
 goog.module('measurementLibrary.config.configProcessors');
 const GoogleAnalyticsEventProcessor = goog.require('measurementLibrary.eventProcessor.GoogleAnalyticsEventProcessor');
+const CookiesStorage = goog.require('measurementLibrary.storage.CookiesStorage');
+
 const {LogLevel, log} = goog.require('measurementLibrary.logging');
 const DataLayerHelper = goog.require('dataLayerHelper.helper.DataLayerHelper');
 
@@ -17,7 +19,7 @@ let ProcessorConstructor;
  * A map assigning names to all of the built in storage interfaces.
  * @const {!Object<string, !StorageConstructor>}
  */
-const DEFAULT_STORAGE_INTERFACES = {};
+const DEFAULT_STORAGE_INTERFACES = {'cookies': CookiesStorage};
 
 /**
  * A map assigning names to all of the built in event processors.
