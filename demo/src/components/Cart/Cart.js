@@ -6,9 +6,9 @@ import PropTypes from 'prop-types';
 import {FiTrash2} from 'react-icons/fi';
 import {setQuantity, removeOneFromCart} from '../../store/StoreHelpers.js';
 import {CodeModal} from '../CodeModal/CodeModal.js';
-import {computePriceOfItemsInCart, getMeasureCodeSnippet} from '../../utils.js';
-import {getRemoveFromCartCodeSnippet, getViewCartCodeSnippet} from '../../lib/gtagSnippets.js';
-import {sendRemoveFromCartEvent} from '../../lib/gtagEvents.js';
+import {computePriceOfItemsInCart} from '../../utils.js';
+import {getRemoveFromCartCodeSnippet, getViewCartCodeSnippet} from '../../lib/snippets.js';
+import {sendRemoveFromCartEvent} from '../../lib/events.js';
 import './Cart.css';
 import '../CodeModal/CodeModal.css';
 
@@ -62,7 +62,7 @@ const CartBase = ({items, setQuantity, removeOneFromCart}) => {
               </Button>
               <CodeModal popupId={'set' + itemID}
                 gtagCode={getRemoveFromCartCodeSnippet(itemID)}
-                measureCode={getMeasureCodeSnippet()}/>
+                measureCode={getRemoveFromCartCodeSnippet(itemID, 'measure')}/>
             </Col>
           </Row>
         </Col>
@@ -79,7 +79,7 @@ const CartBase = ({items, setQuantity, removeOneFromCart}) => {
           <h2>Items In Cart</h2>
           <CodeModal popupId={'view_cart'}
             gtagCode={getViewCartCodeSnippet()}
-            measureCode={getMeasureCodeSnippet()}/>
+            measureCode={getViewCartCodeSnippet('measure')}/>
         </Col>
         <Col xs={2}>Price</Col>
       </Row>
