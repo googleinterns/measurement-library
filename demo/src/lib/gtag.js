@@ -1,4 +1,4 @@
-const GA_TRACKING_ID = process.env.REACT_APP_GA_TRACKING_ID;
+const GA_TRACKING_ID = process.env.REACT_APP_GTAG_TRACKING_ID;
 
 /**
  * Sends a page_view event to Google Analytics via gtag.

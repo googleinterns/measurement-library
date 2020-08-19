@@ -7,11 +7,11 @@ import {getEventCodeSnippet, getItemsParameterFromSingleItem, getItemsAndValuePa
  * @param {string=} library
  * @return {string} Code snippet of the event.
  */
-export function getSelectItemCodeSnippet(itemId, library = "gtag") {
+export function getSelectItemCodeSnippet(itemId, library = 'gtag') {
   return getEventCodeSnippet(
       'select_item',
       getItemsParameterFromSingleItem(itemId),
-      library
+      library,
   );
 }
 
@@ -21,11 +21,11 @@ export function getSelectItemCodeSnippet(itemId, library = "gtag") {
  * @param {string=} library
  * @return {string} Code snippet of the event.
  */
-export function getViewItemCodeSnippet(itemId, library = "gtag") {
+export function getViewItemCodeSnippet(itemId, library = 'gtag') {
   return getEventCodeSnippet(
       'view_item',
       getItemsParameterFromSingleItem(itemId),
-      library
+      library,
   );
 }
 
@@ -35,11 +35,11 @@ export function getViewItemCodeSnippet(itemId, library = "gtag") {
  * @param {string=} library
  * @return {string} Code snippet of the event.
  */
-export function getAddToCartCodeSnippet(itemId, library = "gtag") {
+export function getAddToCartCodeSnippet(itemId, library = 'gtag') {
   return getEventCodeSnippet(
       'add_to_cart',
       getItemsParameterFromSingleItem(itemId),
-      library
+      library,
   );
 }
 
@@ -49,11 +49,11 @@ export function getAddToCartCodeSnippet(itemId, library = "gtag") {
  * @param {string=} library
  * @return {string} Code snippet of the event.
  */
-export function getRemoveFromCartCodeSnippet(itemId, library = "gtag") {
+export function getRemoveFromCartCodeSnippet(itemId, library = 'gtag') {
   return getEventCodeSnippet(
       'remove_from_cart',
       getItemsParameterFromSingleItem(itemId),
-      library
+      library,
   );
 }
 
@@ -62,11 +62,11 @@ export function getRemoveFromCartCodeSnippet(itemId, library = "gtag") {
  * @param {string=} library
  * @return {string} Code snippet of the event.
  */
-export function getViewCartCodeSnippet(library = "gtag") {
+export function getViewCartCodeSnippet(library = 'gtag') {
   return getEventCodeSnippet('view_cart', {
     ...getItemsAndValueParametersFromCart(),
     currency: 'USD',
-    library
+    library,
   });
 }
 
@@ -75,11 +75,11 @@ export function getViewCartCodeSnippet(library = "gtag") {
  * @param {string=} library
  * @return {string} Code snippet of the event.
  */
-export function getBeginCheckoutCodeSnippet(library = "gtag") {
+export function getBeginCheckoutCodeSnippet(library = 'gtag') {
   return getEventCodeSnippet('begin_checkout', {
     ...getItemsAndValueParametersFromCart(),
     currency: 'USD',
-    library
+    library,
   });
 }
 
@@ -88,12 +88,12 @@ export function getBeginCheckoutCodeSnippet(library = "gtag") {
  * @param {string=} library
  * @return {string} Code snippet of the event.
  */
-export function getAddPaymentInfoCodeSnippet(library = "gtag") {
+export function getAddPaymentInfoCodeSnippet(library = 'gtag') {
   return getEventCodeSnippet('add_payment_info', {
     ...getItemsAndValueParametersFromCart(),
     payment_type: 'google_pay',
     currency: 'USD',
-    library
+    library,
   });
 }
 
@@ -102,13 +102,13 @@ export function getAddPaymentInfoCodeSnippet(library = "gtag") {
  * @param {string=} library
  * @return {string} Code snippet of the event.
  */
-export function getAddShippingInfoCodeSnippet(library = "gtag") {
+export function getAddShippingInfoCodeSnippet(library = 'gtag') {
   return getEventCodeSnippet('add_shipping_info', {
     ...getItemsAndValueParametersFromCart(),
     currency: 'USD',
     coupon: 'Free Shipping',
     shipping_tier: 'Ground',
-    library
+    library,
   });
 }
 
@@ -117,7 +117,7 @@ export function getAddShippingInfoCodeSnippet(library = "gtag") {
  * @param {string=} library
  * @return {string} Code snippet of the event.
  */
-export function getPurchaseCodeSnippet(library = "gtag") {
+export function getPurchaseCodeSnippet(library = 'gtag') {
   return getEventCodeSnippet('purchase', {
     ...getItemsAndValueParametersFromCart(),
     affiliation: 'Prints of Poe Website',
@@ -126,6 +126,6 @@ export function getPurchaseCodeSnippet(library = "gtag") {
     shipping: 0,
     coupon: 'Free Shipping',
     transaction_id: v4(),
-    library
+    library,
   });
 }

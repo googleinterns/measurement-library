@@ -1,6 +1,6 @@
 goog.module('measurementLibrary.config.configProcessors');
 const GoogleAnalyticsEventProcessor = goog.require('measurementLibrary.eventProcessor.GoogleAnalyticsEventProcessor');
-const CookiesStorage = goog.require('measurementLibrary.eventProcessor.GoogleAnalyticsEventProcessor');
+const CookiesStorage = goog.require('measurementLibrary.storage.CookiesStorage');
 
 const {LogLevel, log} = goog.require('measurementLibrary.logging');
 const DataLayerHelper = goog.require('dataLayerHelper.helper.DataLayerHelper');

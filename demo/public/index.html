@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <!-- Include gtag... data layer commands conflict with measure though -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=%REACT_APP_GA_TRACKING_ID%"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=%REACT_APP_GTAG_TRACKING_ID%"></script>
     <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -19,8 +19,8 @@
       window.setupMeasure(measureDataLayer);
       function measure(){measureDataLayer.push(arguments);}
       measure("config", "googleAnalytics", {
-            "measurement_id": "%REACT_APP_GA_TRACKING_ID%",
-            "api_secret": "%REACT_APP_GA_API_SECRET%"
+            "measurement_id": "%REACT_APP_MEASURE_TRACKING_ID%",
+            "api_secret": "%REACT_APP_MEASURE_API_SECRET%"
           }, "cookies", {});
     </script>
     <meta charset="utf-8" />

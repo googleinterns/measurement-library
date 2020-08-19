@@ -21,7 +21,10 @@ export function deepCopy(data) {
  * @param {string=} library
  * @return {string} Code snippet of the event.
  */
-export function getEventCodeSnippet(event, parameters, library = "gtag") {
+export function getEventCodeSnippet(event, parameters, library = 'gtag') {
+  if (library === 'measure' && !parameters.page_title) {
+    parameters.page_title = 'Prints of Poe';
+  }
   return `${library}("event", "${event}", ` +
       `${JSON.stringify(parameters, undefined, 2)})`;
 }
