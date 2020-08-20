@@ -1,16 +1,18 @@
 goog.module('measurementLibrary.storage.CookiesStorage');
 
+const /** number */ tenYearsInSeconds = 10 * 365 * 24 * 60 * 60;
+
 /**
  * An implementation of StorageInterface that uses cookies for storage.
  * @implements {StorageInterface}
  */
 class CookiesStorage {
   /**
-   * @param {!Object.<string, (null|string|number|boolean)>} settings An object
+   * @param {!Object<string, (null|string|number|boolean)>} settings An object
    *     holding the settings to be set on this instance of CookiesStorage.
    */
   constructor(settings) {
-    /** @private @const {!Object.<string, (null|string|number|boolean)>}*/
+    /** @private @const {!Object<string, (null|string|number|boolean)>}*/
     this.settings_ = settings;
 
     this.setDefaults_();
@@ -83,7 +85,16 @@ class CookiesStorage {
     const valString = JSON.stringify(value);
     let newCookie = `${this.settings_['prefix']}${key}=${valString}`;
     newCookie = this.addSettings(newCookie, secondsToLive);
-    document.cookie = newCookie;
+    this.setCookie(newCookie);
+  }
+
+  /**
+   * Seperates the creation of the cookie from setting it for testing purposes.
+   * @param {string} cookie The cookie to set in document.cookie.
+   * @private
+   */
+  setCookie(cookie) {
+    document.cookie = cookie;
   }
 
   /**
@@ -101,11 +112,10 @@ class CookiesStorage {
     const expiry = new Date();
 
     if (secondsToLive === Number.POSITIVE_INFINITY) {
-      const tenYears = 10 * 365 * 24 * 60 * 60;
-      expiry.setMilliseconds(expiry.getMilliseconds() + (tenYears) *
+      expiry.setMilliseconds(expiry.getMilliseconds() + (tenYearsInSeconds) *
       1000);
     } else {
-      expiry.setMilliseconds(expiry.getMilliseconds() + (secondsToLive) *
+      expiry.setMilliseconds(expiry.getMilliseconds() + (secondsToLive + 1) *
       1000);
     }
 
@@ -117,7 +127,17 @@ class CookiesStorage {
   }
 
   /** @override */
-  load(key, defaultValue) {}
+  load(key, defaultValue) {
+    if (!document.cookie.includes(`${key}=`)) {
+      return defaultValue;
+    }
+
+    const cookieValueJSON = document.cookie.split('; ')
+      .find((row) => row.startsWith(`${this.settings_['prefix']}${key}`))
+      .split('=')[1];
+
+    return JSON.parse(cookieValueJSON);
+  }
 }
 
 exports = CookiesStorage;
