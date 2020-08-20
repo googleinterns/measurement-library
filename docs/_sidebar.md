@@ -1,3 +1,5 @@
 * [Home](/)
+* [PersistentParameters](PersistentParameters.md)
 * [Event Processors](EventProcessors.md)
 * [Storage Interfaces](StorageInterfaces.md)
+* [Local Setup](LocalSetup.md)
