@@ -87,7 +87,10 @@ constructor(private router: Router, private activatedRouter: ActivatedRoute){}
 ngOnInit(){
   this.router.events.subscribe(event => {
     if (event instanceof NavigationStart){
-      window["measure"]('event', 'page_view', {});
+      window["measure"]('event', 'page_view', {
+        page_title: 'Demo Site',
+        page_path: event.url,
+      });
       console.log(event);
     }
   })

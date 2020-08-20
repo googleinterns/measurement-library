@@ -29,7 +29,6 @@ function RouterBase({history}) {
   }, [history]);
 
   const sendPageView = (location) => {
-    console.log("view page...");
     measurePageView(location.pathname);
     gtagPageView(location.pathname);
   };

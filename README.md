@@ -58,7 +58,7 @@ As an alternative, you can use the development version when testing your page. T
 but reports possible errors to the console.
 ```html
 <!-- Measurement Library Snippet (Development Version) -->
-<script async src="./node_modules/measurement-library/dist/measure-debug"/>
+<script async src="/node_modules/measurement-library/dist/measure-debug"/>
 <script>/* Configure script like last example. */ </script>
 ```
 
