@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {Cart} from '../../components/Cart/Cart';
 import {Container, Row, Button} from 'react-bootstrap';
 import {useHistory} from 'react-router-dom';
-import {sendViewCartEvent} from '../../lib/gtagEvents.js';
+import {sendViewCartEvent} from '../../lib/events.js';
 import './CartScreen.css';
 import '../NavButton.css';
 

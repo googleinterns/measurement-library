@@ -8,9 +8,8 @@ import {UserInfoForm} from '../../components/UserInfoForm/UserInfoForm.js';
 import {MiniCart} from '../../components/MiniCart/MiniCart.js';
 import {CodeModal} from '../../components/CodeModal/CodeModal.js';
 import {BillingInfoForm} from '../../components/BillingInfoForm/BillingInfoForm.js';
-import {getAddPaymentInfoCodeSnippet, getAddShippingInfoCodeSnippet, getPurchaseCodeSnippet, getBeginCheckoutCodeSnippet} from '../../lib/gtagSnippets.js';
-import {sendAddPaymentInfoEvent, sendAddShippingInfoEvent, sendBeginCheckoutEvent, sendPurchaseEvent} from '../../lib/gtagEvents.js';
-import {getMeasureCodeSnippet} from '../../utils.js';
+import {getAddPaymentInfoCodeSnippet, getAddShippingInfoCodeSnippet, getPurchaseCodeSnippet, getBeginCheckoutCodeSnippet} from '../../lib/snippets.js';
+import {sendAddPaymentInfoEvent, sendAddShippingInfoEvent, sendBeginCheckoutEvent, sendPurchaseEvent} from '../../lib/events.js';
 import './CheckoutScreen.css';
 import '../NavButton.css';
 
@@ -82,7 +81,7 @@ const CheckoutScreenBase = ({clearCart}) => {
       <CodeModal
         popupId={'addShipping'}
         gtagCode={getAddShippingInfoCodeSnippet()}
-        measureCode={getMeasureCodeSnippet()}
+        measureCode={getAddShippingInfoCodeSnippet('measure')}
       />
     </Row>;
 
@@ -94,10 +93,10 @@ const CheckoutScreenBase = ({clearCart}) => {
       </Button>
       <CodeModal popupId={'addPayment'}
         gtagCode={getAddPaymentInfoCodeSnippet()}
-        measureCode={getMeasureCodeSnippet()}/>
+        measureCode={getAddPaymentInfoCodeSnippet('measure')}/>
       <CodeModal popupId={'purchase'}
         gtagCode={getPurchaseCodeSnippet()}
-        measureCode={getMeasureCodeSnippet()}/>
+        measureCode={getPurchaseCodeSnippet('measure')}/>
     </Row>;
 
   return (
@@ -107,7 +106,7 @@ const CheckoutScreenBase = ({clearCart}) => {
           <h2>Billing Details</h2>
           <CodeModal popupId={'begin_checkout'}
             gtagCode={getBeginCheckoutCodeSnippet()}
-            measureCode={getMeasureCodeSnippet()}/>
+            measureCode={getBeginCheckoutCodeSnippet('measure')}/>
         </Col>
         <Col xs={12} md={6} className='hide-medium-or-smaller'>
           <h2>Your Order</h2>
