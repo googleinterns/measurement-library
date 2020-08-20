@@ -45,7 +45,6 @@ describe('After calling measure with `event` as the first parameter', () => {
 
 
   describe('The call forwarded after a call to measure(`event`, ...)', () => {
-    /* TODO:(wolfblue@): Fix the issue here, it stems from data layer helper
     it('inherits any parameters from set called before the constructor',
       () => {
         measure('set', 'processor', {'cat': 'meow'});
@@ -69,7 +68,6 @@ describe('After calling measure with `event` as the first parameter', () => {
             set: jasmine.any(Function),
           }, 'name', {'cat': 'meow', 'dog': 'woof'});
       });
-    */
 
     it('does not inherit if set is called unscoped', () => {
       measure('config', MockProcessor, {'dog': 'woof'}, MockStorage, {});

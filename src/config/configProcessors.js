@@ -150,7 +150,8 @@ function configProcessors(helper, eventProcessor, eventOptions,
   function processEvent(name, options = undefined) {
     const model = this;
     if (!options) options = {};
-    options = merge(getExtraOptions(helper, processor), eventOptions, options);
+    options = merge(getExtraOptions(helper, processor.constructor),
+      eventOptions, options);
     processor.processEvent(/** @type {!StorageInterface} */(storage),
       model, name, options);
   }
