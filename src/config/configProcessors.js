@@ -200,3 +200,4 @@ function registerEventAndSet_(helper, processor, eventOptions, storage) {
 
 exports =
   {configProcessors, buildProcessor_, buildStorage_, registerEventAndSet_};
+
