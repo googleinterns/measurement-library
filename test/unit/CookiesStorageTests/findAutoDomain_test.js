@@ -1,61 +1,188 @@
-goog.module('measurementLibrary.storage.CookiesStorage.testing.findAutoDomain_');
+goog.module('measurementLibrary.storage.CookiesStorage.testing.cookieSave');
 goog.setTestOnly();
 
 const CookiesStorage = goog.require('measurementLibrary.storage.CookiesStorage');
 
-// These tests replicate the meaningful examples from this
-// table: https://url.spec.whatwg.org/#host-registrable-domain
-// Some examples in the table are not able to be tested because
-// these tests do not use a real javascript document object.
-describe('The findAutoDomain method', () => {
-  let testDocument;
-  let setupDocument;
+const oneSecondInMilliseconds = 1000;
+
+describe('The save method for cookiesStorage', () => {
   const storage = new CookiesStorage({});
 
-  beforeEach(() => {
-    // sets up testDocument, an object that acts like the window.document object
-    // when dealing with cookies with a specified domain. Allows for testing on
-    // multiple domains.
-    setupDocument = (domain, registrableDomain) => {
-      testDocument = {'cook': ''};
-      testDocument['domain'] = domain;
-      Object.defineProperty(testDocument, 'cookie', {
-        get() {
-          return testDocument.cook;
-        },
-        set(newValue) {
-          if (newValue.includes(`domain=${registrableDomain}`)) {
-            testDocument.cook = newValue;
-          }
-        },
-        configurable: true,
-      });
-    };
+  const removeCookie = (key) => {
+    const pastDate = 'Thu, 01 Jan 1970 00:00:00 GMT';
+    document.cookie =
+      `ml_${key}=;expires=${pastDate}`;
+  };
+
+  const setExpectedExpiry = (min, max, expiryInSeconds) => {
+    max.setMilliseconds(max.getMilliseconds() +
+      (expiryInSeconds + 1) * oneSecondInMilliseconds);
+    min.setMilliseconds(min.getMilliseconds() +
+      expiryInSeconds * oneSecondInMilliseconds);
+  };
+
+  it('Saves cookies with null and undefined values', () => {
+    storage.save('null', null);
+
+    expect(document.cookie.includes('ml_null=null')).toBe(true);
   });
 
-  it('returns null when domain is a public suffix', () => {
-    setupDocument('com');
+  it('Saves cookies with falsey and truthy string values', () => {
+    storage.save('Hello', 'World');
 
-    expect(storage.findAutoDomain_(testDocument)).toBe(null);
+    expect(document.cookie.includes('ml_Hello="World"')).toBe(true);
+
+    removeCookie('Hello');
+
+    storage.save('Hello', '');
+
+    expect(document.cookie.includes('ml_Hello=""')).toBe(true);
+
+    removeCookie('Hello');
   });
 
-  it('returns null when domain does not contain a public suffix', () => {
-    setupDocument('[2001:0db8:85a3:0000:0000:8a2e:0370:7334]');
+  it('Saves cookies with array values', () => {
+    storage.save('array', [1, 'hello', 3, 'world']);
 
-    expect(storage.findAutoDomain_(testDocument)).toBe(null);
+    const arrayString = '[1,"hello",3,"world"]';
+
+    expect(document.cookie.includes(`ml_array=${arrayString}`)).toBe(true);
+
+    removeCookie('array');
   });
 
-  it('returns registrableDomain when domain is a valid subdomain', () => {
-    setupDocument('example.com', 'example.com');
+  it('Saves cookies with object values', () => {
+    storage.save('obj', {'hello': 'world'});
 
-    expect(storage.findAutoDomain_(testDocument)).toBe('example.com');
+    const objString = '{"hello":"world"}';
 
-    setupDocument('www.example.com', 'example.com');
+    expect(document.cookie.includes(`ml_obj=${objString}`)).toBe(true);
 
-    expect(storage.findAutoDomain_(testDocument)).toBe('example.com');
+    removeCookie('obj');
+  });
 
-    setupDocument('sub.www.example.com', 'example.com');
+  it('Saves cookies with number values', () => {
+    storage.save('num', 10);
 
-    expect(storage.findAutoDomain_(testDocument)).toBe('example.com');
+    const numString = '10';
+
+    expect(document.cookie.includes(`ml_num=${numString}`)).toBe(true);
+
+    removeCookie('num');
+  });
+
+  it('Saves cookies with boolean values', () => {
+    storage.save('bool', true);
+
+    const boolString = 'true';
+
+    expect(document.cookie.includes(`ml_bool=${boolString}`)).toBe(true);
+
+    removeCookie('bool');
+  });
+
+  it('Saves multiple cookies', () => {
+    storage.save('bool', true);
+    const boolString = 'true';
+
+    storage.save('num', 10);
+    const numString = '10';
+
+    storage.save('hello', 'world');
+
+    expect(document.cookie.includes(`ml_bool=${boolString}`)).toBe(true);
+
+    expect(document.cookie.includes(`ml_num=${numString}`)).toBe(true);
+
+    expect(document.cookie.includes(`ml_hello="world"`)).toBe(true);
+
+    removeCookie('bool');
+    removeCookie('num');
+    removeCookie('hello');
+  });
+
+  it('Overwrites cookies saved with the same key', () => {
+    storage.save('hello', 'world');
+
+    expect(document.cookie.includes(`ml_hello="world"`)).toBe(true);
+
+    storage.save('hello', 'goodbye');
+
+    expect(document.cookie.includes(`ml_hello="world"`)).toBe(false);
+
+    expect(document.cookie.includes(`ml_hello="goodbye"`)).toBe(true);
+
+    removeCookie('hello');
+  });
+
+  it('Saves cookies without a prefix', () => {
+    const noPrefixStorage = new CookiesStorage({'prefix': '', 'expires': '1'});
+
+    noPrefixStorage.save('hello', 'world');
+
+    expect(document.cookie.includes(`hello="world"`)).toBe(true);
+
+    removeCookie('hello');
+  });
+
+  it('Saves cookies with a custom prefix', () => {
+    const noPrefixStorage =
+      new CookiesStorage({'prefix': 'p_', 'expires': '1'});
+
+    noPrefixStorage.save('hello', 'world');
+
+    expect(document.cookie.includes(`p_hello="world"`)).toBe(true);
+  });
+
+  it('Saves cookies with correct domain', () => {
+    const expiryInSeconds = 3;
+
+    const fullAttributeStorage = new CookiesStorage(
+      {'prefix': 'pre', 'expires': expiryInSeconds, 'domain': document.domain});
+
+    let testCookie = '';
+    spyOn(fullAttributeStorage, 'setCookie').and.callFake((cookie) => {
+      testCookie = cookie;
+    });
+
+    fullAttributeStorage.save('hello', 'goodbye');
+
+    expect(testCookie.includes(`prehello="goodbye"`)).toBe(true);
+
+    expect(testCookie.includes(`domain=${document.domain}`)).toBe(true);
+  });
+
+  it('Saves cookies with correct expiry', () => {
+    const expiryInSeconds = 3;
+
+    const fullAttributeStorage = new CookiesStorage(
+      {'prefix': 'pre', 'expires': expiryInSeconds, 'domain': document.domain});
+
+    let testCookie = '';
+    spyOn(fullAttributeStorage, 'setCookie').and.callFake((cookie) => {
+      testCookie = cookie;
+    });
+
+    const expiresStringLength = 8;
+    const UTCStringLength = 29;
+
+    const maxExpectedExpiryDate = new Date();
+    const minExpectedExpiryDate = new Date();
+    setExpectedExpiry(minExpectedExpiryDate, maxExpectedExpiryDate,
+      expiryInSeconds);
+
+    fullAttributeStorage.save('hello', 'goodbye');
+
+    expect(testCookie.includes(`prehello="goodbye"`)).toBe(true);
+
+    const beginIndex = testCookie.indexOf('expires=');
+
+    const expiryDateString = testCookie.substring(beginIndex +
+      expiresStringLength, beginIndex + UTCStringLength + expiresStringLength);
+
+    const expiryDate = new Date(expiryDateString);
+
+    expect(expiryDate).toBeGreaterThanOrEqual(minExpectedExpiryDate);
+    expect(expiryDate).toBeLessThanOrEqual(maxExpectedExpiryDate);
   });
 });
