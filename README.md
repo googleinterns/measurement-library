@@ -41,7 +41,7 @@ to use and include this code in your `<head>` tag. It should be placed as high u
 in order to catch users who leave immediately after loading the page, then immediately leave.
 ```html
 <!-- Measurement Library Snippet -->
-<script async src="./node_modules/measurement-library/dist/measure"/>
+<script async src="/node_modules/measurement-library/dist/measure"/>
 <script>
   window.dataLayer = window.dataLayer || [];
   function measure(){dataLayer.push(arguments);}
