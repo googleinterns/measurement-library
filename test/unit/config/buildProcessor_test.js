@@ -54,32 +54,32 @@ describe('When calling the `buildProcessor_` function ' +
           expect(processorConstructor).toHaveBeenCalledWith({});
         });
 
-    it('inherits parameters from constructor parameters', () => {
+    it('overwrites parameters from constructor parameters', () => {
       buildProcessor_(MockProcessor, {a: 1, b: 2}, helper);
       expect(processorConstructor).toHaveBeenCalledWith({a: 1, b: 2});
     });
 
-    it('inherits parameters from the given helper parameters', () => {
+    it('overwrites parameters from the given helper parameters', () => {
       measure('set', 'processor', {a: {a: 1}});
       measure('set', 'processor', {b: 2});
       buildProcessor_(MockProcessor, {}, helper);
       expect(processorConstructor).toHaveBeenCalledWith({a: {a: 1}, b: 2});
     });
 
-    it('inherits both constructor and helper parameters', () => {
+    it('overwrites both constructor and helper parameters', () => {
       measure('set', 'processor', {a: {a: 1}});
       buildProcessor_(MockProcessor, {b: 2}, helper);
       expect(processorConstructor).toHaveBeenCalledWith({a: {a: 1}, b: 2});
     });
 
-    it('inherits constructor parameters over helper parameters', () => {
+    it('overwrites constructor parameters over helper parameters', () => {
       measure('set', 'processor', {a: 2});
       buildProcessor_(MockProcessor, {a: 1}, helper);
       expect(processorConstructor).toHaveBeenCalledWith({a: 1});
     });
 
     // This behavior may be changed in the future.`
-    it('inherits constructor parameters over helper parameters using a ' +
+    it('overwrites constructor parameters over helper parameters using a ' +
         'shallow copy', () => {
       measure('set', 'processor', {a: {b: 1}});
       buildProcessor_(MockProcessor, {a: {a: 1}}, helper);

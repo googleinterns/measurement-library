@@ -32,54 +32,59 @@ const DEFAULT_EVENT_PROCESSORS =
  * with the given parameters.
  *
  * @private
- * @param {!StorageConstructor|string} constructor
+ * @param {!StorageConstructor|string} storageConstructor
  * @param {!Object<string, *>} params
  * @param {?DataLayerHelper} helper
  * @return {?StorageInterface}
  */
-function buildStorage_(constructor, params, helper) {
-  if (typeof constructor === 'string') {
-    if (!(constructor in DEFAULT_STORAGE_INTERFACES)) {
-      log(`No storage interface with name ${constructor} found.`,
+function buildStorage_(storageConstructor, params, helper) {
+  if (typeof storageConstructor === 'string') {
+    if (!(storageConstructor in DEFAULT_STORAGE_INTERFACES)) {
+      log(`No storage interface with name ${storageConstructor} found.`,
           LogLevel.ERROR);
     }
-    constructor = DEFAULT_STORAGE_INTERFACES[constructor];
+    storageConstructor = DEFAULT_STORAGE_INTERFACES[storageConstructor];
   }
+  const storedOptions = getExtraOptions(helper, storageConstructor);
+  // Merge the dicts, with storedOptions having the least priority.
+  const mergedOptions = merge(storedOptions, params);
   try {
-    return new constructor(merge(getExtraOptions(helper, constructor), params));
+    return new storageConstructor(mergedOptions);
   } catch (err) {
     log(`Could not construct a new instance of the class ` +
-        `${constructor} with parameter`, LogLevel.ERROR);
+        `${storageConstructor} with parameter`, LogLevel.ERROR);
     log(params, LogLevel.ERROR);
     log(err, LogLevel.ERROR);
     return null;
   }
 }
 
-
 /**
  * Construct an event processor from a representative string or constructor,
  * with the given parameters.
  *
  * @private
- * @param {!ProcessorConstructor|string} constructor
+ * @param {!ProcessorConstructor|string} processorConstructor
  * @param {!Object<string, *>} params
  * @param {?DataLayerHelper} helper
  * @return {?EventProcessor}
  */
-function buildProcessor_(constructor, params, helper) {
-  if (typeof constructor === 'string') {
-    if (!(constructor in DEFAULT_EVENT_PROCESSORS)) {
-      log(`No event processor with name ${constructor} found.`,
+function buildProcessor_(processorConstructor, params, helper) {
+  if (typeof processorConstructor === 'string') {
+    if (!(processorConstructor in DEFAULT_EVENT_PROCESSORS)) {
+      log(`No event processor with name ${processorConstructor} found.`,
           LogLevel.ERROR);
     }
-    constructor = DEFAULT_EVENT_PROCESSORS[constructor];
+    processorConstructor = DEFAULT_EVENT_PROCESSORS[processorConstructor];
   }
+  const storedOptions = getExtraOptions(helper, processorConstructor);
+  // Merge the dicts, with storedOptions having the least priority.
+  const mergedOptions = merge(storedOptions, params);
   try {
-    return new constructor(merge(getExtraOptions(helper, constructor), params));
+    return new processorConstructor(mergedOptions);
   } catch (err) {
     log(`Could not construct a new instance of the class ` +
-        `${constructor} with parameter`, LogLevel.ERROR);
+        `${processorConstructor} with parameter`, LogLevel.ERROR);
     log(params, LogLevel.ERROR);
     log(err, LogLevel.ERROR);
     return null;
@@ -188,8 +193,10 @@ function registerEventAndSet_(helper, processor, eventOptions, storage) {
   function processEvent(name, options = undefined) {
     const model = this;
     if (!options) options = {};
-    options = merge(getExtraOptions(helper, processor.constructor),
-        eventOptions, options);
+    const storedOptions = getExtraOptions(helper, processor.constructor);
+    // Merge the dicts, with storedOptions having the least priority
+    // and options having the most priority.
+    options = merge(storedOptions, eventOptions, options);
     processor.processEvent(/** @type {!StorageInterface} */(storage),
       model, name, options);
   }

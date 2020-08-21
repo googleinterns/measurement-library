@@ -50,32 +50,32 @@ describe('Calling the buildStorage_ function of configStorages', () => {
           expect(storageConstructor).toHaveBeenCalledWith({});
         });
 
-    it('inherits parameters from constructor parameters', () => {
+    it('overwrites parameters from constructor parameters', () => {
       buildStorage_(MockStorage, {a: 1, b: 2}, helper);
       expect(storageConstructor).toHaveBeenCalledWith({a: 1, b: 2});
     });
 
-    it('inherits parameters from the given helper parameters', () => {
+    it('overwrites parameters from the given helper parameters', () => {
       measure('set', 'storage', {a: {a: 1}});
       measure('set', 'storage', {b: 2});
       buildStorage_(MockStorage, {}, helper);
       expect(storageConstructor).toHaveBeenCalledWith({a: {a: 1}, b: 2});
     });
 
-    it('inherits both constructor and helper parameters', () => {
+    it('overwrites both constructor and helper parameters', () => {
       measure('set', 'storage', {a: {a: 1}});
       buildStorage_(MockStorage, {b: 2}, helper);
       expect(storageConstructor).toHaveBeenCalledWith({a: {a: 1}, b: 2});
     });
 
-    it('inherits constructor parameters over helper parameters', () => {
+    it('overwrites constructor parameters over helper parameters', () => {
       measure('set', 'storage', {a: 2});
       buildStorage_(MockStorage, {a: 1}, helper);
       expect(storageConstructor).toHaveBeenCalledWith({a: 1});
     });
 
-    // This behavior may be changed in the future.`
-    it('inherits constructor parameters over helper parameters using a ' +
+    // This behavior may be changed in the future to be a deep copy.
+    it('overwrites constructor parameters over helper parameters using a ' +
         'shallow copy', () => {
       measure('set', 'storage', {a: {b: 1}});
       buildStorage_(MockStorage, {a: {a: 1}}, helper);
