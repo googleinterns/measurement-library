@@ -46,7 +46,7 @@ function buildStorage_(storageConstructor, params, helper) {
     storageConstructor = DEFAULT_STORAGE_INTERFACES[storageConstructor];
   }
   const storedOptions = getExtraOptions(helper, storageConstructor);
-  // Merge the dicts, with storedOptions having the least priority.
+  // Merge the options objects, with storedOptions having the least priority.
   const mergedOptions = merge(storedOptions, params);
   try {
     return new storageConstructor(mergedOptions);
@@ -78,7 +78,7 @@ function buildProcessor_(processorConstructor, params, helper) {
     processorConstructor = DEFAULT_EVENT_PROCESSORS[processorConstructor];
   }
   const storedOptions = getExtraOptions(helper, processorConstructor);
-  // Merge the dicts, with storedOptions having the least priority.
+  // Merge the optionsObjects, with storedOptions having the least priority.
   const mergedOptions = merge(storedOptions, params);
   try {
     return new processorConstructor(mergedOptions);
@@ -194,7 +194,7 @@ function registerEventAndSet_(helper, processor, eventOptions, storage) {
     const model = this;
     if (!options) options = {};
     const storedOptions = getExtraOptions(helper, processor.constructor);
-    // Merge the dicts, with storedOptions having the least priority
+    // Merge the optionsObjects, with storedOptions having the least priority.
     // and options having the most priority.
     options = merge(storedOptions, eventOptions, options);
     processor.processEvent(/** @type {!StorageInterface} */(storage),
