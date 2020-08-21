@@ -1,16 +1,19 @@
 goog.module('measurementLibrary.storage.CookiesStorage');
 
+/** @const {number} */
+const TEN_YEARS_IN_SECONDS = 10 * 365 * 24 * 60 * 60;
+
 /**
  * An implementation of StorageInterface that uses cookies for storage.
  * @implements {StorageInterface}
  */
 class CookiesStorage {
-  /** 
-   * @param {!Object.<string, string|number|boolean>} settings an object
+  /**
+   * @param {!Object<string, (null|string|number|boolean)>} settings An object
    *     holding the settings to be set on this instance of CookiesStorage.
    */
   constructor(settings) {
-    /** @private @const {!Object.<string, string|number|boolean>}*/
+    /** @private @const {!Object<string, (null|string|number|boolean)>}*/
     this.settings_ = settings;
 
     this.setDefaults_();
@@ -46,9 +49,9 @@ class CookiesStorage {
 
   /**
    * Finds the registrable domain of current URL and sets it as the default
-   *    domain for cookies
-   * @param {!document} document the document whose cookies are to be set.
-   * @return {?string} the registrable domain of docDomain
+   *    domain for cookies.
+   * @param {!Object} document The document whose cookies are to be set.
+   * @return {?string} The registrable domain of docDomain.
    * @private
    */
   findAutoDomain_(document) {
@@ -67,18 +70,62 @@ class CookiesStorage {
     if (document.cookie === oldCookies) {
       return null;
     }
-    
+
     // Since the cookie was updated with a dummy value, remove it by setting
     // expiry to a date in the past.
-    const pastDate = "Thu, 01 Jan 1970 00:00:00 GMT";
-    document.cookie = 
-      `registrable_domain=;domain=${domain};expires=${pastDate}`;
+    const pastDate = 'Thu, 01 Jan 1970 00:00:00 GMT';
+    document.cookie =
+        `registrable_domain=;domain=${domain};expires=${pastDate}`;
 
     return domain;
   }
 
   /** @override */
-  save(key, value, secondsToLive) {}
+  save(key, value, secondsToLive =
+    /** @type {number} */ (this.settings_['expires'])) {
+    const valString = JSON.stringify(value);
+    let newCookie = `${this.settings_['prefix']}${key}=${valString}`;
+    newCookie = this.addSettings(newCookie, secondsToLive);
+    this.setCookie(newCookie);
+  }
+
+  /**
+   * Seperates the creation of the cookie from setting it for testing purposes.
+   * @param {string} cookie The cookie to set in document.cookie.
+   * @private
+   */
+  setCookie(cookie) {
+    document.cookie = cookie;
+  }
+
+  /**
+   * Finds the registrable domain of current URL and sets it as the default
+   *    domain for cookies.
+   * @param {string} cookie The cookie to add settings to.
+   * @param {?number} secondsToLive The number of seconds cookie will be in
+   *    storage.
+   * @return {string} The cookie with all added settings.
+   * @private
+   */
+  addSettings(cookie, secondsToLive) {
+    cookie = `${cookie}; domain=${this.settings_['domain']}`;
+
+    const expiry = new Date();
+
+    if (secondsToLive === Number.POSITIVE_INFINITY) {
+      expiry.setMilliseconds(expiry.getMilliseconds() + (TEN_YEARS_IN_SECONDS) *
+          1000);
+    } else {
+      expiry.setMilliseconds(expiry.getMilliseconds() + (secondsToLive) *
+          1000);
+    }
+
+    cookie = `${cookie}; expires=${expiry.toUTCString()}`;
+
+    cookie = `${cookie}; ${this.settings_['flags']}`;
+
+    return cookie;
+  }
 
   /** @override */
   load(key, defaultValue) {}
