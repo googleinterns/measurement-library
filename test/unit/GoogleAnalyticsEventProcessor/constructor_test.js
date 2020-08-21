@@ -1,4 +1,4 @@
-goog.module('measurementLibrary.eventProcessor.testing.GoogleAnalyticsEventProcessor.constructor');
+goog.module('measurementLibrary.testing.eventProcessor.GoogleAnalyticsEventProcessor.constructor');
 goog.setTestOnly();
 
 const GoogleAnalyticsEventProcessor = goog.require('measurementLibrary.eventProcessor.GoogleAnalyticsEventProcessor');
@@ -12,8 +12,8 @@ describe('The `constructor` of GoogleAnalyticsEventProcessor', () => {
     'page_path': true,
     'page_location': true,
     'page_title': true,
-    'user_id': true,
-    'client_id': true,
+    'userId': true,
+    'clientId': true,
   };
 
   it('does not have a default arguments for ' +
@@ -72,7 +72,7 @@ describe('The `constructor` of GoogleAnalyticsEventProcessor', () => {
       automatic_params: ['custom_param'],
     });
 
-    expect(eventProcessor.automaticParams_['client_id']).toBeTrue();
+    expect(eventProcessor.automaticParams_['clientId']).toBeTrue();
     expect(eventProcessor.automaticParams_['custom_param']).toBeTrue();
   });
 

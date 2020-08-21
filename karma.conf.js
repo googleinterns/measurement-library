@@ -4,7 +4,7 @@
 module.exports = function(config) {
   config.set({
     basePath: '',
-    frameworks: ['jasmine'],
+    frameworks: ['jasmine-ajax', 'jasmine'],
     // Automatically run tests for files matching these regex.
     files: [
       // ----------------- Third Party Dependencies ----------------------------
@@ -19,16 +19,20 @@ module.exports = function(config) {
       // ------------------------ Source Files ---------------------------------
       {pattern: 'src/logging.js'},
       {pattern: 'src/storage/**.js'},
-      {pattern: 'src/eventProcessor/**.js'},
+      {pattern: 'src/eventProcessor/EventProcessorInterface.js'},
+      {pattern: 'src/eventProcessor/generateUniqueId.js'},
+      {pattern: 'src/eventProcessor/GoogleAnalyticsEventProcessor.js'},
       {pattern: 'src/config/configProcessors.js'},
       {pattern: 'src/config/setup.js'},
       {pattern: 'src/main.js'},
       // ------------------------- Test Files ----------------------------------
+      'test/unit/mocks.js',
       'test/unit/**/*_test.js',
     ],
     preprocessors: {'**/*.js': ['googmodule']},
     plugins: [
       require('karma-jasmine'),
+      require('karma-jasmine-ajax'),
       require('karma-detect-browsers'),
       require('karma-chrome-launcher'),
       require('karma-firefox-launcher'),

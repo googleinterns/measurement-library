@@ -21,17 +21,17 @@ describe('The `persistTime` method ' +
     return expect(eventProcessor.persistTime(key, ''));
   }
 
-  it('returns default when key is not client_id', () => {
+  it('returns default when key is not clientId', () => {
     expectPersistTime('test').toBe(-1);
   });
 
-  describe('When key is client_id', () => {
+  describe('When key is clientId', () => {
     it('returns two years when client_id_expires is not set', () => {
-      expectPersistTime('client_id').toBe(2 * 365 * 24 * 60 * 60);
+      expectPersistTime('clientId').toBe(2 * 365 * 24 * 60 * 60);
     });
 
     it('returns overridden number when client_id_expires is set', () => {
-      expectPersistTime('client_id', /* clientIdExpires */ 0).toBe(0);
+      expectPersistTime('clientId', /* clientIdExpires */ 0).toBe(0);
     });
   });
 });

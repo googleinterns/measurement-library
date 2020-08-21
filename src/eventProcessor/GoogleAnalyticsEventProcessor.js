@@ -1,5 +1,6 @@
 goog.module('measurementLibrary.eventProcessor.GoogleAnalyticsEventProcessor');
 
+const uniqueId = goog.require('measurementLibrary.eventProcessor.generateUniqueId');
 const logging = goog.require('measurementLibrary.logging');
 
 /**
@@ -8,11 +9,11 @@ const logging = goog.require('measurementLibrary.logging');
  * @const {!Object<string,boolean>}
  */
 const TOP_LEVEL_PARAMS = {
-  'client_id': true,
-  'user_id': true,
-  'timestamp_micros': true,
-  'user_properties': true,
-  'non_personalized_ads': true,
+  'client_id': 'clientId',
+  'user_id': 'userId',
+  'timestamp_micros': 'timestampMircos',
+  'user_properties': 'userProperties',
+  'non_personalized_ads': 'nonPersonalizedAds',
 };
 
 /**
@@ -135,16 +136,16 @@ class GoogleAnalyticsEventProcessor {
      * @private @const {!Object<string, boolean>}
      */
     this.automaticParams_ = {
-      'page_path': true,
-      'page_location': true,
-      'page_title': true,
-      'user_id': true,
-      'client_id': true,
+      'page_path': 'page_path',
+      'page_location': 'page_location',
+      'page_title': 'page_title',
+      'user_id': 'userId',
+      'client_id': 'clientId',
     };
 
     // Add user provided params to automatic param list
     for (let i = 0; i < userAutomaticParams.length; ++i) {
-      this.automaticParams_[userAutomaticParams[i]] = true;
+      this.automaticParams_[userAutomaticParams[i]] = userAutomaticParams[i];
     }
 
     /**
@@ -188,6 +189,47 @@ class GoogleAnalyticsEventProcessor {
   }
 
   /**
+   * Gets value stored in the global model under a given key.
+   * Only accesses the globel model if the given key is an automatic parameter.
+   * @param {string} key
+   * @param {{get:function(string):*, set:function(string, *)}} modelInterface
+   *    An interface to load or save short term page data from the data layer.
+   * @return {*} value
+   * @private
+   */
+  getFromGlobalScope_(key, modelInterface) {
+    if (this.automaticParams_[key]) {
+      return modelInterface.get(this.automaticParams_[key]);
+    }
+    return undefined;
+  }
+
+  /**
+   * Gets the ID associated with the current client.
+   * First queries the global model followed by long term storage if not yet
+   * found for `clientId`. If no previous ID exists, a new one is generated
+   * and stored for future use in both the global model and long term storage.
+   * @param {!StorageInterface} storageInterface An interface to an object to
+   *    load or save persistent data with.
+   * @param {{get:function(string):*, set:function(string, *)}} modelInterface
+   *    An interface to load or save short term page data from the data layer.
+   * @return {string}
+   * @private
+   */
+  getClientId_(storageInterface, modelInterface) {
+    let clientId = this.getFromGlobalScope_('client_id', modelInterface);
+    if (!clientId || typeof clientId !== 'string') {
+      clientId = storageInterface.load('clientId');
+      if (!clientId || typeof clientId !== 'string') {
+        clientId = uniqueId.generateUniqueId();
+        storageInterface.save('clientId', clientId, this.clientIdExpires_);
+      }
+      modelInterface.set('clientId', clientId);
+    }
+    return clientId;
+  }
+
+  /**
    * Builds the POST request URL using `measurement_id` and `api_secret`
    * query parameters if available
    * @return {string}
@@ -213,6 +255,27 @@ class GoogleAnalyticsEventProcessor {
   }
 
   /**
+   * Adds a key value pair to JSON POST request if value is defined.
+   * If the key is a top level parameter, the pair will be added at the topmost
+   * level of the JSON.
+   * If not, the pair is interpreted as an event parameter and added to the
+   * params object within the JSON.
+   * @param {!Object<string, *>} json
+   * @param {string} key
+   * @param {*} value
+   * @private
+   */
+  addKeyValuePairToJson_(json, key, value) {
+    if (value !== undefined) {
+      if (TOP_LEVEL_PARAMS[key]) {
+        json[TOP_LEVEL_PARAMS[key]] = value;
+      } else if (!TOP_LEVEL_PARAMS[key]) {
+        json.events[0].params[key] = value;
+      }
+    }
+  }
+
+  /**
    * Processes events pushed to the data layer by constructing and sending JSON
    * POST requests to Google Analytics.
    * Follows Measurement Protocol (App + Web).
@@ -226,7 +289,34 @@ class GoogleAnalyticsEventProcessor {
    * @export
    */
   processEvent(storageInterface, modelInterface, eventName, eventOptions) {
-    // TODO(kjgalvan):: constructs and sends JSON POST requests to GA
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', this.buildRequestUrl_());
+
+    const json = {
+      events: [{'name': eventName, 'params': {}}],
+    };
+
+    for (const key in this.automaticParams_) {
+      let value;
+      if (key === 'client_id') {
+        value = this.getClientId_(storageInterface, modelInterface);
+      } else {
+        value = this.getFromGlobalScope_(key, modelInterface);
+      }
+      this.addKeyValuePairToJson_(json, key, value);
+    }
+
+    for (const key in eventOptions) {
+      this.addKeyValuePairToJson_(json, key, eventOptions[key]);
+    }
+
+    if (logging.DEBUG) {
+      xhr.onload = () => {
+        logging.log(xhr.responseText, logging.LogLevel.INFO);
+      };
+    }
+
+    xhr.send(JSON.stringify(json));
   }
 
   /**
@@ -243,7 +333,7 @@ class GoogleAnalyticsEventProcessor {
    * @export
    */
   persistTime(key, value) {
-    if (key === 'client_id') {
+    if (key === 'clientId') {
       return this.clientIdExpires_;
     } else {
       return -1;
