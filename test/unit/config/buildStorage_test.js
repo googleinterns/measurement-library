@@ -50,19 +50,19 @@ describe('Calling the buildStorage_ function of configStorages', () => {
           expect(storageConstructor).toHaveBeenCalledWith({});
         });
 
-    it('overwrites parameters from constructor parameters', () => {
+    it('inherits parameters from constructor parameters', () => {
       buildStorage_(MockStorage, {a: 1, b: 2}, helper);
       expect(storageConstructor).toHaveBeenCalledWith({a: 1, b: 2});
     });
 
-    it('overwrites parameters from the given helper parameters', () => {
+    it('inherits parameters from the given helper parameters', () => {
       measure('set', 'storage', {a: {a: 1}});
       measure('set', 'storage', {b: 2});
       buildStorage_(MockStorage, {}, helper);
       expect(storageConstructor).toHaveBeenCalledWith({a: {a: 1}, b: 2});
     });
 
-    it('overwrites both constructor and helper parameters', () => {
+    it('inherits both constructor and helper parameters', () => {
       measure('set', 'storage', {a: {a: 1}});
       buildStorage_(MockStorage, {b: 2}, helper);
       expect(storageConstructor).toHaveBeenCalledWith({a: {a: 1}, b: 2});
