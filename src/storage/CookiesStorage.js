@@ -63,8 +63,7 @@ class CookiesStorage {
 
     while (document.cookie === oldCookies && domainArray.length > 0) {
       domain = `${domainArray.pop() }.${ domain }`;
-      const newCookie = `registrable_domain=${ domain };domain=${ domain }`;
-      document.cookie = newCookie;
+      document.cookie = `registrable_domain=${ domain };domain=${domain}`;
     }
 
     if (document.cookie === oldCookies) {
@@ -129,6 +128,15 @@ class CookiesStorage {
 
   /** @override */
   load(key, defaultValue) {}
+
+  /**
+   * Name of the storage.
+   * @return {string}
+   * @export
+   */
+  static getName() {
+    return 'cookies';
+  }
 }
 
 exports = CookiesStorage;

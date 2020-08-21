@@ -65,6 +65,9 @@ describe('After calling the setupMeasure function of setup', () => {
       this.load = load;
       this.save = save;
     }
+    static getName() {
+      return 'storage';
+    }
   }
 
   class MockProcessor {
@@ -121,7 +124,7 @@ describe('After calling the setupMeasure function of setup', () => {
           });
     });
 
-    describe('Does not crash when unsupported strings are passed in', () => {
+    describe('does not crash when unsupported strings are passed in', () => {
       executeSnippetBeforeAndAfterSetup(
           /* config= */
           (measure) =>
@@ -132,7 +135,7 @@ describe('After calling the setupMeasure function of setup', () => {
           });
     });
 
-    describe('Does not crash when non string non constructable' +
+    describe('does not crash when non string non constructable' +
         'object is passed', () => {
       executeSnippetBeforeAndAfterSetup(
           /* config= */
@@ -144,7 +147,7 @@ describe('After calling the setupMeasure function of setup', () => {
           });
     });
 
-    describe('Passes parameters to from config to the constructor', () => {
+    describe('passes parameters from config to the constructor', () => {
       executeSnippetBeforeAndAfterSetup(
           /* config= */
           (measure) => {
@@ -154,6 +157,35 @@ describe('After calling the setupMeasure function of setup', () => {
           /* test=  */ () => {
             expect(processorConstructor).toHaveBeenCalledWith({data: [1, 2]});
             expect(storageConstructor).toHaveBeenCalledWith({data: {a: 3}});
+          });
+    });
+
+    describe('passes parameters from set to the constructor', () => {
+      executeSnippetBeforeAndAfterSetup(
+          /* config= */
+          (measure) => {
+            measure('set', 'processor', {data: [1, 2]})
+            measure('set', 'storage', {data: {a: 3}})
+            measure('config', MockProcessor, {}, MockStorage, {});
+          },
+          /* test=  */ () => {
+            expect(processorConstructor).toHaveBeenCalledWith({data: [1, 2]});
+            expect(storageConstructor).toHaveBeenCalledWith({data: {a: 3}});
+          });
+    });
+    
+    describe('overwrites set with config', () => {
+      executeSnippetBeforeAndAfterSetup(
+          /* config= */
+          (measure) => {
+            measure('set', 'processor', {data: [1, 2]})
+            measure('set', 'storage', {data: {a: 3}})
+            measure('config', MockProcessor, {data: 0},
+                MockStorage, {data: 0});
+          },
+          /* test=  */ () => {
+            expect(processorConstructor).toHaveBeenCalledWith({data: 0});
+            expect(storageConstructor).toHaveBeenCalledWith({data: 0});
           });
     });
   });
