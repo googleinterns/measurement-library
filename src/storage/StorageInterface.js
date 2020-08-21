@@ -36,3 +36,10 @@ class StorageInterface {
    */
   load(key, defaultValue) {};
 }
+
+/**
+ * An optional static function that allows data specific to this
+ * storage interface class to be stored in the data layer.
+ * @return {string}
+ */
+StorageInterface.getName = function() {};
