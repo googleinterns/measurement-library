@@ -121,7 +121,7 @@ const merge = function(args) {
  */
 const getExtraOptions = (helper, object) => {
   if (helper && object && object.hasOwnProperty('getName')) {
-    return /** @type {!Object<string, *>} */ (helper.get(object['getName']()));
+    return /** @type {!Object<string, *>} */ (helper.get(object.getName()));
   }
   return {};
 };
