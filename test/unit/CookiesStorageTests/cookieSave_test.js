@@ -183,5 +183,7 @@ describe('The save method for cookiesStorage', () => {
     const expiryDate = new Date(expiryDateString);
 
     expect(expiryDate.toUTCString).toEqual(expectedExpiry.toUTCString);
+
+    jasmine.clock().uninstall();
   });
 });
