@@ -76,7 +76,10 @@ module.exports = function(grunt) {
           'demo/public/measure-no-config.js': 'src/mainNoConfig.js',
         },
         options: {
-          define: 'ML_DEBUG=true, DLH_DEBUG=true',
+          // If we set ML_DEBUG to true, then the site will not send
+          // events to google analytics, instead sending a debug
+          // request and posting results in the console.
+          define: 'DLH_DEBUG=true',
         },
       },
     },

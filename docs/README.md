@@ -30,23 +30,24 @@ to use and include this code in your `<head>` tag. It should be placed as high u
 in order to catch users who leave immediately after loading the page, then immediately leave.
 ```html
 <!-- Measurement Library Snippet -->
-<script async src="./node_modules/measurement-library/dist/measure"/>
+<script async src="/node_modules/measurement-library/dist/measure"/>
 <script>
   window.dataLayer = window.dataLayer || [];
   function measure(){dataLayer.push(arguments);}
   // One or more config commands. To send data to google analytics while 
   // using cookies for storage:
-  measure('config', 'googleAnalytics', {}, 'cookies', {});
+  measure('config', 'googleAnalytics', {
+    'measurement_id': YOUR_MEASUREMENT_ID,
+    'api_secret': YOUR_API_SECRET,
+  }, 'cookies', {});
 </script>
 ```
-
-[//]: # (TODO kj: Make the config command use the right settings for google analytics)
 
 As an alternative, you can use the development version when testing your page. The dev version has a bigger file size,
 but reports possible errors to the console.
 ```html
 <!-- Measurement Library Snippet (Development Version) -->
-<script async src="./node_modules/measurement-library/dist/measure-debug"/>
+<script async src="/node_modules/measurement-library/dist/measure-debug"/>
 <script>/* Configure script like last example. */ </script>
 ```
 
@@ -65,3 +66,4 @@ The registered event processor will determine if the value should be saved, how 
 be saved for, and save it. To overwrite this behavior, you can specify a third time-to-live parameter:
 `measure('set', key, value, secondsToLive)`. In particular, if `secondsToLive` is 0, no data will be saved
 to long term storage.
+

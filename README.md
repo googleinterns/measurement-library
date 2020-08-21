@@ -38,7 +38,7 @@ to use and include this code in your `<head>` tag. It should be placed as high u
 in order to catch users who leave immediately after loading the page, then immediately leave.
 ```html
 <!-- Measurement Library Snippet -->
-<script async src="./node_modules/measurement-library/dist/measure"/>
+<script async src="/node_modules/measurement-library/dist/measure"/>
 <script>
   window.dataLayer = window.dataLayer || [];
   function measure(){dataLayer.push(arguments);}
@@ -55,7 +55,7 @@ As an alternative, you can use the development version when testing your page. T
 but reports possible errors to the console.
 ```html
 <!-- Measurement Library Snippet (Development Version) -->
-<script async src="./node_modules/measurement-library/dist/measure-debug"/>
+<script async src="/node_modules/measurement-library/dist/measure-debug"/>
 <script>/* Configure script like last example. */ </script>
 ```
 
