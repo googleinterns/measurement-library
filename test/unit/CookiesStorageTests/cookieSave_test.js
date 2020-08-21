@@ -14,13 +14,6 @@ describe('The save method for cookiesStorage', () => {
       `ml_${key}=;expires=${pastDate}`;
   };
 
-  const setExpectedExpiry = (min, max, expiryInSeconds) => {
-    max.setMilliseconds(max.getMilliseconds() +
-        (expiryInSeconds + 2) * oneSecondInMilliseconds);
-    min.setMilliseconds(min.getMilliseconds() +
-        expiryInSeconds * oneSecondInMilliseconds);
-  };
-
   it('Saves cookies with null and undefined values', () => {
     storage.save('null', null);
 
