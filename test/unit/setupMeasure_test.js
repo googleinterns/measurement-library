@@ -48,6 +48,8 @@ function executeSnippetBeforeAndAfterSetup(config, test) {
 }
 
 describe('After calling the setupMeasure function of setup', () => {
+  let storageConstructor;
+  let processorConstructor;
   let load;
   let save;
   let persistTime;
@@ -59,6 +61,7 @@ describe('After calling the setupMeasure function of setup', () => {
   // access. Here this is done by making each method a spy.
   class MockStorage {
     constructor() {
+      storageConstructor.apply(this, arguments);
       this.load = load;
       this.save = save;
     }
@@ -66,12 +69,18 @@ describe('After calling the setupMeasure function of setup', () => {
 
   class MockProcessor {
     constructor() {
+      processorConstructor.apply(this, arguments);
       this.persistTime = persistTime;
       this.processEvent = processEvent;
+    }
+    static getName() {
+      return 'processor';
     }
   }
 
   beforeEach(() => {
+    storageConstructor = jasmine.createSpy('storageConstructor');
+    processorConstructor = jasmine.createSpy('processorConstructor');
     load = jasmine.createSpy('load');
     save = jasmine.createSpy('save');
     persistTime = jasmine.createSpy('persistTime');
@@ -109,6 +118,42 @@ describe('After calling the setupMeasure function of setup', () => {
                   {}),
           /* test=  */ (dataLayer) => {
             expect(dataLayer.length).toBe(1);
+          });
+    });
+
+    describe('Does not crash when unsupported strings are passed in', () => {
+      executeSnippetBeforeAndAfterSetup(
+          /* config= */
+          (measure) =>
+              measure('config', 'unusedProcessorName', {}, 'unusedStorageName',
+                  {}),
+          /* test=  */ (dataLayer) => {
+            expect(dataLayer.length).toBe(1);
+          });
+    });
+
+    describe('Does not crash when non string non constructable' +
+        'object is passed', () => {
+      executeSnippetBeforeAndAfterSetup(
+          /* config= */
+          (measure) =>
+              measure('config', new Date(), {}, [1, 2, 3],
+                  {}),
+          /* test=  */ (dataLayer) => {
+            expect(dataLayer.length).toBe(1);
+          });
+    });
+
+    describe('Passes parameters to from config to the constructor', () => {
+      executeSnippetBeforeAndAfterSetup(
+          /* config= */
+          (measure) => {
+            measure('config', MockProcessor, {data: [1, 2]},
+                MockStorage, {data: {a: 3}});
+          },
+          /* test=  */ () => {
+            expect(processorConstructor).toHaveBeenCalledWith({data: [1, 2]});
+            expect(storageConstructor).toHaveBeenCalledWith({data: {a: 3}});
           });
     });
   });

@@ -7,14 +7,14 @@ const GoogleAnalyticsEventProcessor = goog.require('measurementLibrary.eventProc
 describe('Calling the buildProcessor_ function of configProcessors', () => {
   it('returns an event processor when a valid string is passed', () => {
     expect(buildProcessor_('googleAnalytics', {})).toBeInstanceOf(
-        GoogleAnalyticsEventProcessor);
+      GoogleAnalyticsEventProcessor);
   });
 
-  it('returns an event processor when a class is passed in ',
-      () => {
-        expect(buildProcessor_(GoogleAnalyticsEventProcessor, {}))
-          .toBeInstanceOf(GoogleAnalyticsEventProcessor);
-      });
+  it('returns an event processor when a class is passed in ', () => {
+    expect(buildProcessor_(GoogleAnalyticsEventProcessor, {}))
+      .toBeInstanceOf(GoogleAnalyticsEventProcessor);
+  });
+
   it('eeturns false when an invalid string is passed in ', () => {
     expect(buildProcessor_('unimplemented', {})).toEqual(null);
   });

@@ -86,6 +86,41 @@ function buildProcessor_(constructor, params) {
 }
 
 /**
+ *  Perform a merge on the given list of objects. Any properties that both
+ *  the ith and jth (i less than j) objects both share will be overwritten
+ *  to have just the property of the jth object.
+ *
+ *  @param {...} args The objects to merge.
+ *  @return {!Object<string, *>}
+ */
+const merge = function(args) {
+  const result = {};
+  for (let i = 0; i < arguments.length; i++) {
+    const toMerge = arguments[i];
+    for (const prop in toMerge) {
+      if (toMerge.hasOwnProperty(prop)) {
+        result[prop] = toMerge[prop];
+      }
+    }
+  }
+  return result;
+};
+
+/**
+ *  Get extra parameters that are stored in the data layer for a given object.
+ *
+ *  @param {?DataLayerHelper} helper
+ *  @param {?Object} object The object that we would like to get parameters of.
+ *  @return {!Object<string, *>}
+ */
+const getExtraOptions = (helper, object) => {
+  if (helper && object && object.hasOwnProperty('getName')) {
+    return /** @type {!Object<string, *>} */ (helper.get(object.getName()));
+  }
+  return {};
+};
+
+/**
  * When called with an implementation of the eventProcessor and
  * storageInterface API, this function registers processors to react to the
  * 'set' and 'event' commands.
@@ -153,6 +188,8 @@ function registerEventAndSet_(helper, processor, eventOptions, storage) {
   function processEvent(name, options = undefined) {
     const model = this;
     if (!options) options = {};
+    options = merge(getExtraOptions(helper, processor.constructor),
+      eventOptions, options);
     processor.processEvent(/** @type {!StorageInterface} */(storage),
       model, name, options);
   }
