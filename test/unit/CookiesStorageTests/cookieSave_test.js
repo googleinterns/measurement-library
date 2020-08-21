@@ -14,6 +14,10 @@ describe('The save method for cookiesStorage', () => {
       `ml_${key}=;expires=${pastDate}`;
   };
 
+  afterEach(() => {
+    jasmine.clock().uninstall();
+  });
+
   it('Saves cookies with null and undefined values', () => {
     storage.save('null', null);
 
@@ -162,7 +166,7 @@ describe('The save method for cookiesStorage', () => {
     const mockDate = new Date();
     jasmine.clock().mockDate(mockDate);
 
-    const expectedExpiry = new Date();
+    const expectedExpiry = new Date(); // Initialized to the mock date.
     expectedExpiry.setMilliseconds(expectedExpiry.getMilliseconds() +
         expiryInSeconds * oneSecondInMilliseconds);
 
@@ -183,7 +187,5 @@ describe('The save method for cookiesStorage', () => {
     const expiryDate = new Date(expiryDateString);
 
     expect(expiryDate.toUTCString).toEqual(expectedExpiry.toUTCString);
-
-    jasmine.clock().uninstall();
   });
 });
