@@ -1,6 +1,7 @@
 goog.module('measurementLibrary.storage.CookiesStorage');
 
-const /** number */ tenYearsInSeconds = 10 * 365 * 24 * 60 * 60;
+/** @const {number} */
+const TEN_YEARS_IN_SECONDS = 10 * 365 * 24 * 60 * 60;
 
 /**
  * An implementation of StorageInterface that uses cookies for storage.
@@ -74,7 +75,7 @@ class CookiesStorage {
     // expiry to a date in the past.
     const pastDate = 'Thu, 01 Jan 1970 00:00:00 GMT';
     document.cookie =
-      `registrable_domain=;domain=${domain};expires=${pastDate}`;
+        `registrable_domain=;domain=${domain};expires=${pastDate}`;
 
     return domain;
   }
@@ -112,11 +113,11 @@ class CookiesStorage {
     const expiry = new Date();
 
     if (secondsToLive === Number.POSITIVE_INFINITY) {
-      expiry.setMilliseconds(expiry.getMilliseconds() + (tenYearsInSeconds) *
-      1000);
+      expiry.setMilliseconds(expiry.getMilliseconds() + (TEN_YEARS_IN_SECONDS) *
+          1000);
     } else {
-      expiry.setMilliseconds(expiry.getMilliseconds() + (secondsToLive + 1) *
-      1000);
+      expiry.setMilliseconds(expiry.getMilliseconds() + (secondsToLive) *
+          1000);
     }
 
     cookie = `${cookie}; expires=${expiry.toUTCString()}`;
@@ -127,17 +128,7 @@ class CookiesStorage {
   }
 
   /** @override */
-  load(key, defaultValue) {
-    if (!document.cookie.includes(`${key}=`)) {
-      return defaultValue;
-    }
-
-    const cookieValueJSON = document.cookie.split('; ')
-      .find((row) => row.startsWith(`${this.settings_['prefix']}${key}`))
-      .split('=')[1];
-
-    return JSON.parse(cookieValueJSON);
-  }
+  load(key, defaultValue) {}
 }
 
 exports = CookiesStorage;

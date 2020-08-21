@@ -16,9 +16,9 @@ describe('The save method for cookiesStorage', () => {
 
   const setExpectedExpiry = (min, max, expiryInSeconds) => {
     max.setMilliseconds(max.getMilliseconds() +
-      (expiryInSeconds + 1) * oneSecondInMilliseconds);
+        (expiryInSeconds + 2) * oneSecondInMilliseconds);
     min.setMilliseconds(min.getMilliseconds() +
-      expiryInSeconds * oneSecondInMilliseconds);
+        expiryInSeconds * oneSecondInMilliseconds);
   };
 
   it('Saves cookies with null and undefined values', () => {
@@ -127,7 +127,7 @@ describe('The save method for cookiesStorage', () => {
 
   it('Saves cookies with a custom prefix', () => {
     const noPrefixStorage =
-      new CookiesStorage({'prefix': 'p_', 'expires': '1'});
+        new CookiesStorage({'prefix': 'p_', 'expires': '1'});
 
     noPrefixStorage.save('hello', 'world');
 
@@ -137,8 +137,8 @@ describe('The save method for cookiesStorage', () => {
   it('Saves cookies with correct domain', () => {
     const expiryInSeconds = 3;
 
-    const fullAttributeStorage = new CookiesStorage(
-      {'prefix': 'pre', 'expires': expiryInSeconds, 'domain': document.domain});
+    const fullAttributeStorage = new CookiesStorage({'prefix': 'pre',
+        'expires': expiryInSeconds, 'domain': document.domain});
 
     let testCookie = '';
     spyOn(fullAttributeStorage, 'setCookie').and.callFake((cookie) => {
@@ -155,8 +155,8 @@ describe('The save method for cookiesStorage', () => {
   it('Saves cookies with correct expiry', () => {
     const expiryInSeconds = 3;
 
-    const fullAttributeStorage = new CookiesStorage(
-      {'prefix': 'pre', 'expires': expiryInSeconds, 'domain': document.domain});
+    const fullAttributeStorage = new CookiesStorage({'prefix': 'pre',
+        'expires': expiryInSeconds, 'domain': document.domain});
 
     let testCookie = '';
     spyOn(fullAttributeStorage, 'setCookie').and.callFake((cookie) => {
@@ -164,25 +164,31 @@ describe('The save method for cookiesStorage', () => {
     });
 
     const expiresStringLength = 8;
-    const UTCStringLength = 29;
 
-    const maxExpectedExpiryDate = new Date();
-    const minExpectedExpiryDate = new Date();
-    setExpectedExpiry(minExpectedExpiryDate, maxExpectedExpiryDate,
-      expiryInSeconds);
+    jasmine.clock().install();
+    const mockDate = new Date();
+    jasmine.clock().mockDate(mockDate);
+
+    const expectedExpiry = new Date();
+    expectedExpiry.setMilliseconds(expectedExpiry.getMilliseconds() +
+        expiryInSeconds * oneSecondInMilliseconds);
 
     fullAttributeStorage.save('hello', 'goodbye');
 
     expect(testCookie.includes(`prehello="goodbye"`)).toBe(true);
 
     const beginIndex = testCookie.indexOf('expires=');
+    let searchIndex =
+        beginIndex + testCookie.substring(beginIndex).indexOf(';');
+    if (testCookie.substring(beginIndex).indexOf(';') == -1) {
+      searchIndex = testCookie.length();
+    }
 
-    const expiryDateString = testCookie.substring(beginIndex +
-      expiresStringLength, beginIndex + UTCStringLength + expiresStringLength);
+    const expiryDateString =
+        testCookie.substring(beginIndex + expiresStringLength, searchIndex);
 
     const expiryDate = new Date(expiryDateString);
 
-    expect(expiryDate).toBeGreaterThanOrEqual(minExpectedExpiryDate);
-    expect(expiryDate).toBeLessThanOrEqual(maxExpectedExpiryDate);
+    expect(expiryDate.toUTCString).toEqual(expectedExpiry.toUTCString);
   });
 });
