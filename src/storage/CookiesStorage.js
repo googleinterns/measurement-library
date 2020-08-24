@@ -127,7 +127,17 @@ class CookiesStorage {
   }
 
   /** @override */
-  load(key, defaultValue) {}
+  load(key, defaultValue) {
+    if (!document.cookie.includes(`${key}=`)) {
+      return defaultValue;
+    }
+
+    const cookieValueJSON = document.cookie.split('; ')
+      .find((row) => row.startsWith(`${this.settings_['prefix']}${key}`))
+      .split('=')[1];
+
+    return JSON.parse(cookieValueJSON);
+  }
 
   /**
    * Name of the storage.
