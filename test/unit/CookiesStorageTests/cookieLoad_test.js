@@ -7,10 +7,8 @@ describe('The load method for cookiesStorage', () => {
   const storage = new CookiesStorage({});
 
   const addCookie = (key, value) => {
-    const expiry = new Date();
-    expiry.setMilliseconds(expiry.getMilliseconds() + 1000);
     document.cookie =
-        `ml_${key}=${JSON.stringify(value)}; expires=${expiry.toUTCString}`;
+        `ml_${key}=${JSON.stringify(value)}`;
   };
 
   const removeCookie = (key) => {
@@ -59,11 +57,15 @@ describe('The load method for cookiesStorage', () => {
     addCookie('num', 10);
 
     expect(storage.load('num')).toEqual(10);
+
+    removeCookie('num');
   });
 
   it('loads cookies with boolean values', () => {
     addCookie('bool', true);
 
     expect(storage.load('bool')).toEqual(true);
+
+    removeCookie('bool');
   });
 });
