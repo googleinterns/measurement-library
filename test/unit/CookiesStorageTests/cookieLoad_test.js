@@ -48,7 +48,7 @@ describe('The load method for cookiesStorage', () => {
   it('loads cookies with array values', () => {
     addCookie('array2', [1, 2, 3]);
 
-    expect(storage.load('array')).toEqual([1, 2, 3]);
+    expect(storage.load('array2')).toEqual([1, 2, 3]);
 
     removeCookie('array2');
   });
