@@ -128,15 +128,21 @@ class CookiesStorage {
 
   /** @override */
   load(key, defaultValue) {
-    if (!document.cookie.includes(`${key}=`)) {
+    if (document.cookie.indexOf(`${key}=`) === -1) {
       return defaultValue;
     }
 
-    const cookieValueJSON = document.cookie.split('; ')
-      .find((row) => row.startsWith(`${this.settings_['prefix']}${key}`))
-      .split('=')[1];
+    const cookieArray = document.cookie.split(';');
 
-    return JSON.parse(cookieValueJSON);
+    // cookie structure is key=val;key=val OR key=val; key=val. This boolean
+    // statement takes care of both possibilities.
+    const resultCookie = cookieArray.find((row) =>
+      row.indexOf(`${this.settings_['prefix']}${key}`) === 0 ||
+      row.indexOf(`${this.settings_['prefix']}${key}`) === 1
+    );
+    const resultVal = resultCookie.split('=')[1];
+
+    return JSON.parse(resultVal);
   }
 
   /**
