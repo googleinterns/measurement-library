@@ -137,11 +137,13 @@ class CookiesStorage {
     // cookie structure is key=val;key=val OR key=val; key=val. This boolean
     // statement takes care of both possibilities.
     const resultCookie = cookieArray.find((row) =>
-      row.indexOf(`${this.settings_['prefix']}${key}`) >= 0
+      row.indexOf(`${this.settings_['prefix']}${key}=`) === 0
     );
     const resultValArray = resultCookie.split('=');
 
     let resultVal = resultValArray[1];
+
+    // There could be '=' in the cookie value.
     if (resultValArray.length > 2) {
       for (let i = 2; i < resultValArray.length; i++) {
         resultVal += '=';
