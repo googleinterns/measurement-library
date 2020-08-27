@@ -68,4 +68,16 @@ describe('The load method for cookiesStorage', () => {
 
     removeCookie('bool');
   });
+
+  it('loads cookies with "=" in the value', () => {
+    addCookie('equal', 'hello=world');
+
+    expect(storage.load('equal')).toEqual('hello=world');
+
+    addCookie('equal', '=');
+
+    expect(storage.load('equal')).toEqual('=');
+
+    removeCookie('equal');
+  });
 });
