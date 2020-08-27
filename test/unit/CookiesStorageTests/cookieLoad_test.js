@@ -80,4 +80,19 @@ describe('The load method for cookiesStorage', () => {
 
     removeCookie('equal');
   });
+
+  it('loads a cookie whose key is a prefix of another cookie key', () => {
+    addCookie('cookie', {'just': 'forFun'});
+
+    expect(storage.load('cookie')).toEqual({'just': 'forFun'});
+
+    addCookie('cookie_overlap', 'overlap');
+
+    expect(storage.load('cookie_overlap')).toEqual('overlap');
+
+    expect(storage.load('cookie')).toEqual({'just': 'forFun'});
+
+    removeCookie('cookie');
+    removeCookie('cookie_overlap');
+  });
 });
