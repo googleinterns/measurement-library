@@ -89,9 +89,15 @@ describe('The load method for cookiesStorage', () => {
     addCookie('cookie_overlap', 'overlap');
 
     expect(storage.load('cookie_overlap')).toEqual('overlap');
-
     expect(storage.load('cookie')).toEqual({'just': 'forFun'});
 
+    addCookie('co', 'also_overlap');
+    
+    expect(storage.load('cookie_overlap')).toEqual('overlap');
+    expect(storage.load('cookie')).toEqual({'just': 'forFun'});
+    expect(storage.load('co')).toEqual('also_overlap');
+
+    removeCookie('co');
     removeCookie('cookie');
     removeCookie('cookie_overlap');
   });
