@@ -203,7 +203,7 @@ describe('The `processEvent` method ' +
       eventProcessor.processEvent(
         emptyStorage,
         new MockModelInterface({
-          userId: 'model_user_id',
+          user_id: 'model_user_id',
         }),
         'test',
         {});
@@ -273,7 +273,7 @@ describe('The `processEvent` method ' +
       eventProcessor.processEvent(
         emptyStorage,
         new MockModelInterface({
-          userId: 'model_user_id',
+          user_id: 'model_user_id',
         }),
         'test',
         eventOptions);
@@ -285,13 +285,13 @@ describe('The `processEvent` method ' +
     it('does not override top level global value if key is undefined ' +
         'in eventOptions', () => {
       const eventOptions = {
-        userId: undefined,
+        user_id: undefined,
       };
 
       eventProcessor.processEvent(
         emptyStorage,
         new MockModelInterface({
-          userId: 'model_user_id',
+          user_id: 'model_user_id',
         }),
         'test',
         eventOptions);
@@ -317,7 +317,7 @@ describe('The `processEvent` method ' +
 
     it('does not override client ID when undefined in eventOptions', () => {
       const eventOptions = {
-        clientId: undefined,
+        client_id: undefined,
       };
 
       eventProcessor.processEvent(

@@ -199,7 +199,7 @@ class GoogleAnalyticsEventProcessor {
    */
   getFromGlobalScope_(key, modelInterface) {
     if (this.automaticParams_[key]) {
-      return modelInterface.get(this.automaticParams_[key]);
+      return modelInterface.get(key);
     }
     return undefined;
   }
@@ -219,12 +219,12 @@ class GoogleAnalyticsEventProcessor {
   getClientId_(storageInterface, modelInterface) {
     let clientId = this.getFromGlobalScope_('client_id', modelInterface);
     if (!clientId || typeof clientId !== 'string') {
-      clientId = storageInterface.load('clientId');
+      clientId = storageInterface.load('client_id');
       if (!clientId || typeof clientId !== 'string') {
         clientId = uniqueId.generateUniqueId();
-        storageInterface.save('clientId', clientId, this.clientIdExpires_);
+        storageInterface.save('client_id', clientId, this.clientIdExpires_);
       }
-      modelInterface.set('clientId', clientId);
+      modelInterface.set('client_id', clientId);
     }
     return clientId;
   }
@@ -269,7 +269,7 @@ class GoogleAnalyticsEventProcessor {
     if (value !== undefined) {
       if (TOP_LEVEL_PARAMS[key]) {
         json[TOP_LEVEL_PARAMS[key]] = value;
-      } else if (!TOP_LEVEL_PARAMS[key]) {
+      } else {
         json['events'][0]['params'][key] = value;
       }
     }
