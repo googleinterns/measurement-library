@@ -9,11 +9,11 @@ describe('The `constructor` of GoogleAnalyticsEventProcessor', () => {
   const currentDebug = logging.DEBUG;
 
   const defaultAutomaticParams = {
-    'page_path': true,
-    'page_location': true,
-    'page_title': true,
-    'user_id': true,
-    'client_id': true,
+    'page_path': 'page_path',
+    'page_location': 'page_location',
+    'page_title': 'page_title',
+    'user_id': 'userId',
+    'client_id': 'clientId',
   };
 
   it('does not have a default arguments for ' +
@@ -72,8 +72,8 @@ describe('The `constructor` of GoogleAnalyticsEventProcessor', () => {
       automatic_params: ['custom_param'],
     });
 
-    expect(eventProcessor.automaticParams_['client_id']).toBeTrue();
-    expect(eventProcessor.automaticParams_['custom_param']).toBeTrue();
+    expect(eventProcessor.automaticParams_['client_id']).toBeTruthy();
+    expect(eventProcessor.automaticParams_['custom_param']).toBeTruthy();
   });
 
   describe('when debug mode is enabled', () => {

@@ -97,7 +97,7 @@ module.exports = function(grunt) {
       unitBrowsers: {
         options: {
           // Run tests on all the browsers on the system.
-          frameworks: ['jasmine', 'detectBrowsers'],
+          frameworks: ['jasmine-ajax', 'jasmine', 'detectBrowsers'],
           detectBrowsers: {
             enabled: true,
             // Don't try to load phantomJS, it may not exist.
@@ -110,7 +110,7 @@ module.exports = function(grunt) {
       },
       integrationBrowsers: {
         options: { // Same options as for unitBrowsers.
-          frameworks: ['jasmine', 'detectBrowsers'],
+          frameworks: ['jasmine-ajax', 'jasmine', 'detectBrowsers'],
           detectBrowsers: {
             enabled: true,
             usePhantomJS: false,

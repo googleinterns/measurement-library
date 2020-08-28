@@ -4,16 +4,17 @@ const uniqueId = goog.require('measurementLibrary.eventProcessor.generateUniqueI
 const logging = goog.require('measurementLibrary.logging');
 
 /**
- * Parameters that are to be set at the top level of the JSON
- * POST body instead of as event parameters.
- * @const {!Object<string,boolean>}
+ * A map of model key names to JSON field names for parameters that
+ * are to be set at the top level of the JSON POST body instead of as
+ * event parameters.
+ * @const {!Object<string, string>}
  */
 const TOP_LEVEL_PARAMS = {
-  'client_id': true,
-  'user_id': true,
-  'timestamp_micros': true,
-  'user_properties': true,
-  'non_personalized_ads': true,
+  'client_id': 'clientId',
+  'user_id': 'userId',
+  'timestamp_micros': 'timestampMircos',
+  'user_properties': 'userProperties',
+  'non_personalized_ads': 'nonPersonalizedAds',
 };
 
 /**
@@ -131,21 +132,22 @@ class GoogleAnalyticsEventProcessor {
     }
 
     /**
-     * Parameters that are important to all events and will be searched for
-     * globally in the data model.
-     * @private @const {!Object<string, boolean>}
+     * A map of model key names to JSON field names for Parameters that are
+     * important to all events and will be searched for globally in the data
+     * model.
+     * @private @const {!Object<string, string>}
      */
     this.automaticParams_ = {
-      'page_path': true,
-      'page_location': true,
-      'page_title': true,
-      'user_id': true,
-      'client_id': true,
+      'page_path': 'page_path',
+      'page_location': 'page_location',
+      'page_title': 'page_title',
+      'user_id': 'userId',
+      'client_id': 'clientId',
     };
 
     // Add user provided params to automatic param list
     for (let i = 0; i < userAutomaticParams.length; ++i) {
-      this.automaticParams_[userAutomaticParams[i]] = true;
+      this.automaticParams_[userAutomaticParams[i]] = userAutomaticParams[i];
     }
 
     /**
@@ -255,6 +257,27 @@ class GoogleAnalyticsEventProcessor {
   }
 
   /**
+   * Adds a key value pair to JSON POST request if value is defined.
+   * If the key is a top level parameter, the pair will be added at the topmost
+   * level of the JSON.
+   * If not, the pair is interpreted as an event parameter and added to the
+   * params object within the JSON.
+   * @param {!Object<string, *>} json
+   * @param {string} key
+   * @param {*} value
+   * @private
+   */
+  addKeyValuePairToJson_(json, key, value) {
+    if (value !== undefined) {
+      if (TOP_LEVEL_PARAMS[key]) {
+        json[TOP_LEVEL_PARAMS[key]] = value;
+      } else {
+        json['events'][0]['params'][key] = value;
+      }
+    }
+  }
+
+  /**
    * Processes events pushed to the data layer by constructing and sending JSON
    * POST requests to Google Analytics.
    * Follows Measurement Protocol (App + Web).
@@ -268,7 +291,34 @@ class GoogleAnalyticsEventProcessor {
    * @export
    */
   processEvent(storageInterface, modelInterface, eventName, eventOptions) {
-    // TODO(kjgalvan):: constructs and sends JSON POST requests to GA
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', this.buildRequestUrl_());
+
+    const json = {
+      'events': [{'name': eventName, 'params': {}}],
+    };
+
+    for (const key in this.automaticParams_) {
+      let value;
+      if (key === 'client_id') {
+        value = this.getClientId_(storageInterface, modelInterface);
+      } else {
+        value = this.getFromGlobalScope_(key, modelInterface);
+      }
+      this.addKeyValuePairToJson_(json, key, value);
+    }
+
+    for (const key in eventOptions) {
+      this.addKeyValuePairToJson_(json, key, eventOptions[key]);
+    }
+
+    if (logging.DEBUG) {
+      xhr.onload = () => {
+        logging.log(xhr.responseText, logging.LogLevel.INFO);
+      };
+    }
+
+    xhr.send(JSON.stringify(json));
   }
 
   /**
