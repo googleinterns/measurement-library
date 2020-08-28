@@ -184,7 +184,7 @@ class GoogleAnalyticsEventProcessor {
    * @return {string}
    * @export
    */
-  getName() {
+  static getName() {
     return 'googleAnalytics';
   }
 
@@ -270,7 +270,7 @@ class GoogleAnalyticsEventProcessor {
       if (TOP_LEVEL_PARAMS[key]) {
         json[TOP_LEVEL_PARAMS[key]] = value;
       } else if (!TOP_LEVEL_PARAMS[key]) {
-        json.events[0].params[key] = value;
+        json['events'][0]['params'][key] = value;
       }
     }
   }
@@ -293,7 +293,7 @@ class GoogleAnalyticsEventProcessor {
     xhr.open('POST', this.buildRequestUrl_());
 
     const json = {
-      events: [{'name': eventName, 'params': {}}],
+      'events': [{'name': eventName, 'params': {}}],
     };
 
     for (const key in this.automaticParams_) {

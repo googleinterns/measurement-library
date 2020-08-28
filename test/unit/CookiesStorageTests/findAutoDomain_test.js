@@ -49,7 +49,7 @@ describe('The findAutoDomain method', () => {
     setupDocument('example.com', 'example.com');
 
     expect(storage.findAutoDomain_(testDocument)).toBe('example.com');
-    
+
     setupDocument('www.example.com', 'example.com');
 
     expect(storage.findAutoDomain_(testDocument)).toBe('example.com');

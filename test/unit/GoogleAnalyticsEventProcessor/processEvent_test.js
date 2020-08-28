@@ -129,7 +129,7 @@ describe('The `processEvent` method ' +
 
     it('has all event parameters passed in via eventOptions ' +
         'that are defined', () => {
-      const eventOptions = {
+      const expectedEventOptions = {
         param_one: 1,
         param_two: '2',
         param_three: null,
@@ -140,6 +140,20 @@ describe('The `processEvent` method ' +
         param_seven: false,
       };
 
+      const arrayOfUndefined = new Array(1);
+      const eventOptions = {
+        param_one: 1,
+        param_two: '2',
+        param_three: null,
+        param_four: {
+          param_five: true,
+        },
+        param_six: ['test'],
+        param_seven: false,
+        param_eight: undefined,
+        param_nine: arrayOfUndefined[0],
+      };
+
       eventProcessor.processEvent(
         emptyStorage,
         emptyModel,
@@ -147,7 +161,7 @@ describe('The `processEvent` method ' +
         eventOptions);
 
       expect(jasmine.Ajax.requests.mostRecent().data().events[0].params)
-          .toEqual(eventOptions);
+          .toEqual(expectedEventOptions);
     });
 
     it('has event level global values when key is defined in model and ' +
@@ -171,6 +185,7 @@ describe('The `processEvent` method ' +
         emptyStorage,
         new MockModelInterface({
           added_param: 'model_added_param',
+          not_added_param: 'model_not_added_param',
         }),
         'test',
         {});
@@ -178,6 +193,9 @@ describe('The `processEvent` method ' +
       expect(
         jasmine.Ajax.requests.mostRecent().data().events[0].params.added_param
       ).toBe('model_added_param');
+
+      expect(jasmine.Ajax.requests.mostRecent().data().events[0]
+          .params.not_added_param).toBe(undefined);
     });
 
     it('has top level global values when key is defined in model and ' +

@@ -6,6 +6,7 @@
     "start": "grunt",
     "test": "grunt test",
     "unit": "karma start",
+    "docs": "docsify serve docs",
     "integration": "karma start test/integration/karma.conf.js"
   },
   "dependencies": {
@@ -13,7 +14,8 @@
     "google-closure-library": "~20200628.0.0"
   },
   "devDependencies": {
-    "eslint": "~7.5.0",
+    "eslint": "~6.6.0",
+    "docsify-cli": "~4.4.1",
     "eslint-config-closure-es6": "~0.1.1",
     "eslint-config-google": "~0.14.0",
     "eslint-plugin-jasmine": "~4.1.1",

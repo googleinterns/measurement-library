@@ -20,13 +20,24 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     'pkg': grunt.file.readJSON('package.json'),
+
     'closure-compiler': {
       options: {
+        // All files must be listed explicitly in the right order or
+        // strange errors will occur in the demo site.
         js: [
           'node_modules/google-closure-library/closure/goog/base.js',
-          'data-layer-helper/src/**.js',
-          'src/**.js',
-          '!src/main.js',
+          'data-layer-helper/src/logging.js',
+          'data-layer-helper/src/plain/plain.js',
+          'data-layer-helper/src/helper/utils.js',
+          'data-layer-helper/src/helper/data-layer-helper.js',
+          'src/logging.js',
+          'src/storage/**.js',
+          'src/eventProcessor/EventProcessorInterface.js',
+          'src/eventProcessor/generateUniqueId.js',
+          'src/eventProcessor/GoogleAnalyticsEventProcessor.js',
+          'src/config/configProcessors.js',
+          'src/config/setup.js',
           '!src/eventProcessor/EventProcessorInterface.js',
           '!src/storage/StorageInterface.js',
         ],
@@ -41,6 +52,7 @@ module.exports = function(grunt) {
         language_out: 'ECMASCRIPT5_STRICT',
         output_wrapper: '(function(){%output%})();',
         jscomp_warning: 'lintChecks',
+        generate_exports: true,
       },
       distribution: {
         files: {
@@ -55,8 +67,19 @@ module.exports = function(grunt) {
           'dist/measure-debug.js': 'src/main.js',
         },
         options: {
-          define: 'ML_DEBUG=true',
+          define: 'ML_DEBUG=true, DLH_DEBUG=true',
           create_source_map: 'dist/measure-debug.js.map',
+        },
+      },
+      site: {
+        files: {
+          'demo/public/measure-no-config.js': 'src/mainNoConfig.js',
+        },
+        options: {
+          // If we set ML_DEBUG to true, then the site will not send
+          // events to google analytics, instead sending a debug
+          // request and posting results in the console.
+          define: 'DLH_DEBUG=true',
         },
       },
     },

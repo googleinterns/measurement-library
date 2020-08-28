@@ -48,6 +48,8 @@ function executeSnippetBeforeAndAfterSetup(config, test) {
 }
 
 describe('After calling the setupMeasure function of setup', () => {
+  let storageConstructor;
+  let processorConstructor;
   let load;
   let save;
   let persistTime;
@@ -59,19 +61,29 @@ describe('After calling the setupMeasure function of setup', () => {
   // access. Here this is done by making each method a spy.
   class MockStorage {
     constructor() {
+      storageConstructor.apply(this, arguments);
       this.load = load;
       this.save = save;
+    }
+    static getName() {
+      return 'storage';
     }
   }
 
   class MockProcessor {
     constructor() {
+      processorConstructor.apply(this, arguments);
       this.persistTime = persistTime;
       this.processEvent = processEvent;
+    }
+    static getName() {
+      return 'processor';
     }
   }
 
   beforeEach(() => {
+    storageConstructor = jasmine.createSpy('storageConstructor');
+    processorConstructor = jasmine.createSpy('processorConstructor');
     load = jasmine.createSpy('load');
     save = jasmine.createSpy('save');
     persistTime = jasmine.createSpy('persistTime');
@@ -111,6 +123,88 @@ describe('After calling the setupMeasure function of setup', () => {
             expect(dataLayer.length).toBe(1);
           });
     });
+
+    describe('does not crash when unsupported strings are passed in', () => {
+      executeSnippetBeforeAndAfterSetup(
+          /* config= */
+          (measure) =>
+              measure('config', 'unusedProcessorName', {}, 'unusedStorageName',
+                  {}),
+          /* test=  */ (dataLayer) => {
+            expect(dataLayer.length).toBe(1);
+          });
+    });
+
+    describe('does not crash when non string non constructable' +
+        'object is passed', () => {
+      executeSnippetBeforeAndAfterSetup(
+          /* config= */
+          (measure) =>
+              measure('config', new Date(), {}, [1, 2, 3],
+                  {}),
+          /* test=  */ (dataLayer) => {
+            expect(dataLayer.length).toBe(1);
+          });
+    });
+
+    describe('passes parameters from config to the constructor', () => {
+      executeSnippetBeforeAndAfterSetup(
+          /* config= */
+          (measure) => {
+            measure('config', MockProcessor, {data: [1, 2]},
+                MockStorage, {data: {a: 3}});
+          },
+          /* test=  */ () => {
+            expect(processorConstructor).toHaveBeenCalledWith({data: [1, 2]});
+            expect(storageConstructor).toHaveBeenCalledWith({data: {a: 3}});
+          });
+    });
+
+    describe('passes parameters from set to the constructor', () => {
+      executeSnippetBeforeAndAfterSetup(
+          /* config= */
+          (measure) => {
+            measure('set', 'processor', {data: [1, 2]})
+            measure('set', 'storage', {data: {a: 3}})
+            measure('config', MockProcessor, {}, MockStorage, {});
+          },
+          /* test=  */ () => {
+            expect(processorConstructor).toHaveBeenCalledWith({data: [1, 2]});
+            expect(storageConstructor).toHaveBeenCalledWith({data: {a: 3}});
+          });
+    });
+    
+    describe('overwrites set with config', () => {
+      executeSnippetBeforeAndAfterSetup(
+          /* config= */
+          (measure) => {
+            measure('set', 'processor', {data: [1, 2]})
+            measure('set', 'storage', {data: {a: 3}})
+            measure('config', MockProcessor, {data: 0},
+                MockStorage, {data: 0});
+          },
+          /* test=  */ () => {
+            expect(processorConstructor).toHaveBeenCalledWith({data: 0});
+            expect(storageConstructor).toHaveBeenCalledWith({data: 0});
+          });
+    });
+  });
+
+  describe('the behavior after a call to set', () => {
+    describe('calls save on the storage interface if persistTime returns' +
+        'a positive integer',
+        () => {
+          executeSnippetBeforeAndAfterSetup(
+              /* config= */ (measure) => {
+                persistTime.and.returnValue(1337);
+                measure('config', MockProcessor, {}, MockStorage, {});
+                measure('set', 'key', 'value');
+              },
+              /* test= */ () => {
+                expect(save).toHaveBeenCalledTimes(1);
+                expect(save).toHaveBeenCalledWith('key', 'value', 1337);
+              });
+        });
   });
 
   describe('the behavior after a call to event', () => {

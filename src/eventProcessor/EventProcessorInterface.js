@@ -42,4 +42,13 @@ class EventProcessor {
    *     If Number.POSITIVE_INFINITY, data will be stored forever.
    */
   persistTime(key, value) {};
+
 }
+
+/**
+ * An optional static function that allows data specific to this
+ * event processor class to be stored in the event processor.
+ * @return {string}
+ */
+EventProcessor.getName = function() {};
+
