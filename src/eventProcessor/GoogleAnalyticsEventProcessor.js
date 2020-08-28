@@ -4,9 +4,10 @@ const uniqueId = goog.require('measurementLibrary.eventProcessor.generateUniqueI
 const logging = goog.require('measurementLibrary.logging');
 
 /**
- * Parameters that are to be set at the top level of the JSON
- * POST body instead of as event parameters.
- * @const {!Object<string,string>}
+ * A map of model key names to JSON field names for parameters that
+ * are to be set at the top level of the JSON POST body instead of as
+ * event parameters.
+ * @const {!Object<string, string>}
  */
 const TOP_LEVEL_PARAMS = {
   'client_id': 'clientId',
@@ -131,8 +132,9 @@ class GoogleAnalyticsEventProcessor {
     }
 
     /**
-     * Parameters that are important to all events and will be searched for
-     * globally in the data model.
+     * A map of model key names to JSON field names for Parameters that are
+     * important to all events and will be searched for globally in the data
+     * model.
      * @private @const {!Object<string, string>}
      */
     this.automaticParams_ = {
