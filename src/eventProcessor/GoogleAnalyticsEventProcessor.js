@@ -333,7 +333,7 @@ class GoogleAnalyticsEventProcessor {
    * @export
    */
   persistTime(key, value) {
-    if (key === 'clientId') {
+    if (key === 'client_id') {
       return this.clientIdExpires_;
     } else {
       return -1;

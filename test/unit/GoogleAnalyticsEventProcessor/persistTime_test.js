@@ -27,11 +27,11 @@ describe('The `persistTime` method ' +
 
   describe('When key is clientId', () => {
     it('returns two years when client_id_expires is not set', () => {
-      expectPersistTime('clientId').toBe(2 * 365 * 24 * 60 * 60);
+      expectPersistTime('client_id').toBe(2 * 365 * 24 * 60 * 60);
     });
 
     it('returns overridden number when client_id_expires is set', () => {
-      expectPersistTime('clientId', /* clientIdExpires */ 0).toBe(0);
+      expectPersistTime('client_id', /* clientIdExpires */ 0).toBe(0);
     });
   });
 });
