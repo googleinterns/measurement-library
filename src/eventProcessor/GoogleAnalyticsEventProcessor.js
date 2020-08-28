@@ -6,7 +6,7 @@ const logging = goog.require('measurementLibrary.logging');
 /**
  * Parameters that are to be set at the top level of the JSON
  * POST body instead of as event parameters.
- * @const {!Object<string,boolean>}
+ * @const {!Object<string,string>}
  */
 const TOP_LEVEL_PARAMS = {
   'client_id': 'clientId',
@@ -133,7 +133,7 @@ class GoogleAnalyticsEventProcessor {
     /**
      * Parameters that are important to all events and will be searched for
      * globally in the data model.
-     * @private @const {!Object<string, boolean>}
+     * @private @const {!Object<string, string>}
      */
     this.automaticParams_ = {
       'page_path': 'page_path',
