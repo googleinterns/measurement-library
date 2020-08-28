@@ -209,7 +209,7 @@ class GoogleAnalyticsEventProcessor {
   /**
    * Gets the ID associated with the current client.
    * First queries the global model followed by long term storage if not yet
-   * found for `clientId`. If no previous ID exists, a new one is generated
+   * found for `client_id`. If no previous ID exists, a new one is generated
    * and stored for future use in both the global model and long term storage.
    * @param {!StorageInterface} storageInterface An interface to an object to
    *    load or save persistent data with.
